@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1
+MonoBehaviour:
+  m_ObjectHideFlags: 36
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5e6fedc2472449cead18ef23b5cb30d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Library:
+  - m_Name: Brows
+    m_Hash: -807479415
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: Character_browsDn
+      m_Hash: 93058129
+      m_Sprite: {fileID: 2001722675, guid: 653e3b14f211eb24ba66d37aec12c27d, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 2001722675, guid: 653e3b14f211eb24ba66d37aec12c27d, type: 3}
+    - m_Name: Character_browsMid
+      m_Hash: -1004270318
+      m_Sprite: {fileID: -1414352233, guid: 653e3b14f211eb24ba66d37aec12c27d, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -1414352233, guid: 653e3b14f211eb24ba66d37aec12c27d, type: 3}
+    - m_Name: Character_browsUp
+      m_Hash: -1403131358
+      m_Sprite: {fileID: -1752889910, guid: 653e3b14f211eb24ba66d37aec12c27d, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -1752889910, guid: 653e3b14f211eb24ba66d37aec12c27d, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 3
+  - m_Name: Eyes
+    m_Hash: 120101800
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: Character_eyesClosed
+      m_Hash: -736709031
+      m_Sprite: {fileID: 1501071764, guid: 653e3b14f211eb24ba66d37aec12c27d, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 1501071764, guid: 653e3b14f211eb24ba66d37aec12c27d, type: 3}
+    - m_Name: Character_eyesHalf
+      m_Hash: 502890522
+      m_Sprite: {fileID: 178591560, guid: 653e3b14f211eb24ba66d37aec12c27d, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 178591560, guid: 653e3b14f211eb24ba66d37aec12c27d, type: 3}
+    - m_Name: Character_eyesOpen
+      m_Hash: 1121141407
+      m_Sprite: {fileID: 1569064264, guid: 653e3b14f211eb24ba66d37aec12c27d, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 1569064264, guid: 653e3b14f211eb24ba66d37aec12c27d, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 3
+  - m_Name: Mouth
+    m_Hash: 1594127251
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: Character_mouthClosed
+      m_Hash: -615036839
+      m_Sprite: {fileID: -706711874, guid: 653e3b14f211eb24ba66d37aec12c27d, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -706711874, guid: 653e3b14f211eb24ba66d37aec12c27d, type: 3}
+    - m_Name: Character_mouthHalf
+      m_Hash: 515353009
+      m_Sprite: {fileID: 875721874, guid: 653e3b14f211eb24ba66d37aec12c27d, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 875721874, guid: 653e3b14f211eb24ba66d37aec12c27d, type: 3}
+    - m_Name: Character_mouthOpen
+      m_Hash: 1100835636
+      m_Sprite: {fileID: -1259082570, guid: 653e3b14f211eb24ba66d37aec12c27d, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -1259082570, guid: 653e3b14f211eb24ba66d37aec12c27d, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 3
+  m_PrimaryLibraryGUID: 

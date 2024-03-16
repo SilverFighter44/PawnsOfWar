@@ -1,0 +1,294 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5e6fedc2472449cead18ef23b5cb30d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Library:
+  - m_Name: BlueIcon
+    m_Hash: 743637470
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: InfantrymanBlue
+      m_Hash: -1321407508
+      m_Sprite: {fileID: 1870382173, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 1870382173, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: RiflemanBlue
+      m_Hash: 1847754873
+      m_Sprite: {fileID: -122725867, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -122725867, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: ScoutBlue
+      m_Hash: -961441118
+      m_Sprite: {fileID: -720258320, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -720258320, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: SniperBlue
+      m_Hash: -1028656288
+      m_Sprite: {fileID: -1127811965, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -1127811965, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: SupportBlue
+      m_Hash: -296846833
+      m_Sprite: {fileID: 1992084336, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 1992084336, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: GasSpecialistBlue
+      m_Hash: -850479029
+      m_Sprite: {fileID: -1753622911, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -1753622911, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: MedicBlue
+      m_Hash: -1072701618
+      m_Sprite: {fileID: 622026169, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 622026169, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: LauncherOperatorBlue
+      m_Hash: 823549959
+      m_Sprite: {fileID: -71449284, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -71449284, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: ExplosivesSpecialistBlue
+      m_Hash: 768710437
+      m_Sprite: {fileID: -1260839329, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -1260839329, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: SapperBlue
+      m_Hash: 2128746161
+      m_Sprite: {fileID: 1834575710, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 1834575710, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: CombatEngineerBlue
+      m_Hash: -2109319610
+      m_Sprite: {fileID: -376923646, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -376923646, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: SpyBlue
+      m_Hash: 1878071741
+      m_Sprite: {fileID: -270743109, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -270743109, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 12
+  - m_Name: RedIcon
+    m_Hash: 961491325
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: InfantrymanRed
+      m_Hash: -1623424845
+      m_Sprite: {fileID: 1927813978, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 1927813978, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: RiflemanRed
+      m_Hash: -507980257
+      m_Sprite: {fileID: -561833386, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -561833386, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: ScoutRed
+      m_Hash: 360011954
+      m_Sprite: {fileID: -2020737519, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -2020737519, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: SniperRed
+      m_Hash: -801992908
+      m_Sprite: {fileID: 1233894291, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 1233894291, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: SupportRed
+      m_Hash: -400200822
+      m_Sprite: {fileID: -99727129, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -99727129, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: GasSpecialistRed
+      m_Hash: 830509181
+      m_Sprite: {fileID: 2088090930, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 2088090930, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: MedicRed
+      m_Hash: 495823863
+      m_Sprite: {fileID: 1563702721, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 1563702721, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: LauncherOperatorRed
+      m_Hash: -791633882
+      m_Sprite: {fileID: 2004124073, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 2004124073, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: ExplosivesSpecialistRed
+      m_Hash: 2068242551
+      m_Sprite: {fileID: 907996035, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 907996035, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: SapperRed
+      m_Hash: -78363515
+      m_Sprite: {fileID: -732806726, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -732806726, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: CombatEngineerRed
+      m_Hash: -425930786
+      m_Sprite: {fileID: -1716590671, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -1716590671, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: SpyRed
+      m_Hash: -380627874
+      m_Sprite: {fileID: 1342454147, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 1342454147, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 12
+  - m_Name: NeutralIcon
+    m_Hash: 170298249
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: Infantryman
+      m_Hash: 1919455314
+      m_Sprite: {fileID: 1554044880, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 1554044880, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: Rifleman
+      m_Hash: 1954225428
+      m_Sprite: {fileID: -1861471247, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -1861471247, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: Scout
+      m_Hash: -693522848
+      m_Sprite: {fileID: 1923695159, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 1923695159, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: Sniper
+      m_Hash: -1450947075
+      m_Sprite: {fileID: 922424002, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 922424002, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: Support
+      m_Hash: 1337578041
+      m_Sprite: {fileID: -306669278, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -306669278, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: GasSpecialist
+      m_Hash: 1968039094
+      m_Sprite: {fileID: -1111457482, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -1111457482, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: Medic
+      m_Hash: 1172565796
+      m_Sprite: {fileID: 524579754, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 524579754, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: LauncherOperator
+      m_Hash: 323554550
+      m_Sprite: {fileID: -440728290, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -440728290, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: ExplosivesSpecialist
+      m_Hash: 1854700480
+      m_Sprite: {fileID: -1338443678, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -1338443678, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: Sapper
+      m_Hash: 113623609
+      m_Sprite: {fileID: 1833297289, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 1833297289, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: CombatEngineer
+      m_Hash: -527643416
+      m_Sprite: {fileID: -842696297, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -842696297, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: Spy
+      m_Hash: -1755448939
+      m_Sprite: {fileID: -352343151, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -352343151, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 12
+  - m_Name: SideIcon
+    m_Hash: 116444914
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: Defence
+      m_Hash: 1591402168
+      m_Sprite: {fileID: -131988452, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -131988452, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: Attack
+      m_Hash: 1080829965
+      m_Sprite: {fileID: -1108004990, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -1108004990, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: DefenceB
+      m_Hash: 255077969
+      m_Sprite: {fileID: 900411685, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 900411685, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: DefenceR
+      m_Hash: 310591029
+      m_Sprite: {fileID: -416618427, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -416618427, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: AttackB
+      m_Hash: 874635172
+      m_Sprite: {fileID: 1045850777, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 1045850777, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: AttackR
+      m_Hash: 697749440
+      m_Sprite: {fileID: 345615359, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 345615359, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 6
+  - m_Name: Gadgets
+    m_Hash: 426296318
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: grenade
+      m_Hash: 719381425
+      m_Sprite: {fileID: -718051715, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -718051715, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: smoke
+      m_Hash: 155642234
+      m_Sprite: {fileID: -1143007876, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -1143007876, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 2
+  - m_Name: GameMode
+    m_Hash: 415203580
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: Defend_Symetric
+      m_Hash: 583375656
+      m_Sprite: {fileID: -287226171, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -287226171, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: Defend_Red
+      m_Hash: 493527319
+      m_Sprite: {fileID: -713785410, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -713785410, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: Defend_Blue
+      m_Hash: 541448764
+      m_Sprite: {fileID: -350331152, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -350331152, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: DeathMatch
+      m_Hash: 1062653809
+      m_Sprite: {fileID: 748275805, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 748275805, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 4
+  m_PrimaryLibraryGUID: 
+  m_ModificationHash: 638451824462056849
+  m_Version: 1

@@ -1,0 +1,127 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1864308914668226249
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5470450321449228126}
+  - component: {fileID: 613587812127943562}
+  - component: {fileID: 2314590493734940016}
+  - component: {fileID: 5472539801100120895}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &5470450321449228126
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1864308914668226249}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 131.66937}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &613587812127943562
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1864308914668226249}
+  m_CullTransparentMesh: 1
+--- !u!114 &2314590493734940016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1864308914668226249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: -1275314206, guid: 1cff4d87d334e7749b7f2bc9722b96fb, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5472539801100120895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1864308914668226249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68924954d4485f543b72a0816f356895, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Infantryman: {fileID: 1554044880, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+  Spy: {fileID: -352343151, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+  Sapper: {fileID: 1833297289, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+  Rifleman: {fileID: -1861471247, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+  Support: {fileID: -306669278, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+  ExplosivesSpecialist: {fileID: -1338443678, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+  Sniper: {fileID: 922424002, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+  GasSpecialist: {fileID: -1111457482, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+  LauncherOperator: {fileID: -440728290, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+  CombatEngineer: {fileID: -842696297, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+  Medic: {fileID: 524579754, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+  Scout: {fileID: 1923695159, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+  BlueInfantryman: {fileID: 1870382173, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+  BlueSpy: {fileID: -270743109, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+  BlueSapper: {fileID: 1834575710, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+  BlueRifleman: {fileID: -122725867, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+  BlueSupport: {fileID: 1992084336, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+  BlueExplosivesSpecialist: {fileID: -1260839329, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+  BlueSniper: {fileID: -1127811965, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+  BlueGasSpecialist: {fileID: -1753622911, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+  BlueLauncherOperator: {fileID: -71449284, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+  BlueCombatEngineer: {fileID: -376923646, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+  BlueMedic: {fileID: 622026169, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+  BlueScout: {fileID: -720258320, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+  RedInfantryman: {fileID: 1927813978, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+  RedSpy: {fileID: 1342454147, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+  RedSapper: {fileID: -732806726, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+  RedRifleman: {fileID: -561833386, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+  RedSupport: {fileID: -99727129, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+  RedExplosivesSpecialist: {fileID: 907996035, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+  RedSniper: {fileID: 1233894291, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+  RedGasSpecialist: {fileID: 2088090930, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+  RedLauncherOperator: {fileID: 2004124073, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+  RedCombatEngineer: {fileID: -1716590671, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+  RedMedic: {fileID: 1563702721, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+  RedScout: {fileID: -2020737519, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+  image: {fileID: 2314590493734940016}
