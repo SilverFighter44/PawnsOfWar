@@ -65,84 +65,12 @@ public class GridManager : MonoBehaviour
         public int y;
     }
 
-    public struct SeekedObjectType
-    {
-        public SeekedObjectType(bool a, bool b)    
-        {
-            //f + f = existing not valid; f + t = team not valid; t + f = seek red; t + t = seek blue
-            if(a)
-            {
-                isExistingValid = true;
-                isTeamValid = true;
-                if (b)  // t + t = seek blue
-                {
-                    team = true;
-                }
-                else    // t + f = seek red
-                {
-                    team = false;
-                }
-            }
-            else
-            {
-                if (b)  // f + t =  team not valid
-                {
-                    isExistingValid = true;
-                    isTeamValid = false;
-                    team = false; //doesn't matter
-                }
-                else    // f + f  = existing not valid   
-                {
-                    isExistingValid = false;
-                    isTeamValid = false; //doesn't matter
-                    team = false; //doesn't matter
-                }
-            }
-        }
-        public bool isExistingValid;
-        public bool isTeamValid;
-        public bool team;
-    }
-
-    bool checkForObjectOfType(int x, int y, SeekedObjectType objectType)
-    {
-        if (objectType.isExistingValid)
-        {
-            if  (onBoardEntities[x, y])
-            {
-                if (objectType.isTeamValid)
-                {
-                    if(onBoardEntities[x, y].whatTeam() == objectType.team)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-                else
-                {
-                    return true;
-                }
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return true;
-        }
-    }
-
-    public List<TileCoordinates> MidpointCircleAlgorithmScan(int x, int y, int range, bool centerIncluded, SeekedObjectType objectType)
+    public List<TileCoordinates> MidpointCircleAlgorithmScan(int x, int y, int range, bool centerIncluded)
     {
         List <TileCoordinates> detectedObjects = new List<TileCoordinates>();
 
         //          center check
-        if (centerIncluded && checkForObjectOfType(x, y, objectType))
+        if (centerIncluded)
         {
             detectedObjects.Add(new TileCoordinates(x, y));
         }
@@ -151,34 +79,22 @@ public class GridManager : MonoBehaviour
         {
             if (i + y - range >= 0 && i + y - range < _height)      // check down
             {
-                if (checkForObjectOfType(x, i + y - range, objectType))
-                {
                     detectedObjects.Add(new TileCoordinates(x, i + y - range));
-                }
             }
 
             if (i + 1 + y >= 0 && i + 1 + y < _height)      // check up
             {
-                if (checkForObjectOfType(x, i + 1 + y, objectType))
-                {
                     detectedObjects.Add(new TileCoordinates(x, i + 1 + y));
-                }
             }
 
             if (i + x - range >= 0 && i + x - range < _width)       // check left
             {
-                if (checkForObjectOfType(i + x - range, y, objectType))
-                {
                     detectedObjects.Add(new TileCoordinates(i + x - range, y));
-                }
             }
 
             if (i + x + 1 >= 0 && i + x + 1 < _width)       // check right
             {
-                if (checkForObjectOfType(i + x + 1, y, objectType))
-                {
                     detectedObjects.Add(new TileCoordinates(i + x + 1, y));
-                }
             }
 
         }
@@ -200,72 +116,48 @@ public class GridManager : MonoBehaviour
             {
                 if (y + j < _height && x + i < _width)
                 {
-                    if (checkForObjectOfType(x + i, y + j, objectType))
-                    {
                         detectedObjects.Add(new TileCoordinates(x + i, y + j));
-                    }
                 }
 
 
                 if (y - j >= 0 && x + i < _width)            // down, right, mid
                 {
-                    if (checkForObjectOfType(x + i, y - j, objectType))
-                    {
                         detectedObjects.Add(new TileCoordinates(x + i, y - j));
-                    }
                 }
 
                 if (y + j < _height && x - i >= 0)        // up, left, mid
                 {
-                    if (checkForObjectOfType(x - i, y + j, objectType))
-                    {
                         detectedObjects.Add(new TileCoordinates(x - i, y + j));
-                    }
                 }
 
 
                 if (y - j >= 0 && x - i >= 0)            // down, left, mid
                 {
-                    if (checkForObjectOfType(x - i, y - j, objectType))
-                    {
                         detectedObjects.Add(new TileCoordinates(x - i, y - j));
-                    }
                 }
 
 
                 if (y - i >= 0 && x - j >= 0)            // down, left, side
                 {
-                    if (checkForObjectOfType(x - j, y - i, objectType))
-                    {
                         detectedObjects.Add(new TileCoordinates(x - j, y - i));
-                    }
                 }
 
 
                 if (y - i >= 0 && x + j < _width)            // down, right, side
                 { 
-                    if (checkForObjectOfType(x + j, y - i, objectType))
-                    {
                         detectedObjects.Add(new TileCoordinates(x + j, y - i));
-                    }
                 }
 
 
                 if (y + i < _height && x - j >= 0)            // up, left, side
                 {
-                    if (checkForObjectOfType(x - j, y + i, objectType))
-                    {
                         detectedObjects.Add(new TileCoordinates(x - j, y + i));
-                    }
                 }
 
 
                 if (y + i < _height && x + j < _width)            // up, right, side
                 {
-                    if (checkForObjectOfType(x + j, y + i, objectType))
-                    {
                         detectedObjects.Add(new TileCoordinates(x + j, y + i));
-                    }
                 }
             }
         }
@@ -290,34 +182,22 @@ public class GridManager : MonoBehaviour
         {
             if (y + i < _height && x + i < _width)          // up, right
             {
-                if (checkForObjectOfType(x + i, y + i, objectType))
-                {
                     detectedObjects.Add(new TileCoordinates(x + i, y + i));
-                }
             }
 
             if (y - i >= 0 && x + i < _width)          // down, right
             {
-                if (checkForObjectOfType(x + i, y - i, objectType))
-                {
                     detectedObjects.Add(new TileCoordinates(x + i, y - i));
-                }
             }
 
             if (y + i < _height && x - i >= 0)          // up, left
             {
-                if (checkForObjectOfType(x - i, y + i, objectType))
-                {
                     detectedObjects.Add(new TileCoordinates(x - i, y + i));
-                }
             }
 
             if (y - i >= 0 && x - i >= 0)          // down, left
             {
-                if (checkForObjectOfType(x - i, y - i, objectType))
-                {
                     detectedObjects.Add(new TileCoordinates(x - i, y - i));
-                }
             }
         }
 
@@ -535,8 +415,7 @@ public class GridManager : MonoBehaviour
         }
         else
         {
-            HighlightPossibleMoves();
-            HighlightPossibleAttacks(activeX, activeY, onBoardEntities[activeX, activeY].whatRange());
+            HighlightPossibleMoves(activeX, activeY, onBoardEntities[activeX, activeY].whatRange());
         }
         moveHighlightsOn = true;
         UpdateMovesCount();
@@ -1133,747 +1012,143 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    public void HighlightPossibleMoves()
+    Vector2 halfWallCheckPoint(Vector2 startPoint, Vector2 endPoint)
     {
-        bool blockedByWall = true; // = true // to delete
-        Vector2 lineStart, lineEnd;
-        lineStart = new Vector2( activeX, activeY + 3 * _height);
+        Vector2 checkPointShift = new Vector2(startPoint.x - endPoint.x, startPoint.y - endPoint.y);
+        return endPoint + 0.5f * checkPointShift;
+    }
+
+    public void HighlightPossibleMoves(int x, int y, int range)
+    {
+        bool blockedByWall = true;
+        Vector2 wallCheckLineStart, wallCheckLineEnd;
+        wallCheckLineStart = new Vector2( x, y + 3 * _height);
         LayerMask wallMask = LayerMask.GetMask("Wall");
         LayerMask halfWallMask = LayerMask.GetMask("HalfWall");
+        LayerMask smokeMask = LayerMask.GetMask("Smoke");
+        List<TileCoordinates> fov = MidpointCircleAlgorithmScan(x, y, range, false);
+        bool seekedTeam = !onBoardEntities[x, y].whatTeam();
+
+        //highlight possible walk
 
         if (activeX != 0)
         {
             blockedByWall = true;
-            lineEnd = new Vector2(activeX - 1, activeY + 3 * _height);
+            wallCheckLineEnd = new Vector2(x - 1, y + 3 * _height);
             //Debug.DrawLine(lineStart, lineEnd, Color.green, 10f);  //debug line
-            if (!Physics2D.Linecast(lineStart, lineEnd, wallMask) && !Physics2D.Linecast(lineStart, lineEnd, halfWallMask))
+            if (!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask))
             {
                 blockedByWall = false;
             }
 
-            if (!onBoardEntities[activeX - 1, activeY] && !blockedByWall)
+            if (!onBoardEntities[x - 1, y] && !blockedByWall)
             {
-                GameObject MoveCheck = Instantiate(MoveHighlight, new Vector3(activeX - 1 - activeY * 0.5f, activeY), Quaternion.identity);
-                boardCheck[activeX - 1, activeY] = MoveCheck;
+                GameObject MoveCheck = Instantiate(MoveHighlight, new Vector3(x - 1 - y * 0.5f, y), Quaternion.identity);
+                boardCheck[x - 1, y] = MoveCheck;
                 MoveCheck.name = "MoveCheck";
                 Highlight highlightScript = MoveCheck.GetComponent<Highlight>();
-                highlightScript.setCoordinates(activeX - 1, activeY);
+                highlightScript.setCoordinates(x - 1, y);
             }
         }
         if (activeX != _width - 1)
         {
             blockedByWall = true;
-            lineEnd = new Vector2(activeX + 1, activeY + 3 * _height);
+            wallCheckLineEnd = new Vector2(x + 1, y + 3 * _height);
             //Debug.DrawLine(lineStart, lineEnd, Color.green, 10f);  //debug line
-            if (!Physics2D.Linecast(lineStart, lineEnd, wallMask) && !Physics2D.Linecast(lineStart, lineEnd, halfWallMask))
+            if (!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask))
             {
                 blockedByWall = false;
             }
 
-            if (!onBoardEntities[activeX + 1, activeY] && !blockedByWall)
+            if (!onBoardEntities[x + 1, y] && !blockedByWall)
             {
-                GameObject MoveCheck = Instantiate(MoveHighlight, new Vector3(activeX + 1 - activeY * 0.5f, activeY), Quaternion.identity);
-                boardCheck[activeX + 1, activeY] = MoveCheck;
+                GameObject MoveCheck = Instantiate(MoveHighlight, new Vector3(x + 1 - y * 0.5f, y), Quaternion.identity);
+                boardCheck[x + 1, y] = MoveCheck;
                 MoveCheck.name = "MoveCheck";
                 Highlight highlightScript = MoveCheck.GetComponent<Highlight>();
-                highlightScript.setCoordinates(activeX + 1, activeY);
+                highlightScript.setCoordinates(x + 1, y);
             }
         }
         if (activeY != 0)
         {
             blockedByWall = true;
-            lineEnd = new Vector2(activeX, activeY - 1 + 3 * _height);
+            wallCheckLineEnd = new Vector2(x, y - 1 + 3 * _height);
             //Debug.DrawLine(lineStart, lineEnd, Color.green, 10f);  //debug line
-            if (!Physics2D.Linecast(lineStart, lineEnd, wallMask) && !Physics2D.Linecast(lineStart, lineEnd, halfWallMask))
+            if (!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask))
             {
                 blockedByWall = false;
             }
 
-            if (!onBoardEntities[activeX, activeY - 1] && !blockedByWall)
+            if (!onBoardEntities[x, y - 1] && !blockedByWall)
             {
-                GameObject MoveCheck = Instantiate(MoveHighlight, new Vector3(activeX - (activeY - 1) * 0.5f, activeY - 1), Quaternion.identity);
-                boardCheck[activeX, activeY - 1] = MoveCheck;
+                GameObject MoveCheck = Instantiate(MoveHighlight, new Vector3(x - (y - 1) * 0.5f, y - 1), Quaternion.identity);
+                boardCheck[x, y - 1] = MoveCheck;
                 MoveCheck.name = "MoveCheck";
                 Highlight highlightScript = MoveCheck.GetComponent<Highlight>();
-                highlightScript.setCoordinates(activeX, activeY - 1);
+                highlightScript.setCoordinates(x, y - 1);
             }
 
         }
         if (activeY != _height - 1)
         {
             blockedByWall = true;
-            lineEnd = new Vector2(activeX, activeY + 1 + 3 * _height);
+            wallCheckLineEnd = new Vector2(x, y + 1 + 3 * _height);
             //Debug.DrawLine(lineStart, lineEnd, Color.green, 10f);  //debug line
-            if (!Physics2D.Linecast(lineStart, lineEnd, wallMask) && !Physics2D.Linecast(lineStart, lineEnd, halfWallMask))
+            if (!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask))
             {
                 blockedByWall = false;
             }
 
-            if (!onBoardEntities[activeX, activeY + 1] && !blockedByWall)
+            if (!onBoardEntities[x, y + 1] && !blockedByWall)
             {
-                GameObject MoveCheck = Instantiate(MoveHighlight, new Vector3(activeX - (activeY + 1) * 0.5f, activeY + 1), Quaternion.identity);
-                boardCheck[activeX, activeY + 1] = MoveCheck;
+                GameObject MoveCheck = Instantiate(MoveHighlight, new Vector3(x - (y + 1) * 0.5f, y + 1), Quaternion.identity);
+                boardCheck[x, y + 1] = MoveCheck;
                 MoveCheck.name = "MoveCheck";
                 Highlight highlightScript = MoveCheck.GetComponent<Highlight>();
-                highlightScript.setCoordinates(activeX, activeY + 1);
+                highlightScript.setCoordinates(x, y + 1);
             }
         }
-    }
+   
+        //highlight possible attacks
 
-    Vector2 halfWallCheckPoint(Vector2 startPoint, Vector2 endPoint)
-    {
-        Vector2 checkPointShift = new Vector2(startPoint.x -endPoint.x, startPoint.y - endPoint.y);
-        return endPoint + 0.5f * checkPointShift;
-    }
-
-    void HighlightPossibleAttacks(int x, int y, int n) // n - range
-    {
-        Vector2 wallCheckLineStart, wallCheckLineEnd;
-        wallCheckLineStart = new Vector2(x, y + 3 * _height);
-        LayerMask wallMask = LayerMask.GetMask("Wall");
-        LayerMask halfWallMask = LayerMask.GetMask("HalfWall");
-        LayerMask smokeMask = LayerMask.GetMask("Smoke");
-
-
-        //          cross check
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i < fov.Count; i++)
         {
-            if (i + y - n >= 0 && i + y - n < _height && !boardCheck[x, i + y - n])      // check down
+            wallCheckLineEnd = new Vector2(fov[i].x, fov[i].y + 3 * _height);
+            if (onBoardEntities[fov[i].x, fov[i].y] && onBoardEntities[fov[i].x, fov[i].y].whatTeam() == seekedTeam )
             {
-                wallCheckLineEnd = new Vector2(x, i + y - n + 3 * _height);
-                if (onBoardEntities[x, i + y - n] && onBoardEntities[x, i + y - n].whatTeam() != turnSide)
+                //Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.red, 10f);  //debug line
+                //Debug.DrawLine(wallCheckLineEnd, halfWallCheckPoint(wallCheckLineStart, wallCheckLineEnd), Color.magenta, 10f);  //debug line
+                if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && (((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()) && ((onBoardEntities[fov[i].x, fov[i].y].isCrouched() && !(Physics2D.Linecast(wallCheckLineEnd, halfWallCheckPoint(wallCheckLineStart, wallCheckLineEnd), halfWallMask)) || !onBoardEntities[fov[i].x, fov[i].y].isCrouched()))))
                 {
-                    
-                     //Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.red, 10f);  //debug line
-                     Debug.DrawLine(wallCheckLineEnd, halfWallCheckPoint(wallCheckLineStart, wallCheckLineEnd), Color.magenta, 10f);  //debug line
-                    if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && (((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()) && ((onBoardEntities[x, i + y - n].isCrouched() && !(Physics2D.Linecast(wallCheckLineEnd, halfWallCheckPoint(wallCheckLineStart ,wallCheckLineEnd), halfWallMask)) || !onBoardEntities[x, i + y - n].isCrouched()))))
-                    {
-                        GameObject EnemyCheck = Instantiate(EnemyHighlight, new Vector3(x - (i + y - n) * 0.5f, i + y - n), Quaternion.identity);
-                        boardCheck[x, i + y - n] = EnemyCheck;
-                        EnemyCheck.name = "EnemyCheck";
-                        Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                        highlightScript.setCoordinates(x, i + y - n);
-                    }
-                    // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.yellow, 10f);  //debug line
-                    else if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()))
-                    {
-                        GameObject EnemyCheck = Instantiate(FOVHighlight, new Vector3(x - (i + y - n) * 0.5f, i + y - n), Quaternion.identity);
-                        EnemyCheck.name = "FOVCheck";
-                        Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                        highlightScript.setCoordinates(x, i + y - n);
-                    }
+                    GameObject EnemyCheck = Instantiate(EnemyHighlight, new Vector3(fov[i].x - fov[i].y * 0.5f, fov[i].y), Quaternion.identity);
+                    boardCheck[fov[i].x, fov[i].y] = EnemyCheck;
+                    EnemyCheck.name = "EnemyCheck";
+                    Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
+                    highlightScript.setCoordinates(fov[i].x, fov[i].y);
                 }
-                else
+                // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.yellow, 10f);  //debug line
+                else if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()))
                 {
-                    // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.yellow, 10f);  //debug line
-                    if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()))
+                    if(!boardCheck[fov[i].x, fov[i].y])
                     {
-                        GameObject EnemyCheck = Instantiate(FOVHighlight, new Vector3(x - (i + y - n) * 0.5f, i + y - n), Quaternion.identity);
-                        EnemyCheck.name = "FOVCheck";
-                        Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                        highlightScript.setCoordinates(x, i + y - n);
+                        GameObject FOVCheck = Instantiate(FOVHighlight, new Vector3(fov[i].x - fov[i].y * 0.5f, fov[i].y), Quaternion.identity);
+                        FOVCheck.name = "FOVCheck";
+                        Highlight highlightScript = FOVCheck.GetComponent<Highlight>();
+                        highlightScript.setCoordinates(fov[i].x, fov[i].y);
                     }
                 }
             }
-
-            if (i + 1 + y >= 0 && i + 1 + y < _height && !boardCheck[x, i + 1 + y])      // check up
+            else
             {
-                wallCheckLineEnd = new Vector2(x, i + 1 + y + 3 * _height);
-                if (onBoardEntities[x, i + 1 + y] && onBoardEntities[x, i + 1 + y].whatTeam() != turnSide)
+                // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.yellow, 10f);  //debug line
+                if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()))
                 {
-                    // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.red, 10f);  //debug line
-                     Debug.DrawLine(wallCheckLineEnd, halfWallCheckPoint(wallCheckLineStart, wallCheckLineEnd), Color.magenta, 10f);  //debug line 
-                    if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && (((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()) && ((onBoardEntities[x, i + 1 + y].isCrouched() && !(Physics2D.Linecast(wallCheckLineEnd, halfWallCheckPoint(wallCheckLineStart, wallCheckLineEnd), halfWallMask)) || !onBoardEntities[x, i + 1 + y].isCrouched()))))
+                    if(!boardCheck[fov[i].x, fov[i].y])
                     {
-                        GameObject EnemyCheck = Instantiate(EnemyHighlight, new Vector3(x - (i + 1 + y) * 0.5f, i + 1 + y), Quaternion.identity);
-                        boardCheck[x, i + 1 + y] = EnemyCheck;
-                        EnemyCheck.name = "EnemyCheck";
-                        Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                        highlightScript.setCoordinates(x, i + 1 + y);
-                    }
-                    // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.yellow, 10f);  //debug line
-                    else if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()))
-                    {
-                        GameObject EnemyCheck = Instantiate(FOVHighlight, new Vector3(x - (i + 1 + y) * 0.5f, i + 1 + y), Quaternion.identity);
-                        EnemyCheck.name = "FOVCheck";
-                        Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                        highlightScript.setCoordinates(x, i + 1 + y);
-                    }
-                }
-                else
-                {
-                    // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.yellow, 10f);  //debug line
-                    if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()))
-                    {
-                        GameObject EnemyCheck = Instantiate(FOVHighlight, new Vector3(x - (i + 1 + y) * 0.5f, i + 1 + y), Quaternion.identity);
-                        EnemyCheck.name = "FOVCheck";
-                        Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                        highlightScript.setCoordinates(x, i + 1 + y);
-                    }
-                }
-            }
-
-            if (i + x - n >= 0 && i + x - n < _width && !boardCheck[i + x - n, y])       // check left
-            {
-                wallCheckLineEnd = new Vector2(i + x - n, y + (_height + 16));
-                if (onBoardEntities[i + x - n, y] && onBoardEntities[i + x - n, y].whatTeam() != turnSide)
-                {
-                    // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.red, 10f);  //debug line
-                     Debug.DrawLine(wallCheckLineEnd, halfWallCheckPoint(wallCheckLineStart, wallCheckLineEnd), Color.magenta, 10f);  //debug line 
-                    if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && (((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()) && ((onBoardEntities[i + x - n, y].isCrouched() && !(Physics2D.Linecast(wallCheckLineEnd, halfWallCheckPoint(wallCheckLineStart, wallCheckLineEnd), halfWallMask)) || !onBoardEntities[i + x - n, y].isCrouched()))))
-                    {
-                        GameObject EnemyCheck = Instantiate(EnemyHighlight, new Vector3(i + x - n - y * 0.5f, y), Quaternion.identity);
-                        boardCheck[i + x - n, y] = EnemyCheck;
-                        EnemyCheck.name = "EnemyCheck";
-                        Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                        highlightScript.setCoordinates(i + x - n, y);
-                    }
-                    // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.yellow, 10f);  //debug line
-                    else if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()))
-                    {
-                        GameObject EnemyCheck = Instantiate(FOVHighlight, new Vector3(i + x - n - y * 0.5f, y), Quaternion.identity);
-                        EnemyCheck.name = "FOVCheck";
-                        Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                        highlightScript.setCoordinates(i + x - n, y);
-                    }
-                }
-                else
-                {
-                    // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.yellow, 10f);  //debug line
-                    if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()))
-                    {
-                        GameObject EnemyCheck = Instantiate(FOVHighlight, new Vector3(i + x - n - y * 0.5f, y), Quaternion.identity);
-                        EnemyCheck.name = "FOVCheck";
-                        Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                        highlightScript.setCoordinates(i + x - n, y);
-                    }
-                }
-            }
-
-            if (i + x + 1 >= 0 && i + x + 1 < _width && !boardCheck[i + x + 1, y])       // check right
-            {
-                wallCheckLineEnd = new Vector2(i + x + 1, y + (_height + 16));
-                if (onBoardEntities[i + x + 1, y] && onBoardEntities[i + x + 1, y].whatTeam() != turnSide)
-                {
-                    // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.red, 10f);  //debug line
-                     Debug.DrawLine(wallCheckLineEnd, halfWallCheckPoint(wallCheckLineStart, wallCheckLineEnd), Color.magenta, 10f);  //debug line 
-                    if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && (((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()) && ((onBoardEntities[i + x + 1, y].isCrouched() && !(Physics2D.Linecast(wallCheckLineEnd, halfWallCheckPoint(wallCheckLineStart, wallCheckLineEnd), halfWallMask)) || !onBoardEntities[i + x + 1, y].isCrouched()))))
-                    {
-                        GameObject EnemyCheck = Instantiate(EnemyHighlight, new Vector3(i + x + 1 - y * 0.5f, y), Quaternion.identity);
-                        boardCheck[i + x + 1, y] = EnemyCheck;
-                        EnemyCheck.name = "EnemyCheck";
-                        Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                        highlightScript.setCoordinates(i + x + 1, y);
-                    }
-                    // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.yellow, 10f);  //debug line
-                    else if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()))
-                    {
-                        GameObject EnemyCheck = Instantiate(FOVHighlight, new Vector3(i + x + 1 - y * 0.5f, y), Quaternion.identity);
-                        EnemyCheck.name = "FOVCheck";
-                        Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                        highlightScript.setCoordinates(i + x + 1, y);
-                    }
-                }
-                else
-                {
-                    // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.yellow, 10f);  //debug line
-                    if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()))
-                    {
-                        GameObject EnemyCheck = Instantiate(FOVHighlight, new Vector3(i + x + 1 - y * 0.5f, y), Quaternion.identity);
-                        EnemyCheck.name = "FOVCheck";
-                        Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                        highlightScript.setCoordinates(i + x + 1, y);
-                    }
-                }
-            }
-
-        }
-
-
-
-        //          circle algorithm
-        int m = y + n;
-        for (int i = 1; i <= m - y; i++)
-        {
-            float pktE = (float)(Math.Sqrt(i * i + (m - y) * (m - y))), pktSE = (float)(Math.Sqrt(i * i + (m - y - 1) * (m - y - 1)));
-            float ra = absDif(pktE, n), rb = absDif(pktSE, n);
-            if (ra > rb)
-            {
-                m--;
-            }
-
-            // if conditions: up -> (y + j < _height); down -> (y + j >= 0); left -> (x + i >= 0); right -> (x + i < _width)
-
-            for (int j = 1 + i; j <= m - y; j++)            // up, right, mid
-            {
-                if (y + j < _height && x + i < _width)
-                {
-                    wallCheckLineEnd = new Vector2(x + i, y + j + 3 * _height);
-                    if (onBoardEntities[x + i, y + j] && onBoardEntities[x + i, y + j].whatTeam() != turnSide)
-                    {
-
-                        // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.red, 10f);  //debug line
-                         Debug.DrawLine(wallCheckLineEnd, halfWallCheckPoint(wallCheckLineStart, wallCheckLineEnd), Color.magenta, 10f);  //debug line 
-                        if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && (((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()) && ((onBoardEntities[x + i, y + j].isCrouched() && !(Physics2D.Linecast(wallCheckLineEnd, halfWallCheckPoint(wallCheckLineStart, wallCheckLineEnd), halfWallMask)) || !onBoardEntities[x + i, y + j].isCrouched()))))
-                        {
-                            GameObject EnemyCheck = Instantiate(EnemyHighlight, new Vector3(x + i - (y + j) * 0.5f, y + j), Quaternion.identity);
-                            boardCheck[x + i, y + j] = EnemyCheck;
-                            EnemyCheck.name = "EnemyCheck";
-                            Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                            highlightScript.setCoordinates(x + i, y + j);
-                        }
-                        // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.yellow, 10f);  //debug line
-                        else if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()))
-                        {
-                            GameObject EnemyCheck = Instantiate(FOVHighlight, new Vector3(x + i - (y + j) * 0.5f, y + j), Quaternion.identity);
-                            EnemyCheck.name = "FOVCheck";
-                            Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                            highlightScript.setCoordinates(x + i, y + j);
-                        }
-                    }
-                    else
-                    {
-                        // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.yellow, 10f);  //debug line
-                        if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()))
-                        {
-                            GameObject EnemyCheck = Instantiate(FOVHighlight, new Vector3(x + i - (y + j) * 0.5f, y + j), Quaternion.identity);
-                            EnemyCheck.name = "FOVCheck";
-                            Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                            highlightScript.setCoordinates(x + i, y + j);
-                        }
-                    }
-                }
-
-
-                if (y - j >= 0 && x + i < _width)            // down, right, mid
-                {
-                    wallCheckLineEnd = new Vector2(x + i, y - j + 3 * _height);
-                    if (onBoardEntities[x + i, y - j] && onBoardEntities[x + i, y - j].whatTeam() != turnSide)
-                    {
-                        // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.red, 10f);  //debug line
-                         Debug.DrawLine(wallCheckLineEnd, halfWallCheckPoint(wallCheckLineStart, wallCheckLineEnd), Color.magenta, 10f);  //debug line 
-                        if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && (((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()) && ((onBoardEntities[x + i, y - j].isCrouched() && !(Physics2D.Linecast(wallCheckLineEnd, halfWallCheckPoint(wallCheckLineStart, wallCheckLineEnd), halfWallMask)) || !onBoardEntities[x + i, y - j].isCrouched()))))
-                        {
-                            GameObject EnemyCheck = Instantiate(EnemyHighlight, new Vector3(x + i - (y - j) * 0.5f, y - j), Quaternion.identity);
-                            boardCheck[x + i, y - j] = EnemyCheck;
-                            EnemyCheck.name = "EnemyCheck";
-                            Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                            highlightScript.setCoordinates(x + i, y - j);
-                        }
-                        // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.yellow, 10f);  //debug line
-                        else if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()))
-                        {
-                            GameObject EnemyCheck = Instantiate(FOVHighlight, new Vector3(x + i - (y - j) * 0.5f, y - j), Quaternion.identity);
-                            EnemyCheck.name = "FOVCheck";
-                            Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                            highlightScript.setCoordinates(x + i, y - j);
-                        }
-                    }
-                    else
-                    {
-                        // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.yellow, 10f);  //debug line
-                        if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()))
-                        {
-                            GameObject EnemyCheck = Instantiate(FOVHighlight, new Vector3(x + i - (y - j) * 0.5f, y - j), Quaternion.identity);
-                            EnemyCheck.name = "FOVCheck";
-                            Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                            highlightScript.setCoordinates(x + i, y - j);
-                        }
-                    }
-                }
-
-                if (y + j < _height && x - i >= 0)        // up, left, mid
-                {
-                    wallCheckLineEnd = new Vector2(x - i, y + j + 3 * _height);
-                    if (onBoardEntities[x - i, y + j] && onBoardEntities[x - i, y + j].whatTeam() != turnSide)
-                    {
-                        // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.red, 10f);  //debug line
-                         Debug.DrawLine(wallCheckLineEnd, halfWallCheckPoint(wallCheckLineStart, wallCheckLineEnd), Color.magenta, 10f);  //debug line 
-                        if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && (((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()) && ((onBoardEntities[x - i, y + j].isCrouched() && !(Physics2D.Linecast(wallCheckLineEnd, halfWallCheckPoint(wallCheckLineStart, wallCheckLineEnd), halfWallMask)) || !onBoardEntities[x - i, y + j].isCrouched()))))
-                        {
-                            GameObject EnemyCheck = Instantiate(EnemyHighlight, new Vector3(x - i - (y + j) * 0.5f, y + j), Quaternion.identity);
-                            boardCheck[x - i, y + j] = EnemyCheck;
-                            EnemyCheck.name = "EnemyCheck";
-                            Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                            highlightScript.setCoordinates(x - i, y + j);
-                        }
-                        // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.yellow, 10f);  //debug line
-                        else if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()))
-                        {
-                            GameObject EnemyCheck = Instantiate(FOVHighlight, new Vector3(x - i - (y + j) * 0.5f, y + j), Quaternion.identity);
-                            EnemyCheck.name = "FOVCheck";
-                            Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                            highlightScript.setCoordinates(x - i, y + j);
-                        }
-                    }
-                    else
-                    {
-                        // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.yellow, 10f);  //debug line
-                        if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()))
-                        {
-                            GameObject EnemyCheck = Instantiate(FOVHighlight, new Vector3(x - i - (y + j) * 0.5f, y + j), Quaternion.identity);
-                            EnemyCheck.name = "FOVCheck";
-                            Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                            highlightScript.setCoordinates(x - i, y + j);
-                        }
-                    }
-                }
-
-
-                if (y - j >= 0 && x - i >= 0)            // down, left, mid
-                {
-                    wallCheckLineEnd = new Vector2(x - i, y - j + 3 * _height);
-                    if (onBoardEntities[x - i, y - j] && onBoardEntities[x - i, y - j].whatTeam() != turnSide)
-                    {
-                        // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.red, 10f);  //debug line
-                         Debug.DrawLine(wallCheckLineEnd, halfWallCheckPoint(wallCheckLineStart, wallCheckLineEnd), Color.magenta, 10f);  //debug line 
-                        if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && (((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()) && ((onBoardEntities[x - i, y - j].isCrouched() && !(Physics2D.Linecast(wallCheckLineEnd, halfWallCheckPoint(wallCheckLineStart, wallCheckLineEnd), halfWallMask)) || !onBoardEntities[x - i, y - j].isCrouched()))))
-                        {
-                            GameObject EnemyCheck = Instantiate(EnemyHighlight, new Vector3(x - i - (y - j) * 0.5f, y - j), Quaternion.identity);
-                            boardCheck[x - i, y - j] = EnemyCheck;
-                            EnemyCheck.name = "EnemyCheck";
-                            Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                            highlightScript.setCoordinates(x - i, y - j);
-                        }
-                        // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.yellow, 10f);  //debug line
-                        else if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()))
-                        {
-                            GameObject EnemyCheck = Instantiate(FOVHighlight, new Vector3(x - i - (y - j) * 0.5f, y - j), Quaternion.identity);
-                            EnemyCheck.name = "FOVCheck";
-                            Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                            highlightScript.setCoordinates(x - i, y - j);
-                        }
-                    }
-                    else
-                    {
-                        // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.yellow, 10f);  //debug line
-                        if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()))
-                        {
-                            GameObject EnemyCheck = Instantiate(FOVHighlight, new Vector3(x - i - (y - j) * 0.5f, y - j), Quaternion.identity);
-                            EnemyCheck.name = "FOVCheck";
-                            Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                            highlightScript.setCoordinates(x - i, y - j);
-                        }
-                    }
-                }
-
-
-                if (y - i >= 0 && x - j >= 0)            // down, left, side
-                {
-                    wallCheckLineEnd = new Vector2(x - j, y - i + 3 * _height);
-                    if (onBoardEntities[x - j, y - i] && onBoardEntities[x - j, y - i].whatTeam() != turnSide)
-                    {
-                        // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.red, 10f);  //debug line
-                         Debug.DrawLine(wallCheckLineEnd, halfWallCheckPoint(wallCheckLineStart, wallCheckLineEnd), Color.magenta, 10f);  //debug line 
-                        if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && (((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()) && ((onBoardEntities[x - j, y - i].isCrouched() && !(Physics2D.Linecast(wallCheckLineEnd, halfWallCheckPoint(wallCheckLineStart, wallCheckLineEnd), halfWallMask)) || !onBoardEntities[x - j, y - i].isCrouched()))))
-                        {
-                            GameObject EnemyCheck = Instantiate(EnemyHighlight, new Vector3(x - j - (y - i) * 0.5f, y - i), Quaternion.identity);
-                            boardCheck[x - j, y - i] = EnemyCheck;
-                            EnemyCheck.name = "EnemyCheck";
-                            Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                            highlightScript.setCoordinates(x - j, y - i);
-                        }
-                        // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.yellow, 10f);  //debug line
-                        else if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()))
-                        {
-                            GameObject EnemyCheck = Instantiate(FOVHighlight, new Vector3(x - j - (y - i) * 0.5f, y - i), Quaternion.identity);
-                            EnemyCheck.name = "FOVCheck";
-                            Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                            highlightScript.setCoordinates(x - j, y - i);
-                        }
-                    }
-                    else
-                    {
-                        // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.yellow, 10f);  //debug line
-                        if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()))
-                        {
-                            GameObject EnemyCheck = Instantiate(FOVHighlight, new Vector3(x - j - (y - i) * 0.5f, y - i), Quaternion.identity);
-                            EnemyCheck.name = "FOVCheck";
-                            Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                            highlightScript.setCoordinates(x - j, y - i);
-                        }
-                    }
-                }
-
-
-                if (y - i >= 0 && x + j < _width)            // down, right, side
-                {
-                    wallCheckLineEnd = new Vector2(x + j, y - i + 3 * _height);
-                    if (onBoardEntities[x + j, y - i] && onBoardEntities[x + j, y - i].whatTeam() != turnSide)
-                    {
-                        // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.red, 10f);  //debug line
-                         Debug.DrawLine(wallCheckLineEnd, halfWallCheckPoint(wallCheckLineStart, wallCheckLineEnd), Color.magenta, 10f);  //debug line 
-                        if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && (((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()) && ((onBoardEntities[x + j, y - i].isCrouched() && !(Physics2D.Linecast(wallCheckLineEnd, halfWallCheckPoint(wallCheckLineStart, wallCheckLineEnd), halfWallMask)) || !onBoardEntities[x + j, y - i].isCrouched()))))
-                        {
-                            GameObject EnemyCheck = Instantiate(EnemyHighlight, new Vector3(x + j - (y - i) * 0.5f, y - i), Quaternion.identity);
-                            boardCheck[x + j, y - i] = EnemyCheck;
-                            EnemyCheck.name = "EnemyCheck";
-                            Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                            highlightScript.setCoordinates(x + j, y - i);
-                        }
-                        // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.yellow, 10f);  //debug line
-                        else if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()))
-                        {
-                            GameObject EnemyCheck = Instantiate(FOVHighlight, new Vector3(x + j - (y - i) * 0.5f, y - i), Quaternion.identity);
-                            EnemyCheck.name = "FOVCheck";
-                            Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                            highlightScript.setCoordinates(x + j, y - i);
-                        }
-                    }
-                    else
-                    {
-                        // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.yellow, 10f);  //debug line
-                        if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()))
-                        {
-                            GameObject EnemyCheck = Instantiate(FOVHighlight, new Vector3(x + j - (y - i) * 0.5f, y - i), Quaternion.identity);
-                            EnemyCheck.name = "FOVCheck";
-                            Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                            highlightScript.setCoordinates(x + j, y - i);
-                        }
-                    }
-                }
-
-
-                if (y + i < _height && x - j >= 0)            // up, left, side
-                {
-                    wallCheckLineEnd = new Vector2(x - j, y + i + 3 * _height);
-                    if (onBoardEntities[x - j, y + i] && onBoardEntities[x - j, y + i].whatTeam() != turnSide)
-                    {
-                        // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.red, 10f);  //debug line
-                         Debug.DrawLine(wallCheckLineEnd, halfWallCheckPoint(wallCheckLineStart, wallCheckLineEnd), Color.magenta, 10f);  //debug line 
-                        if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && (((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()) && ((onBoardEntities[x - j, y + i].isCrouched() && !(Physics2D.Linecast(wallCheckLineEnd, halfWallCheckPoint(wallCheckLineStart, wallCheckLineEnd), halfWallMask)) || !onBoardEntities[x - j, y + i].isCrouched()))))
-                        {
-                            GameObject EnemyCheck = Instantiate(EnemyHighlight, new Vector3(x - j - (y + i) * 0.5f, y + i), Quaternion.identity);
-                            boardCheck[x - j, y + i] = EnemyCheck;
-                            EnemyCheck.name = "EnemyCheck";
-                            Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                            highlightScript.setCoordinates(x - j, y + i);
-                        }
-                        // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.yellow, 10f);  //debug line
-                        else if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()))
-                        {
-                            GameObject EnemyCheck = Instantiate(FOVHighlight, new Vector3(x - j - (y + i) * 0.5f, y + i), Quaternion.identity);
-                            EnemyCheck.name = "FOVCheck";
-                            Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                            highlightScript.setCoordinates(x - j, y + i);
-                        }
-                    }
-                    else
-                    {
-                        // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.yellow, 10f);  //debug line
-                        if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()))
-                        {
-                            GameObject EnemyCheck = Instantiate(FOVHighlight, new Vector3(x - j - (y + i) * 0.5f, y + i), Quaternion.identity);
-                            EnemyCheck.name = "FOVCheck";
-                            Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                            highlightScript.setCoordinates(x - j, y + i);
-                        }
-                    }
-                }
-
-
-                if (y + i < _height && x + j < _width)            // up, right, side
-                {
-                    wallCheckLineEnd = new Vector2(x + j, y + i + 3 * _height);
-                    if (onBoardEntities[x + j, y + i] && onBoardEntities[x + j, y + i].whatTeam() != turnSide)
-                    {
-                        // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.red, 10f);  //debug line
-                         Debug.DrawLine(wallCheckLineEnd, halfWallCheckPoint(wallCheckLineStart, wallCheckLineEnd), Color.magenta, 10f);  //debug line 
-                        if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && (((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()) && ((onBoardEntities[x + j, y + i].isCrouched() && !(Physics2D.Linecast(wallCheckLineEnd, halfWallCheckPoint(wallCheckLineStart, wallCheckLineEnd), halfWallMask)) || !onBoardEntities[x + j, y + i].isCrouched()))))
-                        {
-                            GameObject EnemyCheck = Instantiate(EnemyHighlight, new Vector3(x + j - (y + i) * 0.5f, y + i), Quaternion.identity);
-                            boardCheck[x + j, y + i] = EnemyCheck;
-                            EnemyCheck.name = "EnemyCheck";
-                            Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                            highlightScript.setCoordinates(x + j, y + i);
-                        }
-                        // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.yellow, 10f);  //debug line
-                        else if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()))
-                        {
-                            GameObject EnemyCheck = Instantiate(FOVHighlight, new Vector3(x + j - (y + i) * 0.5f, y + i), Quaternion.identity);
-                            EnemyCheck.name = "FOVCheck";
-                            Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                            highlightScript.setCoordinates(x + j, y + i);
-                        }
-                    }
-                    else
-                    {
-                        // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.yellow, 10f);  //debug line
-                        if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()))
-                        {
-                            GameObject EnemyCheck = Instantiate(FOVHighlight, new Vector3(x + j - (y + i) * 0.5f, y + i), Quaternion.identity);
-                            EnemyCheck.name = "FOVCheck";
-                            Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                            highlightScript.setCoordinates(x + j, y + i);
-                        }
-                    }
-                }
-            }
-        }
-
-
-            // best bevels
-            m = n;
-            float _diagonalsA = n * (float)(Math.Sqrt(2));
-            float _diagonalsB = (n - 1) * (float)(Math.Sqrt(2));
-            while (_diagonalsA > n && _diagonalsB > n)
-            {
-                m--;
-                _diagonalsA = m * (float)(Math.Sqrt(2));
-                _diagonalsB = (m - 1) * (float)(Math.Sqrt(2));
-            }
-
-            if( absDif(_diagonalsA , n) > absDif(_diagonalsB, n))
-            {
-                m--;
-            }
-
-        for (int i = 1; i < m; i++)
-        {
-            if (y + i < _height && x + i < _width)          // up, right
-            {
-                wallCheckLineEnd = new Vector2(x + i, y + i + 3 * _height);
-                if (onBoardEntities[x + i, y + i] && onBoardEntities[x + i, y + i].whatTeam() != turnSide)
-                {
-                    // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.red, 10f);  //debug line
-                      Debug.DrawLine(wallCheckLineEnd, halfWallCheckPoint(wallCheckLineStart, wallCheckLineEnd), Color.magenta, 10f);  //debug line 
-                    if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && (((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()) && ((onBoardEntities[x + i, y + i].isCrouched() && !(Physics2D.Linecast(wallCheckLineEnd, halfWallCheckPoint(wallCheckLineStart, wallCheckLineEnd), halfWallMask)) || !onBoardEntities[x + i, y + i].isCrouched()))))
-                    {
-                        GameObject EnemyCheck = Instantiate(EnemyHighlight, new Vector3(x + i - (y + i) * 0.5f, y + i), Quaternion.identity);
-                        boardCheck[x + i, y + i] = EnemyCheck;
-                        EnemyCheck.name = "EnemyCheck";
-                        Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                        highlightScript.setCoordinates(x + i, y + i);
-                    }
-                    // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.yellow, 10f);  //debug line
-                    else if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()))
-                    {
-                        GameObject EnemyCheck = Instantiate(FOVHighlight, new Vector3(x + i - (y + i) * 0.5f, y + i), Quaternion.identity);
-                        EnemyCheck.name = "FOVCheck";
-                        Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                        highlightScript.setCoordinates(x + i, y + i);
-                    }
-                }
-                else
-                {
-                    // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.yellow, 10f);  //debug line
-                    if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()))
-                    {
-                        GameObject EnemyCheck = Instantiate(FOVHighlight, new Vector3(x + i - (y + i) * 0.5f, y + i), Quaternion.identity);
-                        EnemyCheck.name = "FOVCheck";
-                        Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                        highlightScript.setCoordinates(x + i, y + i);
-                    }
-                }
-            }
-
-            if (y - i >= 0 && x + i < _width)          // down, right
-            {
-                wallCheckLineEnd = new Vector2(x + i, y - i + 3 * _height);
-                if (onBoardEntities[x + i, y - i] && onBoardEntities[x + i, y - i].whatTeam() != turnSide)
-                {
-                    //  Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.red, 10f);  //debug line
-                      Debug.DrawLine(wallCheckLineEnd, halfWallCheckPoint(wallCheckLineStart, wallCheckLineEnd), Color.magenta, 10f);  //debug line 
-                    if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && (((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()) && ((onBoardEntities[x + i, y - i].isCrouched() && !(Physics2D.Linecast(wallCheckLineEnd, halfWallCheckPoint(wallCheckLineStart, wallCheckLineEnd), halfWallMask)) || !onBoardEntities[x + i, y - i].isCrouched()))))
-                    {
-                        GameObject EnemyCheck = Instantiate(EnemyHighlight, new Vector3(x + i - (y - i) * 0.5f, y - i), Quaternion.identity);
-                        boardCheck[x + i, y - i] = EnemyCheck;
-                        EnemyCheck.name = "EnemyCheck";
-                        Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                        highlightScript.setCoordinates(x + i, y - i);
-                    }
-                    //  Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.yellow, 10f);  //debug line
-                    else if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()))
-                    {
-                        GameObject EnemyCheck = Instantiate(FOVHighlight, new Vector3(x + i - (y - i) * 0.5f, y - i), Quaternion.identity);
-                        EnemyCheck.name = "FOVCheck";
-                        Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                        highlightScript.setCoordinates(x + i, y - i);
-                    }
-                }
-                else
-                {
-                    //  Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.yellow, 10f);  //debug line
-                    if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()))
-                    {
-                        GameObject EnemyCheck = Instantiate(FOVHighlight, new Vector3(x + i - (y - i) * 0.5f, y - i), Quaternion.identity);
-                        EnemyCheck.name = "FOVCheck";
-                        Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                        highlightScript.setCoordinates(x + i, y - i);
-                    }
-                }
-            }
-
-            if (y + i < _height && x - i >= 0)          // up, left
-            {
-                wallCheckLineEnd = new Vector2(x - i, y + i + 3 * _height);
-                if (onBoardEntities[x - i, y + i] && onBoardEntities[x - i, y + i].whatTeam() != turnSide)
-                {
-                    //  Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.red, 10f);  //debug line
-                      Debug.DrawLine(wallCheckLineEnd, halfWallCheckPoint(wallCheckLineStart, wallCheckLineEnd), Color.magenta, 10f);  //debug line 
-                    if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && (((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()) && ((onBoardEntities[x - i, y + i].isCrouched() && !(Physics2D.Linecast(wallCheckLineEnd, halfWallCheckPoint(wallCheckLineStart, wallCheckLineEnd), halfWallMask)) || !onBoardEntities[x - i, y + i].isCrouched()))))
-                    {
-                        GameObject EnemyCheck = Instantiate(EnemyHighlight, new Vector3(x - i - (y + i) * 0.5f, y + i), Quaternion.identity);
-                        boardCheck[x - i, y + i] = EnemyCheck;
-                        EnemyCheck.name = "EnemyCheck";
-                        Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                        highlightScript.setCoordinates(x - i, y + i);
-                    }
-                    //  Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.yellow, 10f);  //debug line
-                    else if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()))
-                    {
-                        GameObject EnemyCheck = Instantiate(FOVHighlight, new Vector3(x - i - (y + i) * 0.5f, y + i), Quaternion.identity);
-                        EnemyCheck.name = "FOVCheck";
-                        Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                        highlightScript.setCoordinates(x - i, y + i);
-                    }
-                }
-                else
-                {
-                    //  Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.yellow, 10f);  //debug line
-                    if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()))
-                    {
-                        GameObject EnemyCheck = Instantiate(FOVHighlight, new Vector3(x - i - (y + i) * 0.5f, y + i), Quaternion.identity);
-                        EnemyCheck.name = "FOVCheck";
-                        Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                        highlightScript.setCoordinates(x - i, y + i);
-                    }
-                }
-            }
-
-            if (y - i >= 0 && x - i >= 0)          // down, left
-            {
-                wallCheckLineEnd = new Vector2(x - i, y - i + 3 * _height);
-                if (onBoardEntities[x - i, y - i] && onBoardEntities[x - i, y - i].whatTeam() != turnSide)
-                {
-                    //  Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.red, 10f);  //debug line
-                      Debug.DrawLine(wallCheckLineEnd, halfWallCheckPoint(wallCheckLineStart, wallCheckLineEnd), Color.magenta, 10f);  //debug line 
-                    if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && (((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()) && ((onBoardEntities[x - i, y - i].isCrouched() && !(Physics2D.Linecast(wallCheckLineEnd, halfWallCheckPoint(wallCheckLineStart, wallCheckLineEnd), halfWallMask)) || !onBoardEntities[x - i, y - i].isCrouched()))))
-                    {
-                        GameObject EnemyCheck = Instantiate(EnemyHighlight, new Vector3(x - i - (y - i) * 0.5f, y - i), Quaternion.identity);
-                        boardCheck[x - i, y - i] = EnemyCheck;
-                        EnemyCheck.name = "EnemyCheck";
-                        Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                        highlightScript.setCoordinates(x - i, y - i);
-                    }
-                    //  Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.yellow, 10f);  //debug line
-                    else if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()))
-                    {
-                        GameObject EnemyCheck = Instantiate(FOVHighlight, new Vector3(x - i - (y - i) * 0.5f, y - i), Quaternion.identity);
-                        EnemyCheck.name = "FOVCheck";
-                        Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                        highlightScript.setCoordinates(x - i, y - i);
-                    }
-                }
-                else
-                {
-                    //  Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.yellow, 10f);  //debug line
-                    if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()))
-                    {
-                        GameObject EnemyCheck = Instantiate(FOVHighlight, new Vector3(x - i - (y - i) * 0.5f, y - i), Quaternion.identity);
-                        EnemyCheck.name = "FOVCheck";
-                        Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
-                        highlightScript.setCoordinates(x - i, y - i);
+                        GameObject FOVCheck = Instantiate(FOVHighlight, new Vector3(fov[i].x - fov[i].y * 0.5f, fov[i].y), Quaternion.identity);
+                        FOVCheck.name = "FOVCheck";
+                        Highlight highlightScript = FOVCheck.GetComponent<Highlight>();
+                        highlightScript.setCoordinates(fov[i].x, fov[i].y);
                     }
                 }
             }
@@ -2597,8 +1872,7 @@ public class GridManager : MonoBehaviour
                 {
                     if (!selectedUnit.isGadgetActive())
                     {
-                        HighlightPossibleMoves();
-                        HighlightPossibleAttacks(activeX, activeY, onBoardEntities[activeX, activeY].whatRange());
+                        HighlightPossibleMoves(activeX, activeY, onBoardEntities[activeX, activeY].whatRange());
                     }
                     else
                     {
