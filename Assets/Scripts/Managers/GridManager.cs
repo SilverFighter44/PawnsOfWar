@@ -32,7 +32,7 @@ public class GridManager : MonoBehaviour
     [SerializeField] private GameObject pO1, pO2, pO3, pO4, eO1, eO2, eO3, eO4;
 
     Flag flagB, flagR;
-    int activeX = 0, activeY = 0, passiveX = 0, passiveY = 0, teamB = 4, teamR = 4, gameTime = 20;
+    int activeX = 0, activeY = 0, passiveX = 0, passiveY = 0, teamB = 4, teamR = 4, gameTime = 10;
     bool active = false, passive = false, turnActive = false, moveHighlightsOn = false, unitIsSelected = false, cameraZoomed = false, firstMove = true;
     Unit selectedUnit;
 
@@ -53,6 +53,277 @@ public class GridManager : MonoBehaviour
     {
         public Vector2 tile; //bottom right position
     };
+
+    public struct TileCoordinates
+    {
+        public TileCoordinates(int x, int y)
+        {
+            this.x = x;
+            this.y = y;
+        }
+        public int x;
+        public int y;
+    }
+
+    public struct SeekedObjectType
+    {
+        public SeekedObjectType(bool a, bool b)    
+        {
+            //f + f = existing not valid; f + t = team not valid; t + f = seek red; t + t = seek blue
+            if(a)
+            {
+                isExistingValid = true;
+                isTeamValid = true;
+                if (b)  // t + t = seek blue
+                {
+                    team = true;
+                }
+                else    // t + f = seek red
+                {
+                    team = false;
+                }
+            }
+            else
+            {
+                if (b)  // f + t =  team not valid
+                {
+                    isExistingValid = true;
+                    isTeamValid = false;
+                    team = false; //doesn't matter
+                }
+                else    // f + f  = existing not valid   
+                {
+                    isExistingValid = false;
+                    isTeamValid = false; //doesn't matter
+                    team = false; //doesn't matter
+                }
+            }
+        }
+        public bool isExistingValid;
+        public bool isTeamValid;
+        public bool team;
+    }
+
+    bool checkForObjectOfType(int x, int y, SeekedObjectType objectType)
+    {
+        if (objectType.isExistingValid)
+        {
+            if  (onBoardEntities[x, y])
+            {
+                if (objectType.isTeamValid)
+                {
+                    if(onBoardEntities[x, y].whatTeam() == objectType.team)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    public List<TileCoordinates> MidpointCircleAlgorithmScan(int x, int y, int range, bool centerIncluded, SeekedObjectType objectType)
+    {
+        List <TileCoordinates> detectedObjects = new List<TileCoordinates>();
+
+        //          center check
+        if (centerIncluded && checkForObjectOfType(x, y, objectType))
+        {
+            detectedObjects.Add(new TileCoordinates(x, y));
+        }
+        //          cross check
+        for (int i = 0; i < range; i++)
+        {
+            if (i + y - range >= 0 && i + y - range < _height)      // check down
+            {
+                if (checkForObjectOfType(x, i + y - range, objectType))
+                {
+                    detectedObjects.Add(new TileCoordinates(x, i + y - range));
+                }
+            }
+
+            if (i + 1 + y >= 0 && i + 1 + y < _height)      // check up
+            {
+                if (checkForObjectOfType(x, i + 1 + y, objectType))
+                {
+                    detectedObjects.Add(new TileCoordinates(x, i + 1 + y));
+                }
+            }
+
+            if (i + x - range >= 0 && i + x - range < _width)       // check left
+            {
+                if (checkForObjectOfType(i + x - range, y, objectType))
+                {
+                    detectedObjects.Add(new TileCoordinates(i + x - range, y));
+                }
+            }
+
+            if (i + x + 1 >= 0 && i + x + 1 < _width)       // check right
+            {
+                if (checkForObjectOfType(i + x + 1, y, objectType))
+                {
+                    detectedObjects.Add(new TileCoordinates(i + x + 1, y));
+                }
+            }
+
+        }
+
+        //          circle algorithm
+        int m = y + range;
+        for (int i = 1; i <= m - y; i++)
+        {
+            float pktE = (float)(Math.Sqrt(i * i + (m - y) * (m - y))), pktSE = (float)(Math.Sqrt(i * i + (m - y - 1) * (m - y - 1)));
+            float ra = absDif(pktE, range), rb = absDif(pktSE, range);
+            if (ra > rb)
+            {
+                m--;
+            }
+
+            // if conditions: up -> (y + j < _height); down -> (y + j >= 0); left -> (x + i >= 0); right -> (x + i < _width)
+
+            for (int j = 1 + i; j <= m - y; j++)            // up, right, mid
+            {
+                if (y + j < _height && x + i < _width)
+                {
+                    if (checkForObjectOfType(x + i, y + j, objectType))
+                    {
+                        detectedObjects.Add(new TileCoordinates(x + i, y + j));
+                    }
+                }
+
+
+                if (y - j >= 0 && x + i < _width)            // down, right, mid
+                {
+                    if (checkForObjectOfType(x + i, y - j, objectType))
+                    {
+                        detectedObjects.Add(new TileCoordinates(x + i, y - j));
+                    }
+                }
+
+                if (y + j < _height && x - i >= 0)        // up, left, mid
+                {
+                    if (checkForObjectOfType(x - i, y + j, objectType))
+                    {
+                        detectedObjects.Add(new TileCoordinates(x - i, y + j));
+                    }
+                }
+
+
+                if (y - j >= 0 && x - i >= 0)            // down, left, mid
+                {
+                    if (checkForObjectOfType(x - i, y - j, objectType))
+                    {
+                        detectedObjects.Add(new TileCoordinates(x - i, y - j));
+                    }
+                }
+
+
+                if (y - i >= 0 && x - j >= 0)            // down, left, side
+                {
+                    if (checkForObjectOfType(x - j, y - i, objectType))
+                    {
+                        detectedObjects.Add(new TileCoordinates(x - j, y - i));
+                    }
+                }
+
+
+                if (y - i >= 0 && x + j < _width)            // down, right, side
+                { 
+                    if (checkForObjectOfType(x + j, y - i, objectType))
+                    {
+                        detectedObjects.Add(new TileCoordinates(x + j, y - i));
+                    }
+                }
+
+
+                if (y + i < _height && x - j >= 0)            // up, left, side
+                {
+                    if (checkForObjectOfType(x - j, y + i, objectType))
+                    {
+                        detectedObjects.Add(new TileCoordinates(x - j, y + i));
+                    }
+                }
+
+
+                if (y + i < _height && x + j < _width)            // up, right, side
+                {
+                    if (checkForObjectOfType(x + j, y + i, objectType))
+                    {
+                        detectedObjects.Add(new TileCoordinates(x + j, y + i));
+                    }
+                }
+            }
+        }
+        
+        // best bevels
+        m = range;
+        float _diagonalsA = range * (float)(Math.Sqrt(2));
+        float _diagonalsB = (range - 1) * (float)(Math.Sqrt(2));
+        while (_diagonalsA > range && _diagonalsB > range)
+        {
+            m--;
+            _diagonalsA = m * (float)(Math.Sqrt(2));
+            _diagonalsB = (m - 1) * (float)(Math.Sqrt(2));
+        }
+
+        if (absDif(_diagonalsA, range) > absDif(_diagonalsB, range))
+        {
+            m--;
+        }
+
+        for (int i = 1; i < m; i++)
+        {
+            if (y + i < _height && x + i < _width)          // up, right
+            {
+                if (checkForObjectOfType(x + i, y + i, objectType))
+                {
+                    detectedObjects.Add(new TileCoordinates(x + i, y + i));
+                }
+            }
+
+            if (y - i >= 0 && x + i < _width)          // down, right
+            {
+                if (checkForObjectOfType(x + i, y - i, objectType))
+                {
+                    detectedObjects.Add(new TileCoordinates(x + i, y - i));
+                }
+            }
+
+            if (y + i < _height && x - i >= 0)          // up, left
+            {
+                if (checkForObjectOfType(x - i, y + i, objectType))
+                {
+                    detectedObjects.Add(new TileCoordinates(x - i, y + i));
+                }
+            }
+
+            if (y - i >= 0 && x - i >= 0)          // down, left
+            {
+                if (checkForObjectOfType(x - i, y - i, objectType))
+                {
+                    detectedObjects.Add(new TileCoordinates(x - i, y - i));
+                }
+            }
+        }
+
+        return detectedObjects;
+    }
+    
 
     public void eliminateUnit(bool team)
     {
