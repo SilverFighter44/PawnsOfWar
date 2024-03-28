@@ -2929,7 +2929,7 @@ TextureImporter:
         boneIndex[2]: 0
         boneIndex[3]: 0
     - serializedVersion: 2
-      name: Reload
+      name: Clock
       rect:
         serializedVersion: 2
         x: 120
@@ -4345,6 +4345,7 @@ TextureImporter:
       Attack: -718051715
       AttackB: 1045850777
       AttackR: 345615359
+      Clock: -1313649701
       CombatEngineer: -842696297
       CombatEngineerB: -376923646
       CombatEngineerR: -1716590671
@@ -4390,7 +4391,6 @@ TextureImporter:
       Mode_Defend: -287226171
       Mode_DefendB: -350331152
       Mode_DefendR: -713785410
-      Reload: -1313649701
       Rifleman: -1861471247
       RiflemanB: -122725867
       RiflemanR: -561833386

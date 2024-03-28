@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 9185819949422253886}
   - component: {fileID: 7041493417086480844}
   m_Layer: 0
-  m_Name: FlagB_Base
+  m_Name: FlagR_Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -185,7 +185,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flagRenderer: {fileID: 8568364964843061531}
-  poleRenderer: {fileID: 0}
+  poleRenderer: {fileID: 2170082931244684299}
+  flagObject: {fileID: 4916850376858890016}
+  flagLevel: 4
+  side: 0
 --- !u!1 &9079844747947333916
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,7 +13,7 @@ public class GridManager : MonoBehaviour
 
     [SerializeField] private Tile _tilePrefab;
 
-    [SerializeField] private GameObject MoveHighlight, EnemyHighlight, FOVHighlight, GadgetHighlight, WallX, WallY, WindowFrameX, WindowFrameY, DoorFrameX, DoorFrameY, UnitPrefab, WallHitBox, WindowHitBox, DoorHitBox, UnitControlsUI, FlagB, FlagR, ShrapnelGroup, SmokeHitbox, Smoke;
+    [SerializeField] private GameObject MoveHighlight, EnemyHighlight, FOVHighlight, GadgetHighlight, WallX, WallY, WindowFrameX, WindowFrameY, DoorFrameX, DoorFrameY, UnitPrefab, WallHitBox, WindowHitBox, DoorHitBox, UnitControlsUI, clockUI, FlagB, FlagR, ShrapnelGroup, SmokeHitbox, Smoke;
 
     [SerializeField] private MovesCount B1Count, B2Count, B3Count, B4Count, R1Count, R2Count, R3Count, R4Count;
 
@@ -31,11 +31,12 @@ public class GridManager : MonoBehaviour
 
     [SerializeField] private GameObject pO1, pO2, pO3, pO4, eO1, eO2, eO3, eO4;
 
-    int activeX = 0, activeY = 0, passiveX = 0, passiveY = 0, teamB = 4, teamR = 4, gameTime = 15, flagB = 4, flagR = 4;
-    bool active = false, passive = false, turnActive = false, moveHighlightsOn = false, unitIsSelected = false, cameraZoomed = false;
+    Flag flagB, flagR;
+    int activeX = 0, activeY = 0, passiveX = 0, passiveY = 0, teamB = 4, teamR = 4, gameTime = 20;
+    bool active = false, passive = false, turnActive = false, moveHighlightsOn = false, unitIsSelected = false, cameraZoomed = false, firstMove = true;
     Unit selectedUnit;
 
-    [SerializeField] private TextWriter UnitControlsHP, UnitControlsAmmo, UnitControlsNumber, UnitControlsMoves;
+    [SerializeField] private TextWriter UnitControlsHP, UnitControlsAmmo, UnitControlsNumber, UnitControlsMoves, clockCounter;
     [SerializeField] private UI_ClassSymbol UnitControlsSymbol;
 
     [SerializeField] private bool turnSide;
@@ -75,95 +76,142 @@ public class GridManager : MonoBehaviour
 
     void clockTick(object sender, EventArgs e)
     {
-        // clock
-        if (gameMode == StartData.gameMode.defenceR)
-        {
-            gameTime--;
-            if (gameTime <= 0)
-            {
-                GameManager.Instance.winGame(false);
-            }
-        }
-        else if (gameMode == StartData.gameMode.defenceB)
-        {
-            gameTime--;
-            if (gameTime <= 0)
-            {
-                GameManager.Instance.winGame(true);
-            }
-        }
+            bool flagNotBlocked = true;
+            bool flagContested = false;
 
         //flag checks
-        if ((gameMode == StartData.gameMode.defenceB || gameMode == StartData.gameMode.defence) && GameManager.Instance.getGameState() == GameState.PlayerTurn)
+        if ((gameMode == StartData.gameMode.defenceB || gameMode == StartData.gameMode.defence) && GameManager.Instance.getGameState() == GameState.EnemyTurn)
         {
-            if(onBoardEntities[(int)spawnB.tile.x,(int)spawnB.tile.y])
+            if (onBoardEntities[(int)spawnB.tile.x,(int)spawnB.tile.y])
             {
                 if(!onBoardEntities[(int)spawnB.tile.x,(int)spawnB.tile.y].whatTeam())
                 {
-                    flagB--;
+                    flagContested = true;
+                }
+                else
+                {
+                    flagNotBlocked = false;
                 }
             }
             if (onBoardEntities[(int)spawnB.tile.x - 1,(int)spawnB.tile.y])
             {
                 if (!onBoardEntities[(int)spawnB.tile.x - 1,(int)spawnB.tile.y].whatTeam())
                 {
-                    flagB--;
+                    flagContested = true;
+                }
+                else
+                {
+                    flagNotBlocked = false;
                 }
             }
             if (onBoardEntities[(int)spawnB.tile.x,(int)spawnB.tile.y + 1])
             {
                 if (!onBoardEntities[(int)spawnB.tile.x,(int)spawnB.tile.y + 1].whatTeam())
                 {
-                    flagB--;
+                    flagContested = true;
+                }
+                else
+                {
+                    flagNotBlocked = false;
                 }
             }
             if (onBoardEntities[(int)spawnB.tile.x - 1,(int)spawnB.tile.y + 1])
             {
                 if (!onBoardEntities[(int)spawnB.tile.x - 1,(int)spawnB.tile.y + 1].whatTeam())
                 {
-                    flagB--;
+                    flagContested = true;
+                }
+                else
+                {
+                    flagNotBlocked = false;
                 }
             }
-            if (flagB <= 0)
+            if(flagNotBlocked && flagContested)
             {
-                GameManager.Instance.winGame(false);
+                flagB.flagDown();
             }
         }
-        else if ((gameMode == StartData.gameMode.defenceR || gameMode == StartData.gameMode.defence) && GameManager.Instance.getGameState() == GameState.EnemyTurn)
+        else if ((gameMode == StartData.gameMode.defenceR || gameMode == StartData.gameMode.defence) && GameManager.Instance.getGameState() == GameState.PlayerTurn)
         {
             if (onBoardEntities[(int)spawnR.tile.x,(int)spawnR.tile.y])
             {
                 if (onBoardEntities[(int)spawnR.tile.x,(int)spawnR.tile.y].whatTeam())
                 {
-                    flagR--;
+                    flagContested = true;
+                }
+                else
+                {
+                    flagNotBlocked = false;
                 }
             }
             if (onBoardEntities[(int)spawnR.tile.x - 1,(int)spawnR.tile.y])
             {
                 if (onBoardEntities[(int)spawnR.tile.x - 1,(int)spawnR.tile.y].whatTeam())
                 {
-                    flagR--;
+                    flagContested = true;
+                }
+                else
+                {
+                    flagNotBlocked = false;
                 }
             }
             if (onBoardEntities[(int)spawnR.tile.x,(int)spawnR.tile.y + 1])
             {
                 if (onBoardEntities[(int)spawnR.tile.x,(int)spawnR.tile.y + 1].whatTeam())
                 {
-                    flagR--;
+                    flagContested = true;
+                }
+                else
+                {
+                    flagNotBlocked = false;
                 }
             }
             if (onBoardEntities[(int)spawnR.tile.x - 1,(int)spawnR.tile.y + 1])
             {
                 if (onBoardEntities[(int)spawnR.tile.x - 1,(int)spawnR.tile.y + 1].whatTeam())
                 {
-                    flagR--;
+                    flagContested = true;
+                }
+                else
+                {
+                    flagNotBlocked = false;
                 }
             }
-            if (flagR <= 0)
+            if (flagNotBlocked && flagContested)
             {
-                GameManager.Instance.winGame(true);
+                flagR.flagDown();
             }
         }
+
+        // clock
+        if (!firstMove)
+        {
+            if (!flagContested)
+            {
+                if (gameMode == StartData.gameMode.defenceR)
+                {
+                    gameTime--;
+                    if (gameTime <= 0)
+                    {
+                        GameManager.Instance.winGame(false);
+                    }
+                }
+                else if (gameMode == StartData.gameMode.defenceB)
+                {
+                    gameTime--;
+                    if (gameTime <= 0)
+                    {
+                        GameManager.Instance.winGame(true);
+                    }
+                }
+                clockCounter.showMessage(gameTime.ToString());
+            }
+        }
+        else
+        {
+            firstMove = false;
+        }
+
     }
 
     void ClearBoardCheck(object sender, EventArgs e)
@@ -541,7 +589,8 @@ public class GridManager : MonoBehaviour
         if(gameMode == StartData.gameMode.defence || gameMode == StartData.gameMode.defenceB)
         {
             FlagB = Instantiate(FlagB, new Vector3((float)spawnB.tile.x - 0.5f * (float)spawnB.tile.y - 0.75f, (float)spawnB.tile.y + 0.5f), Quaternion.identity);
-            FlagB.GetComponent<Flag>().setLayer((int)spawnB.tile.y);
+            flagB = FlagB.GetComponent<Flag>();
+            flagB.setLayer((int)spawnB.tile.y);
         }
 
 
@@ -577,20 +626,27 @@ public class GridManager : MonoBehaviour
         if (gameMode == StartData.gameMode.defence || gameMode == StartData.gameMode.defenceR)
         {
             FlagR = Instantiate(FlagR, new Vector3(spawnR.tile.x - 0.5f * spawnR.tile.y - 0.75f, spawnR.tile.y + 0.5f), Quaternion.identity);
-            FlagR.GetComponent<Flag>().setLayer((int)spawnR.tile.y);
+            flagR = FlagR.GetComponent<Flag>();
+            flagR.setLayer((int)spawnR.tile.y);
         }
 
-        if (gameMode == StartData.gameMode.defenceR)
+        clockCounter.showMessage(gameTime.ToString());
+
+        switch(gameMode)
         {
-            TurnB += clockTick;
-        }
-        else if (gameMode == StartData.gameMode.defenceB)
-        {
-            TurnR += clockTick;
-        }
-        else if (gameMode == StartData.gameMode.defence)
-        {
-            nextTurn += clockTick;
+            case StartData.gameMode.defenceR:
+                TurnR += clockTick;
+                clockUI.SetActive(true);
+                break;
+            case StartData.gameMode.defenceB:
+                TurnB += clockTick;
+                clockUI.SetActive(true);
+                break;
+            case StartData.gameMode.defence:
+                nextTurn += clockTick;
+                break;
+            default:
+                break;
         }
 
         Turn(true);

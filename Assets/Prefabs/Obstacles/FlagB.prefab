@@ -269,4 +269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flagRenderer: {fileID: 8568364964843061531}
-  poleRenderer: {fileID: 0}
+  poleRenderer: {fileID: 2110333524114212188}
+  flagObject: {fileID: 4916850376858890016}
+  flagLevel: 4
+  side: 1
