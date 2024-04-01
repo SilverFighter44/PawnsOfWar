@@ -19,6 +19,11 @@ public class Flag : MonoBehaviour
         //poleRenderer.sortingOrder = ((_height - y - 1) * _width + 1) * _multiplier;
     }
 
+    public int getLevel()
+    {
+        return flagLevel;
+    }
+
     public void flagDown()
     {
         flagLevel--;

@@ -39,6 +39,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void gameEndDraw()
+    {
+        gameOverText.showMessage("Draw");
+    }
+
     public void ChangeGameState(GameState newState)
     {
         State = newState;

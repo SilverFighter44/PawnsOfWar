@@ -21,7 +21,7 @@ public class GridManager : MonoBehaviour
 
     StartData.gameMode gameMode;
 
-    private Spawn spawnB, spawnR;
+    private TileCoordinates flagB_Coordinates, flagR_Coordinates, spawnB, spawnR;
 
     int[,] onBoardGadgets = new int[_width, _height];
     Unit[,] onBoardEntities = new Unit[_width, _height];
@@ -48,11 +48,6 @@ public class GridManager : MonoBehaviour
     public event EventHandler TurnB;
 
     public event EventHandler TurnR;
-
-    public struct Spawn
-    {
-        public Vector2 tile; //bottom right position
-    };
 
     public struct TileCoordinates
     {
@@ -227,15 +222,15 @@ public class GridManager : MonoBehaviour
 
     void clockTick(object sender, EventArgs e)
     {
-            bool flagNotBlocked = true;
-            bool flagContested = false;
+        bool flagNotBlocked = true;
+        bool flagContested = false;
 
         //flag checks
         if ((gameMode == StartData.gameMode.defenceB || gameMode == StartData.gameMode.defence) && GameManager.Instance.getGameState() == GameState.EnemyTurn)
         {
-            if (onBoardEntities[(int)spawnB.tile.x,(int)spawnB.tile.y])
+            if (onBoardEntities[(int)flagB_Coordinates.x, (int)flagB_Coordinates.y])
             {
-                if(!onBoardEntities[(int)spawnB.tile.x,(int)spawnB.tile.y].whatTeam())
+                if (!onBoardEntities[(int)flagB_Coordinates.x, (int)flagB_Coordinates.y].whatTeam())
                 {
                     flagContested = true;
                 }
@@ -244,9 +239,9 @@ public class GridManager : MonoBehaviour
                     flagNotBlocked = false;
                 }
             }
-            if (onBoardEntities[(int)spawnB.tile.x - 1,(int)spawnB.tile.y])
+            if (onBoardEntities[(int)flagB_Coordinates.x - 1, (int)flagB_Coordinates.y])
             {
-                if (!onBoardEntities[(int)spawnB.tile.x - 1,(int)spawnB.tile.y].whatTeam())
+                if (!onBoardEntities[(int)flagB_Coordinates.x - 1, (int)flagB_Coordinates.y].whatTeam())
                 {
                     flagContested = true;
                 }
@@ -255,9 +250,9 @@ public class GridManager : MonoBehaviour
                     flagNotBlocked = false;
                 }
             }
-            if (onBoardEntities[(int)spawnB.tile.x,(int)spawnB.tile.y + 1])
+            if (onBoardEntities[(int)flagB_Coordinates.x, (int)flagB_Coordinates.y + 1])
             {
-                if (!onBoardEntities[(int)spawnB.tile.x,(int)spawnB.tile.y + 1].whatTeam())
+                if (!onBoardEntities[(int)flagB_Coordinates.x, (int)flagB_Coordinates.y + 1].whatTeam())
                 {
                     flagContested = true;
                 }
@@ -266,9 +261,9 @@ public class GridManager : MonoBehaviour
                     flagNotBlocked = false;
                 }
             }
-            if (onBoardEntities[(int)spawnB.tile.x - 1,(int)spawnB.tile.y + 1])
+            if (onBoardEntities[(int)flagB_Coordinates.x - 1, (int)flagB_Coordinates.y + 1])
             {
-                if (!onBoardEntities[(int)spawnB.tile.x - 1,(int)spawnB.tile.y + 1].whatTeam())
+                if (!onBoardEntities[(int)flagB_Coordinates.x - 1, (int)flagB_Coordinates.y + 1].whatTeam())
                 {
                     flagContested = true;
                 }
@@ -277,16 +272,16 @@ public class GridManager : MonoBehaviour
                     flagNotBlocked = false;
                 }
             }
-            if(flagNotBlocked && flagContested)
+            if (flagNotBlocked && flagContested)
             {
                 flagB.flagDown();
             }
         }
         else if ((gameMode == StartData.gameMode.defenceR || gameMode == StartData.gameMode.defence) && GameManager.Instance.getGameState() == GameState.PlayerTurn)
         {
-            if (onBoardEntities[(int)spawnR.tile.x,(int)spawnR.tile.y])
+            if (onBoardEntities[(int)flagR_Coordinates.x, (int)flagR_Coordinates.y])
             {
-                if (onBoardEntities[(int)spawnR.tile.x,(int)spawnR.tile.y].whatTeam())
+                if (onBoardEntities[(int)flagR_Coordinates.x, (int)flagR_Coordinates.y].whatTeam())
                 {
                     flagContested = true;
                 }
@@ -295,9 +290,9 @@ public class GridManager : MonoBehaviour
                     flagNotBlocked = false;
                 }
             }
-            if (onBoardEntities[(int)spawnR.tile.x - 1,(int)spawnR.tile.y])
+            if (onBoardEntities[(int)flagR_Coordinates.x - 1, (int)flagR_Coordinates.y])
             {
-                if (onBoardEntities[(int)spawnR.tile.x - 1,(int)spawnR.tile.y].whatTeam())
+                if (onBoardEntities[(int)flagR_Coordinates.x - 1, (int)flagR_Coordinates.y].whatTeam())
                 {
                     flagContested = true;
                 }
@@ -306,9 +301,9 @@ public class GridManager : MonoBehaviour
                     flagNotBlocked = false;
                 }
             }
-            if (onBoardEntities[(int)spawnR.tile.x,(int)spawnR.tile.y + 1])
+            if (onBoardEntities[(int)flagR_Coordinates.x, (int)flagR_Coordinates.y + 1])
             {
-                if (onBoardEntities[(int)spawnR.tile.x,(int)spawnR.tile.y + 1].whatTeam())
+                if (onBoardEntities[(int)flagR_Coordinates.x, (int)flagR_Coordinates.y + 1].whatTeam())
                 {
                     flagContested = true;
                 }
@@ -317,9 +312,9 @@ public class GridManager : MonoBehaviour
                     flagNotBlocked = false;
                 }
             }
-            if (onBoardEntities[(int)spawnR.tile.x - 1,(int)spawnR.tile.y + 1])
+            if (onBoardEntities[(int)flagR_Coordinates.x - 1, (int)flagR_Coordinates.y + 1])
             {
-                if (onBoardEntities[(int)spawnR.tile.x - 1,(int)spawnR.tile.y + 1].whatTeam())
+                if (onBoardEntities[(int)flagR_Coordinates.x - 1, (int)flagR_Coordinates.y + 1].whatTeam())
                 {
                     flagContested = true;
                 }
@@ -335,34 +330,102 @@ public class GridManager : MonoBehaviour
         }
 
         // clock
+
         if (!firstMove)
         {
-            if (!flagContested)
+            if (gameMode == StartData.gameMode.defenceR || gameMode == StartData.gameMode.defenceB)
             {
-                if (gameMode == StartData.gameMode.defenceR)
+                if (!flagContested)
                 {
-                    gameTime--;
-                    if (gameTime <= 0)
+                    if (gameMode == StartData.gameMode.defenceR)
                     {
-                        GameManager.Instance.winGame(false);
+                        gameTime--;
+                        if (gameTime <= 0)
+                        {
+                            GameManager.Instance.winGame(false);
+                        }
                     }
-                }
-                else if (gameMode == StartData.gameMode.defenceB)
-                {
-                    gameTime--;
-                    if (gameTime <= 0)
+                    else if (gameMode == StartData.gameMode.defenceB)
                     {
-                        GameManager.Instance.winGame(true);
+                        gameTime--;
+                        if (gameTime <= 0)
+                        {
+                            GameManager.Instance.winGame(true);
+                        }
                     }
+                    clockCounter.showMessage(gameTime.ToString());
                 }
+            }
+            else
+            {
+                gameTime--;
                 clockCounter.showMessage(gameTime.ToString());
+                if (gameTime <= 0)
+                {
+                    CheckTheEndScore();
+                }
             }
         }
         else
         {
             firstMove = false;
         }
+    }
 
+    void CheckTheEndScore()
+    {
+        int _ScoreB = 0, _ScoreR = 0;
+        if(pO1)
+        {
+            _ScoreB += pO1.GetComponent<Unit>().whatHP();
+        }
+        if (pO2)
+        {
+            _ScoreB += pO2.GetComponent<Unit>().whatHP();
+        }
+        if (pO3)
+        {
+            _ScoreB += pO3.GetComponent<Unit>().whatHP();
+        }
+        if (pO4)
+        {
+            _ScoreB += pO4.GetComponent<Unit>().whatHP();
+        }
+        if (eO1)
+        {
+            _ScoreR += eO1.GetComponent<Unit>().whatHP();
+        }
+        if (eO2)
+        {
+            _ScoreR += eO2.GetComponent<Unit>().whatHP();
+        }
+        if (eO3)
+        {
+            _ScoreR += eO3.GetComponent<Unit>().whatHP();
+        }
+        if (eO4)
+        {
+            _ScoreR += eO4.GetComponent<Unit>().whatHP();
+        }
+
+        if(gameMode == StartData.gameMode.defence)
+        {
+            _ScoreB += flagB.getLevel() * 50;
+            _ScoreR += flagR.getLevel() * 50;
+        }
+
+        if (_ScoreB > _ScoreR)
+        {
+            GameManager.Instance.winGame(true);
+        }
+        else if (_ScoreB < _ScoreR)
+        {
+            GameManager.Instance.winGame(false);
+        }
+        else
+        {
+            GameManager.Instance.gameEndDraw();
+        }
     }
 
     void ClearBoardCheck(object sender, EventArgs e)
@@ -480,8 +543,8 @@ public class GridManager : MonoBehaviour
         }
 
         //_width = 16, _height = 8
-
-        int[,] _BoardConnectionGridX = new int[8, 15]{
+                                                                        // To delete after reworking map edit   {
+        int[,] _BoardConnectionGridX = new int[8, 15]{                  
                 { 0, 0, 1, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                 { 0, 0, 3, 0, 0, 3, 3, 0, 3, 0, 3, 0, 0, 3, 0},
                 { 0, 0, 0, 0, 0, 0, 2, 0, 3, 0, 1, 0, 0, 3, 0},
@@ -502,8 +565,12 @@ public class GridManager : MonoBehaviour
                 { 0, 0, 0, 1, 3, 0, 0, 0, 2, 0, 0, 2, 3, 0, 0, 0},
                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
 
-        spawnB.tile = new Vector2 (1, 3);                             // To improve when reworking map edit
-        spawnR.tile = new Vector2 (15, 3);
+        spawnB = new TileCoordinates (1, 3);                             
+        spawnR = new TileCoordinates (15, 3);
+        flagB_Coordinates = new TileCoordinates(4, 6);
+        flagR_Coordinates = new TileCoordinates(12, 6);
+                                                                        // To delete after reworking map edit   }
+
 
         for (int x = 0; x < _height; x++)
         {
@@ -708,7 +775,7 @@ public class GridManager : MonoBehaviour
     {
         StartData.GameSettingsData data = StartData.Instance.getData();
         gameMode = data.GameMode;
-        pO1 = Instantiate(UnitPrefab, new Vector3(-1 , 4), Quaternion.identity);
+        pO1 = Instantiate(UnitPrefab, new Vector3(-1 , 4), Quaternion.identity); //make with coords
         pO1.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
         onBoardEntities[1, 4] = pO1.GetComponent<Unit>();
         onBoardEntities[1, 4].SetPosition(4, 1);
@@ -738,13 +805,13 @@ public class GridManager : MonoBehaviour
 
         if(gameMode == StartData.gameMode.defence || gameMode == StartData.gameMode.defenceB)
         {
-            FlagB = Instantiate(FlagB, new Vector3((float)spawnB.tile.x - 0.5f * (float)spawnB.tile.y - 0.75f, (float)spawnB.tile.y + 0.5f), Quaternion.identity);
+            FlagB = Instantiate(FlagB, new Vector3((float)flagB_Coordinates.x - 0.5f * (float)flagB_Coordinates.y - 0.75f, (float)flagB_Coordinates.y + 0.5f), Quaternion.identity);
             flagB = FlagB.GetComponent<Flag>();
-            flagB.setLayer((int)spawnB.tile.y);
+            flagB.setLayer((int)flagB_Coordinates.y);
         }
 
 
-        eO1 = Instantiate(UnitPrefab, new Vector3(_width - 4, 4), Quaternion.identity);
+        eO1 = Instantiate(UnitPrefab, new Vector3(_width - 4, 4), Quaternion.identity); //make with coords
         eO1.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
         onBoardEntities[_width - 2, 4] = eO1.GetComponent<Unit>();
         onBoardEntities[_width - 2, 4].SetPosition(4, _width - 2);
@@ -775,9 +842,9 @@ public class GridManager : MonoBehaviour
 
         if (gameMode == StartData.gameMode.defence || gameMode == StartData.gameMode.defenceR)
         {
-            FlagR = Instantiate(FlagR, new Vector3(spawnR.tile.x - 0.5f * spawnR.tile.y - 0.75f, spawnR.tile.y + 0.5f), Quaternion.identity);
+            FlagR = Instantiate(FlagR, new Vector3(flagR_Coordinates.x - 0.5f * flagR_Coordinates.y - 0.75f, flagR_Coordinates.y + 0.5f), Quaternion.identity);
             flagR = FlagR.GetComponent<Flag>();
-            flagR.setLayer((int)spawnR.tile.y);
+            flagR.setLayer((int)flagR_Coordinates.y);
         }
 
         clockCounter.showMessage(gameTime.ToString());
@@ -792,10 +859,11 @@ public class GridManager : MonoBehaviour
                 TurnB += clockTick;
                 clockUI.SetActive(true);
                 break;
-            case StartData.gameMode.defence:
-                nextTurn += clockTick;
-                break;
             default:
+                gameTime *= 2;
+                clockCounter.showMessage(gameTime.ToString());
+                nextTurn += clockTick;
+                clockUI.SetActive(true);
                 break;
         }
 
