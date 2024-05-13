@@ -40,6 +40,9 @@ public class GridManager : MonoBehaviour
     [SerializeField] private UI_ClassSymbol UnitControlsSymbol;
 
     [SerializeField] private bool turnSide;
+    public enum tileType { blank = 0, cobblestone, sand, sandRoad, woodenFloor1 };
+    public enum wallType { wall = 0, window, frame, hole };
+    public enum wallTexture { brick1 = 0, brick2 };
 
     public event EventHandler destroyHighlights;
 
@@ -870,7 +873,7 @@ public class GridManager : MonoBehaviour
         Turn(true);
     }
 
-    public bool IsMouseOverUI()
+    public static bool IsMouseOverUI()
     {
         //return EventSystem.current.IsPointerOverGameObject();
         PointerEventData pointerEventData = new PointerEventData(EventSystem.current);

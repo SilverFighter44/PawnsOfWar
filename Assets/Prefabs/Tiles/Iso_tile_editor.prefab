@@ -94,12 +94,12 @@ GameObject:
   m_Component:
   - component: {fileID: 6487942884069011959}
   - component: {fileID: 8140908916323376896}
-  - component: {fileID: 9129644445015227944}
+  - component: {fileID: -3101055303359485565}
   - component: {fileID: -1960020721554183712}
   - component: {fileID: -1846000103915949130}
   - component: {fileID: -8504216547454566270}
   m_Layer: 0
-  m_Name: Iso_tile
+  m_Name: Iso_tile_editor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -162,7 +162,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -10
-  m_Sprite: {fileID: 470663458, guid: 099592a2a3f58544e8cb4fe78888f606, type: 3}
+  m_Sprite: {fileID: 185447859, guid: 099592a2a3f58544e8cb4fe78888f606, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -173,7 +173,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &9129644445015227944
+--- !u!114 &-3101055303359485565
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -182,11 +182,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7941601974166385466}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7006565f02f8e39409a8c630d9b69eb5, type: 3}
+  m_Script: {fileID: 11500000, guid: 2064ba7b12f5ca34abff9ead2286b827, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseColor: {r: 0.54901963, g: 0.54901963, b: 0.54901963, a: 1}
-  _offsetColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
+  _baseColor: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 1}
+  _offsetColor: {r: 0.3529412, g: 0.33333334, b: 0.3137255, a: 1}
   _renderer: {fileID: 8140908916323376896}
   _highlight: {fileID: 6058510379000748362}
   x: 0
@@ -270,6 +270,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_CategoryHash: 5.6293514e-21
-  m_labelHash: 3.3439085e-10
+  m_labelHash: 0.11470676
   m_SpriteKey: 0
-  m_SpriteHash: 379458926
+  m_SpriteHash: 937328759

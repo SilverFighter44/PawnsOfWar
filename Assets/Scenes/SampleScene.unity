@@ -2832,12 +2832,12 @@ MonoBehaviour:
   EnemyHighlight: {fileID: 3363500139071717240, guid: 64c9748c53594ed4ab77304d379fb041, type: 3}
   FOVHighlight: {fileID: 7419939873822854447, guid: bff0b9c6a370d5c4f8414288991e3f29, type: 3}
   GadgetHighlight: {fileID: 7419939873822854447, guid: 234a7abdee1af604880da273868cfcbd, type: 3}
-  WallX: {fileID: 2088473938536952124, guid: a16192f022b7ee34e963024adb1d8395, type: 3}
-  WallY: {fileID: 6830831735861649736, guid: 2fcbc072fddcb2c46b287b83caaf6d59, type: 3}
-  WindowFrameX: {fileID: 4801644566385160232, guid: e008b73e2ed7bac4c8ccb471717e9622, type: 3}
-  WindowFrameY: {fileID: 7760997457047093317, guid: cca2ee34ba21c7e49835404ab220052e, type: 3}
-  DoorFrameX: {fileID: 2196373385304139829, guid: 7a1ad120a7b7a464c9f0c6eb0fa9d8dc, type: 3}
-  DoorFrameY: {fileID: 358146286035222731, guid: 26b06f37e2bfbbe48ac9750cecfed9b9, type: 3}
+  WallX: {fileID: 2731354888910404075, guid: 47cad08c3103fed47b97a67b573aac26, type: 3}
+  WallY: {fileID: 3805883119504184198, guid: 8d23b47a413a557489a3b639bd3633d9, type: 3}
+  WindowFrameX: {fileID: 2731354888910404075, guid: 2e90e0518a36eee4ba642a533a12cf1e, type: 3}
+  WindowFrameY: {fileID: 3805883119504184198, guid: 27679e921d6d7694fac17005f00e03bf, type: 3}
+  DoorFrameX: {fileID: 2731354888910404075, guid: 5b258648a9caa8c4895850c6aad78566, type: 3}
+  DoorFrameY: {fileID: 3805883119504184198, guid: cdc047246dcd6a0479d1602637d50a96, type: 3}
   UnitPrefab: {fileID: 123563950298391053, guid: f88eee9b5f956b14dbbc01238417ebde, type: 3}
   WallHitBox: {fileID: 7141544087334103226, guid: 9136e6e0db765d443a20e537e4bbbaca, type: 3}
   WindowHitBox: {fileID: 102715895218155874, guid: a7911792490389642b6b86b1bd9f35c7, type: 3}

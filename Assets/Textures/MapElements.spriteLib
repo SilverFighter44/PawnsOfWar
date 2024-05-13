@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5e6fedc2472449cead18ef23b5cb30d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Library:
+  - m_Name: Tiles
+    m_Hash: 500476863
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: Blank
+      m_Hash: 1038805857
+      m_Sprite: {fileID: 185447859, guid: 099592a2a3f58544e8cb4fe78888f606, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 185447859, guid: 099592a2a3f58544e8cb4fe78888f606, type: 3}
+    - m_Name: Cobblestone
+      m_Hash: 800576852
+      m_Sprite: {fileID: 470663458, guid: 099592a2a3f58544e8cb4fe78888f606, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 470663458, guid: 099592a2a3f58544e8cb4fe78888f606, type: 3}
+    - m_Name: WoodFloor1
+      m_Hash: 611345128
+      m_Sprite: {fileID: 923038900, guid: 099592a2a3f58544e8cb4fe78888f606, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 923038900, guid: 099592a2a3f58544e8cb4fe78888f606, type: 3}
+    - m_Name: SandRoad
+      m_Hash: 430991145
+      m_Sprite: {fileID: -921343322, guid: 099592a2a3f58544e8cb4fe78888f606, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -921343322, guid: 099592a2a3f58544e8cb4fe78888f606, type: 3}
+    - m_Name: Sand
+      m_Hash: 4734255
+      m_Sprite: {fileID: -921538613, guid: 099592a2a3f58544e8cb4fe78888f606, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -921538613, guid: 099592a2a3f58544e8cb4fe78888f606, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 5
+  m_PrimaryLibraryGUID: 
+  m_ModificationHash: 638491287091976667
+  m_Version: 1

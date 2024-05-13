@@ -42,7 +42,7 @@ public class Unit : MonoBehaviour
 
     [SerializeField] private bool canMove, canShoot, team, crouched, gadgetActive, gadget1Active;
     [SerializeField] private TextMeshPro unitNumberDisplay;
-    [SerializeField] private UnityEngine.U2D.Animation.SpriteResolver unitTshirt, unitTshirtL, unitTshirtR, unitShirt, unitShirtUpL, unitShirtUpR, unitShirtDnL, unitShirtDnR, unitPants, unitPantsUpL, unitPantsUpR, unitPantsDnL, unitPantsDnR, unitHelmet, unitHelmetBackground, unitBootsUpL, unitBootsUpR, unitBootsDnL, unitBootsDnR, unitRig, unitAmmoPouch;
+    [SerializeField] private UnityEngine.U2D.Animation.SpriteResolver unitShirt, unitShirtUpL, unitShirtUpR, unitShirtDnL, unitShirtDnR, unitPants, unitPantsUpL, unitPantsUpR, unitPantsDnL, unitPantsDnR, unitHelmet, unitHelmetBackground, unitBootsUpL, unitBootsUpR, unitBootsDnL, unitBootsDnR, unitRig, unitAmmoPouch;
     [SerializeField] private Project.WeaponData.WeaponManager weaponManager;
     [SerializeField] private Animator unitAnimator, faceAnimator;
     [SerializeField] private Vector3 onGridPosition;
@@ -412,9 +412,6 @@ public class Unit : MonoBehaviour
     
     private void DressUp (string setName, string ammoType)
     {
-        unitTshirt.SetCategoryAndLabel(unitTshirt.GetCategory(), setName + "Shirt");
-        unitTshirtL.SetCategoryAndLabel(unitTshirtL.GetCategory(), setName + "ShirtL");
-        unitTshirtR.SetCategoryAndLabel(unitTshirtR.GetCategory(), setName + "ShirtR");
         unitShirt.SetCategoryAndLabel(unitShirt.GetCategory(), setName + "UniformShirt");
         unitShirtUpL.SetCategoryAndLabel(unitShirtUpL.GetCategory(), setName + "UniformShirtUpL");
         unitShirtUpR.SetCategoryAndLabel(unitShirtUpR.GetCategory(), setName + "UniformShirtUpR");

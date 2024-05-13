@@ -9,9 +9,17 @@ public class CameraController : MonoBehaviour
     Vector3 defaultPosition;
     [SerializeField] private float minZoom = 0.5f, maxZoom = 6f;
     private Vector3 dragOrigin;
+    [SerializeField] private bool cameraDragging = true;
+
+    [SerializeField] private float outerLeft = 0f, outerRight, outerDown = 0f, outerUp;
 
 
-
+    public void SetBorders(int width, int height)
+    {
+        outerLeft = height * -0.5f;
+        outerRight = width;
+        outerUp = height;
+    }
 
     public void SetDefaultPosition(float x, float y)
     {
@@ -58,9 +66,6 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    [SerializeField] private bool cameraDragging = true;
-
-    [SerializeField] private float outerLeft = 0f, outerRight = 12f, outerDown = 0f, outerUp = 7f;
 
     void LateUpdate()
     {

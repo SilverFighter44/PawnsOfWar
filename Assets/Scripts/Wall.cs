@@ -6,13 +6,22 @@ public class Wall : MonoBehaviour
 {
     public int wallType;
     public bool hidden;
-    [SerializeField] private SpriteRenderer spriteRenderer, frontFrameSpriteRenderer;
+    [SerializeField] private SpriteRenderer[] mainRenderers, frontFrameRenderers;
+    [SerializeField] private GameObject mainParts, frontParts;
 
     public void hide()
     {
         if(!hidden)
         {
-            spriteRenderer.color -= new Color(0, 0, 0, 0.50f);
+            //spriteRenderer.color -= new Color(0, 0, 0, 0.50f);
+            for (int i = 0; i < frontFrameRenderers.Length; i++)
+            {
+                frontFrameRenderers[i].color -= new Color(0, 0, 0, 0.50f);
+            }
+            for (int i = 0; i < mainRenderers.Length; i++)
+            {
+                mainRenderers[i].color -= new Color(0, 0, 0, 0.50f);
+            }
             hidden = true;
         }
     }
@@ -21,7 +30,15 @@ public class Wall : MonoBehaviour
     {
         if(hidden)
         {
-            spriteRenderer.color += new Color(0, 0, 0, 0.50f);
+            //spriteRenderer.color += new Color(0, 0, 0, 0.50f);
+            for (int i = 0; i < frontFrameRenderers.Length; i++)
+            {
+                frontFrameRenderers[i].color += new Color(0, 0, 0, 0.50f);
+            }
+            for (int i = 0; i < mainRenderers.Length; i++)
+            {
+                mainRenderers[i].color += new Color(0, 0, 0, 0.50f);
+            }
             hidden = false;
         }
     }
@@ -31,21 +48,28 @@ public class Wall : MonoBehaviour
         int _multiplier = StartData.Instance.getLayerMultiplier();
         int _width = GridManager.Instance.getWidth();
         int _height = GridManager.Instance.getHeight();
-        if(isHorizontal)
+        mainRenderers = mainParts.GetComponentsInChildren<SpriteRenderer>();
+        frontFrameRenderers = frontParts.GetComponentsInChildren<SpriteRenderer>();
+        if (isHorizontal)
         {
-            if(frontFrameSpriteRenderer)
+            //frontFrameSpriteRenderer.sortingOrder = (((_height - x - 1) * _width + _width - y - 2) + 2) * _multiplier;    //adjust layers
+            //spriteRenderer.sortingOrder = ((_height - x - 1) * _width + 1) * _multiplier;
+            for (int i = 0; i < frontFrameRenderers.Length; i++)
             {
-                frontFrameSpriteRenderer.sortingOrder = (((_height - x - 1) * _width + _width - y - 2) + 2 ) * _multiplier;
-                spriteRenderer.sortingOrder = ((_height - x - 1) * _width + 1) * _multiplier;
+                frontFrameRenderers[i].sortingOrder = (((_height - x - 1) * _width + _width - y - 2) + 2) * _multiplier;
             }
-            else
+            for (int i = 0; i < mainRenderers.Length; i++)
             {
-                spriteRenderer.sortingOrder = (((_height - x - 1) * _width + _width - y - 2) + 2 ) * _multiplier;
+                mainRenderers[i].sortingOrder = ((_height - x - 1) * _width + 1) * _multiplier;
             }
         }
         else
         {
-            spriteRenderer.sortingOrder = ((_height - x - 1) * _width + 1) * _multiplier;
+            //spriteRenderer.sortingOrder = ((_height - x - 1) * _width + 1) * _multiplier;
+            for(int i = 0; i < mainRenderers.Length; i++)
+            {
+                mainRenderers[i].sortingOrder = ((_height - x - 1) * _width + 1) * _multiplier - y;
+            }
         }
     }
 }
