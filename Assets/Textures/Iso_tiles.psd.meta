@@ -566,8 +566,8 @@ TextureImporter:
       name: Coblestone_Tile
       rect:
         serializedVersion: 2
-        x: 174
-        y: 719
+        x: 390
+        y: 587
         width: 150
         height: 100
       alignment: 0
