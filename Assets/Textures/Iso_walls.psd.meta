@@ -872,8 +872,8 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 220
-        y: 682
-        width: 40
+        y: 791
+        width: 39
         height: 8
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -886,9 +886,9 @@ TextureImporter:
       internalID: -1354403082
       vertices:
       - {x: 0, y: 0}
-      - {x: 40, y: 0}
+      - {x: 39, y: 0}
       - {x: 0, y: 8}
-      - {x: 40, y: 8}
+      - {x: 39, y: 8}
       indices: 000000000200000001000000010000000200000003000000
       edges:
       - {x: 0, y: 1}
@@ -1665,7 +1665,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 288
-        y: 679
+        y: 788
         width: 8
         height: 33
       alignment: 0
@@ -1787,7 +1787,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 263
-        y: 679
+        y: 788
         width: 15
         height: 30
       alignment: 0
@@ -1910,8 +1910,8 @@ TextureImporter:
         serializedVersion: 2
         x: 316
         y: 722
-        width: 3
-        height: 104
+        width: 4
+        height: 106
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1923,9 +1923,9 @@ TextureImporter:
       internalID: -1523409470
       vertices:
       - {x: 0, y: 0}
-      - {x: 3, y: 0}
-      - {x: 0, y: 104}
-      - {x: 3, y: 104}
+      - {x: 4, y: 0}
+      - {x: 0, y: 106}
+      - {x: 4, y: 106}
       indices: 000000000200000001000000010000000200000003000000
       edges:
       - {x: 0, y: 1}
@@ -2030,8 +2030,8 @@ TextureImporter:
       name: BickWall_V_Y
       rect:
         serializedVersion: 2
-        x: 320
-        y: 628
+        x: 321
+        y: 737
         width: 8
         height: 83
       alignment: 0
@@ -2048,6 +2048,128 @@ TextureImporter:
       - {x: 8, y: 0}
       - {x: 0, y: 83}
       - {x: 8, y: 83}
+      indices: 000000000200000001000000010000000200000003000000
+      edges:
+      - {x: 0, y: 1}
+      - {x: 0, y: 2}
+      - {x: 1, y: 3}
+      - {x: 2, y: 3}
+      weights:
+      - weight[0]: 0
+        weight[1]: 0
+        weight[2]: 0
+        weight[3]: 0
+        boneIndex[0]: 0
+        boneIndex[1]: 0
+        boneIndex[2]: 0
+        boneIndex[3]: 0
+      - weight[0]: 0
+        weight[1]: 0
+        weight[2]: 0
+        weight[3]: 0
+        boneIndex[0]: 0
+        boneIndex[1]: 0
+        boneIndex[2]: 0
+        boneIndex[3]: 0
+      - weight[0]: 0
+        weight[1]: 0
+        weight[2]: 0
+        weight[3]: 0
+        boneIndex[0]: 0
+        boneIndex[1]: 0
+        boneIndex[2]: 0
+        boneIndex[3]: 0
+      - weight[0]: 0
+        weight[1]: 0
+        weight[2]: 0
+        weight[3]: 0
+        boneIndex[0]: 0
+        boneIndex[1]: 0
+        boneIndex[2]: 0
+        boneIndex[3]: 0
+    - serializedVersion: 2
+      name: BickWall_H_Z
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 722
+        width: 4
+        height: 89
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e53fc6856a285004e9eede6ada870f53
+      internalID: -1155922997
+      vertices:
+      - {x: 0, y: 0}
+      - {x: 4, y: 0}
+      - {x: 0, y: 89}
+      - {x: 4, y: 89}
+      indices: 000000000200000001000000010000000200000003000000
+      edges:
+      - {x: 0, y: 1}
+      - {x: 0, y: 2}
+      - {x: 1, y: 3}
+      - {x: 2, y: 3}
+      weights:
+      - weight[0]: 0
+        weight[1]: 0
+        weight[2]: 0
+        weight[3]: 0
+        boneIndex[0]: 0
+        boneIndex[1]: 0
+        boneIndex[2]: 0
+        boneIndex[3]: 0
+      - weight[0]: 0
+        weight[1]: 0
+        weight[2]: 0
+        weight[3]: 0
+        boneIndex[0]: 0
+        boneIndex[1]: 0
+        boneIndex[2]: 0
+        boneIndex[3]: 0
+      - weight[0]: 0
+        weight[1]: 0
+        weight[2]: 0
+        weight[3]: 0
+        boneIndex[0]: 0
+        boneIndex[1]: 0
+        boneIndex[2]: 0
+        boneIndex[3]: 0
+      - weight[0]: 0
+        weight[1]: 0
+        weight[2]: 0
+        weight[3]: 0
+        boneIndex[0]: 0
+        boneIndex[1]: 0
+        boneIndex[2]: 0
+        boneIndex[3]: 0
+    - serializedVersion: 2
+      name: BickWall_H_Y
+      rect:
+        serializedVersion: 2
+        x: 335
+        y: 722
+        width: 4
+        height: 39
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c222ecb29859c345b30dd61b9681eb3
+      internalID: -1741361171
+      vertices:
+      - {x: 0, y: 0}
+      - {x: 4, y: 0}
+      - {x: 0, y: 39}
+      - {x: 4, y: 39}
       indices: 000000000200000001000000010000000200000003000000
       edges:
       - {x: 0, y: 1}
@@ -2112,6 +2234,8 @@ TextureImporter:
       BickWall_H_O: -1354403082
       BickWall_H_P: 1394402431
       BickWall_H_Q: -1523409470
+      BickWall_H_Y: -1741361171
+      BickWall_H_Z: -922484801
       BickWall_V_A: -1850375879
       BickWall_V_B: -530653990
       BickWall_V_C: 438885608
@@ -2137,7 +2261,6 @@ TextureImporter:
       Door_SideB: -26632703
       Iso_tiles_2: -464774236
       Iso_tiles_3: 2023669950
-      Iso_walls_0: -922484801
       Parque1_Tile: 923038900
       SandRoad_Tile: -921343322
       Sand_Tile: -921538613
