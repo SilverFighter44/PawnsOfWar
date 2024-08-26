@@ -16,12 +16,12 @@ public class EditorTile : MonoBehaviour
 
     private void Start()
     {
-        MapEditor.Instance.clearMap += deleteTile;
+        MapEditor.Instance.resetPreview += deleteTile;
     }
 
     public void deleteTile(object sender, EventArgs e)
     {
-        MapEditor.Instance.clearMap -= deleteTile;
+        MapEditor.Instance.resetPreview -= deleteTile;
         Destroy(gameObject);
     }
 
@@ -46,7 +46,7 @@ public class EditorTile : MonoBehaviour
 
     void Update()
     {
-        if ((Input.GetButtonDown("Fire1") && mouseOnTile) && !GridManager.IsMouseOverUI())
+        if ((Input.GetButton("Fire1") && mouseOnTile) && !GridManager.IsMouseOverUI())
         {
             MapEditor.Instance.OnTileClick(x, y);
         }

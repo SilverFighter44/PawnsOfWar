@@ -214,7 +214,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d481739ac4963bc4cb0ed2f14acc2163, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wallType: 2
   hidden: 0
-  spriteRenderer: {fileID: 121264535987109182}
-  frontFrameSpriteRenderer: {fileID: 9068443401155108238}
+  mainRenderers: []
+  frontFrameRenderers: []
+  mainParts: {fileID: 0}
+  frontParts: {fileID: 0}
+  type: 2

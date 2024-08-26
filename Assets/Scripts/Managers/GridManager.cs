@@ -11,38 +11,38 @@ public class GridManager : MonoBehaviour
 
     [SerializeField] private static int _width = 16, _height = 8;
 
-    [SerializeField] private Tile _tilePrefab;
+    [SerializeField] private GameObject TilePrefab, MoveHighlight, EnemyHighlight, FOVHighlight, GadgetHighlight, WallX, WallY, WindowFrameX, WindowFrameY, DoorFrameX, DoorFrameY, HalfWallX, HalfWallY, UnitPrefab, UnitControlsUI, clockUI, FlagB, FlagR, ShrapnelGroup, SmokeHitbox, Smoke;
 
-    [SerializeField] private GameObject MoveHighlight, EnemyHighlight, FOVHighlight, GadgetHighlight, WallX, WallY, WindowFrameX, WindowFrameY, DoorFrameX, DoorFrameY, UnitPrefab, WallHitBox, WindowHitBox, DoorHitBox, UnitControlsUI, clockUI, FlagB, FlagR, ShrapnelGroup, SmokeHitbox, Smoke;
-
-    [SerializeField] private MovesCount B1Count, B2Count, B3Count, B4Count, R1Count, R2Count, R3Count, R4Count;
+    [SerializeField] private List<MovesCount> movesCounts = new List<MovesCount>();
 
     [SerializeField] private CameraController cameraController;
 
+    [SerializeField] private StartData.GameSettingsData data;
+
+    [SerializeField] private GridTools.Map currentMap;
+    [SerializeField] private GridTools.MapPreview currentPreview;
+
     StartData.gameMode gameMode;
 
-    private TileCoordinates flagB_Coordinates, flagR_Coordinates, spawnB, spawnR;
+    private TileCoordinates flagB_Coordinates, flagR_Coordinates;
 
-    int[,] onBoardGadgets = new int[_width, _height];
-    Unit[,] onBoardEntities = new Unit[_width, _height];
-    GameObject[,] boardCheck = new GameObject[_width, _height];    // array of highlights (attack and move)
-    Wall[,] BoardConnectionGridX = new Wall[_height, _width - 1];
-    Wall[,] BoardConnectionGridY = new Wall[_height - 1, _width];
+    int[,] onBoardGadgets;
+    Unit[,] onBoardEntities;
+    GameObject[,] boardCheck;    // array of highlights (attack and move)
+    Wall[,] BoardConnectionGridX;
+    Wall[,] BoardConnectionGridY;
 
-    [SerializeField] private GameObject pO1, pO2, pO3, pO4, eO1, eO2, eO3, eO4;
+    [SerializeField] private GameObject[] blueTeam, redTeam;
 
     Flag flagB, flagR;
     int activeX = 0, activeY = 0, passiveX = 0, passiveY = 0, teamB = 4, teamR = 4, gameTime = 10;
     bool active = false, passive = false, turnActive = false, moveHighlightsOn = false, unitIsSelected = false, cameraZoomed = false, firstMove = true;
-    Unit selectedUnit;
+    public Unit selectedUnit;
 
     [SerializeField] private TextWriter UnitControlsHP, UnitControlsAmmo, UnitControlsNumber, UnitControlsMoves, clockCounter;
     [SerializeField] private UI_ClassSymbol UnitControlsSymbol;
 
     [SerializeField] private bool turnSide;
-    public enum tileType { blank = 0, cobblestone, sand, sandRoad, woodenFloor1 };
-    public enum wallType { wall = 0, window, frame, hole };
-    public enum wallTexture { brick1 = 0, brick2 };
 
     public event EventHandler destroyHighlights;
 
@@ -52,15 +52,16 @@ public class GridManager : MonoBehaviour
 
     public event EventHandler TurnR;
 
+    [System.Serializable]
     public struct TileCoordinates
     {
+        public int x;
+        public int y;
         public TileCoordinates(int x, int y)
         {
             this.x = x;
             this.y = y;
         }
-        public int x;
-        public int y;
     }
 
     public List<TileCoordinates> MidpointCircleAlgorithmScan(int x, int y, int range, bool centerIncluded)
@@ -102,7 +103,7 @@ public class GridManager : MonoBehaviour
         for (int i = 1; i <= m - y; i++)
         {
             float pktE = (float)(Math.Sqrt(i * i + (m - y) * (m - y))), pktSE = (float)(Math.Sqrt(i * i + (m - y - 1) * (m - y - 1)));
-            float ra = absDif(pktE, range), rb = absDif(pktSE, range);
+            float ra = Helper.absDif(pktE, range), rb = Helper.absDif(pktSE, range); 
             if (ra > rb)
             {
                 m--;
@@ -171,7 +172,7 @@ public class GridManager : MonoBehaviour
             _diagonalsB = (m - 1) * (float)(Math.Sqrt(2));
         }
 
-        if (absDif(_diagonalsA, range) > absDif(_diagonalsB, range))
+        if (Helper.absDif(_diagonalsA, range) > Helper.absDif(_diagonalsB, range))
         {
             m--;
         }
@@ -201,7 +202,12 @@ public class GridManager : MonoBehaviour
 
         return detectedObjects;
     }
-    
+
+    public void setDimmentions (int newWidth, int newHeight)
+    {
+        _width = newWidth;
+        _height = newHeight;
+    }
 
     public void eliminateUnit(bool team)
     {
@@ -231,9 +237,9 @@ public class GridManager : MonoBehaviour
         //flag checks
         if ((gameMode == StartData.gameMode.defenceB || gameMode == StartData.gameMode.defence) && GameManager.Instance.getGameState() == GameState.EnemyTurn)
         {
-            if (onBoardEntities[(int)flagB_Coordinates.x, (int)flagB_Coordinates.y])
+            if (onBoardEntities[currentMap.gameplayObjects[0].Value.x, currentMap.gameplayObjects[0].Value.y])
             {
-                if (!onBoardEntities[(int)flagB_Coordinates.x, (int)flagB_Coordinates.y].whatTeam())
+                if (!onBoardEntities[currentMap.gameplayObjects[0].Value.x, currentMap.gameplayObjects[0].Value.y].whatTeam())
                 {
                     flagContested = true;
                 }
@@ -242,9 +248,9 @@ public class GridManager : MonoBehaviour
                     flagNotBlocked = false;
                 }
             }
-            if (onBoardEntities[(int)flagB_Coordinates.x - 1, (int)flagB_Coordinates.y])
+            if (onBoardEntities[currentMap.gameplayObjects[0].Value.x - 1, currentMap.gameplayObjects[0].Value.y])
             {
-                if (!onBoardEntities[(int)flagB_Coordinates.x - 1, (int)flagB_Coordinates.y].whatTeam())
+                if (!onBoardEntities[currentMap.gameplayObjects[0].Value.x - 1, currentMap.gameplayObjects[0].Value.y].whatTeam())
                 {
                     flagContested = true;
                 }
@@ -253,9 +259,9 @@ public class GridManager : MonoBehaviour
                     flagNotBlocked = false;
                 }
             }
-            if (onBoardEntities[(int)flagB_Coordinates.x, (int)flagB_Coordinates.y + 1])
+            if (onBoardEntities[currentMap.gameplayObjects[0].Value.x, currentMap.gameplayObjects[0].Value.y - 1])
             {
-                if (!onBoardEntities[(int)flagB_Coordinates.x, (int)flagB_Coordinates.y + 1].whatTeam())
+                if (!onBoardEntities[currentMap.gameplayObjects[0].Value.x, currentMap.gameplayObjects[0].Value.y - 1].whatTeam())
                 {
                     flagContested = true;
                 }
@@ -264,9 +270,9 @@ public class GridManager : MonoBehaviour
                     flagNotBlocked = false;
                 }
             }
-            if (onBoardEntities[(int)flagB_Coordinates.x - 1, (int)flagB_Coordinates.y + 1])
+            if (onBoardEntities[currentMap.gameplayObjects[0].Value.x - 1, currentMap.gameplayObjects[0].Value.y - 1])
             {
-                if (!onBoardEntities[(int)flagB_Coordinates.x - 1, (int)flagB_Coordinates.y + 1].whatTeam())
+                if (!onBoardEntities[currentMap.gameplayObjects[0].Value.x - 1, currentMap.gameplayObjects[0].Value.y - 1].whatTeam())
                 {
                     flagContested = true;
                 }
@@ -282,9 +288,9 @@ public class GridManager : MonoBehaviour
         }
         else if ((gameMode == StartData.gameMode.defenceR || gameMode == StartData.gameMode.defence) && GameManager.Instance.getGameState() == GameState.PlayerTurn)
         {
-            if (onBoardEntities[(int)flagR_Coordinates.x, (int)flagR_Coordinates.y])
+            if (onBoardEntities[currentMap.gameplayObjects[1].Value.x, currentMap.gameplayObjects[1].Value.y])
             {
-                if (onBoardEntities[(int)flagR_Coordinates.x, (int)flagR_Coordinates.y].whatTeam())
+                if (onBoardEntities[currentMap.gameplayObjects[1].Value.x, currentMap.gameplayObjects[1].Value.y].whatTeam())
                 {
                     flagContested = true;
                 }
@@ -293,9 +299,9 @@ public class GridManager : MonoBehaviour
                     flagNotBlocked = false;
                 }
             }
-            if (onBoardEntities[(int)flagR_Coordinates.x - 1, (int)flagR_Coordinates.y])
+            if (onBoardEntities[currentMap.gameplayObjects[1].Value.x - 1, currentMap.gameplayObjects[1].Value.y])
             {
-                if (onBoardEntities[(int)flagR_Coordinates.x - 1, (int)flagR_Coordinates.y].whatTeam())
+                if (onBoardEntities[currentMap.gameplayObjects[1].Value.x - 1, currentMap.gameplayObjects[1].Value.y].whatTeam())
                 {
                     flagContested = true;
                 }
@@ -304,9 +310,9 @@ public class GridManager : MonoBehaviour
                     flagNotBlocked = false;
                 }
             }
-            if (onBoardEntities[(int)flagR_Coordinates.x, (int)flagR_Coordinates.y + 1])
+            if (onBoardEntities[currentMap.gameplayObjects[1].Value.x, currentMap.gameplayObjects[1].Value.y - 1])
             {
-                if (onBoardEntities[(int)flagR_Coordinates.x, (int)flagR_Coordinates.y + 1].whatTeam())
+                if (onBoardEntities[currentMap.gameplayObjects[1].Value.x, currentMap.gameplayObjects[1].Value.y - 1].whatTeam())
                 {
                     flagContested = true;
                 }
@@ -315,9 +321,9 @@ public class GridManager : MonoBehaviour
                     flagNotBlocked = false;
                 }
             }
-            if (onBoardEntities[(int)flagR_Coordinates.x - 1, (int)flagR_Coordinates.y + 1])
+            if (onBoardEntities[currentMap.gameplayObjects[1].Value.x - 1, currentMap.gameplayObjects[1].Value.y - 1])
             {
-                if (onBoardEntities[(int)flagR_Coordinates.x - 1, (int)flagR_Coordinates.y + 1].whatTeam())
+                if (onBoardEntities[currentMap.gameplayObjects[1].Value.x - 1, currentMap.gameplayObjects[1].Value.y - 1].whatTeam())
                 {
                     flagContested = true;
                 }
@@ -378,40 +384,23 @@ public class GridManager : MonoBehaviour
     void CheckTheEndScore()
     {
         int _ScoreB = 0, _ScoreR = 0;
-        if(pO1)
+        for(int i = 0; i < blueTeam.Length; i++)
         {
-            _ScoreB += pO1.GetComponent<Unit>().whatHP();
-        }
-        if (pO2)
-        {
-            _ScoreB += pO2.GetComponent<Unit>().whatHP();
-        }
-        if (pO3)
-        {
-            _ScoreB += pO3.GetComponent<Unit>().whatHP();
-        }
-        if (pO4)
-        {
-            _ScoreB += pO4.GetComponent<Unit>().whatHP();
-        }
-        if (eO1)
-        {
-            _ScoreR += eO1.GetComponent<Unit>().whatHP();
-        }
-        if (eO2)
-        {
-            _ScoreR += eO2.GetComponent<Unit>().whatHP();
-        }
-        if (eO3)
-        {
-            _ScoreR += eO3.GetComponent<Unit>().whatHP();
-        }
-        if (eO4)
-        {
-            _ScoreR += eO4.GetComponent<Unit>().whatHP();
+            if(blueTeam[i])
+            {
+                _ScoreB += blueTeam[i].GetComponent<Unit>().whatHP();
+            }
         }
 
-        if(gameMode == StartData.gameMode.defence)
+        for (int i = 0; i < redTeam.Length; i++)
+        {
+            if (blueTeam[i])
+            {
+                _ScoreR += redTeam[i].GetComponent<Unit>().whatHP();
+            }
+        }
+
+        if (gameMode == StartData.gameMode.defence)
         {
             _ScoreB += flagB.getLevel() * 50;
             _ScoreR += flagR.getLevel() * 50;
@@ -449,24 +438,12 @@ public class GridManager : MonoBehaviour
     {
         Instance = this;
         GridManager.Instance.destroyHighlights += ClearBoardCheck;
-    }
-
-    public static float absDif(float a, float b)
-    {
-        if (a > b)
-            return a - b;
-        return b - a;
+        data = StartData.Instance.getData();
     }
 
     public Unit getUnitFromTile(int x, int y)
     {
         return onBoardEntities[x, y];
-    }
-
-    public void ReloadButtton()
-    {
-        selectedUnit.reload();
-        UpdateMovesCount();
     }
 
     public void ResetHighlights()
@@ -485,24 +462,6 @@ public class GridManager : MonoBehaviour
         }
         moveHighlightsOn = true;
         UpdateMovesCount();
-    }
-
-    public void CrouchButtton()
-    {
-        selectedUnit.crouch();
-        ResetHighlights();
-    }
-
-    public void Gadget1Buttton()
-    {
-        selectedUnit.useGadget1();
-        ResetHighlights();
-    }
-
-    public void Gadget2Buttton()
-    {
-        selectedUnit.useGadget2();
-        ResetHighlights();
     }
 
     public void HighlightForGadget( Unit.gadget gadgetType)
@@ -532,160 +491,124 @@ public class GridManager : MonoBehaviour
 
     public void GenerateGrid()
     {
-        for (int x = 0; x < _width; x++)
+        //for (int x = 0; x < _width; x++)
+        //{
+        //    for (int y = 0; y < _height; y++)
+        //    {
+        //        onBoardEntities[x,y] = null;
+        //        onBoardGadgets[x, y] = 0;
+        //    }
+        //}
+        //
+        string filePath = data.mapFilePath;
+        Debug.Log(filePath);
+        string mapData = System.IO.File.ReadAllText(filePath);
+        GridTools.MapIntermediate mapIntermediate = JsonUtility.FromJson< GridTools.MapIntermediate >(mapData);
+        currentMap = GridTools.translateMapFromIntermediate(mapIntermediate);
+        Debug.Log("Loading finished");
+        onBoardGadgets = new int[currentMap.width, currentMap.height];
+        onBoardEntities = new Unit[currentMap.width, currentMap.height];
+        boardCheck = new GameObject[currentMap.width, currentMap.height];    // array of highlights (attack and move)
+        BoardConnectionGridX = new Wall[currentMap.height, currentMap.width - 1];
+        BoardConnectionGridY = new Wall[currentMap.height - 1, currentMap.width];
+        currentPreview = new GridTools.MapPreview(currentMap.width, currentMap.height, currentMap.teamSize.Value);
+        _width = currentMap.width;
+        _height = currentMap.height;
+        for (int x = 0; x < currentMap.width; x++)
         {
-            for (int y = 0; y < _height; y++)
+            for (int y = 0; y < currentMap.height; y++)
             {
-                var spawnedTile = Instantiate(_tilePrefab, new Vector3(x - y * 0.5f, y), Quaternion.identity);
+                GameObject spawnedTile = Instantiate(TilePrefab, new Vector3(x - y * 0.5f, y), Quaternion.identity);
                 spawnedTile.name = $"Tile {x} {y}";
-
+                currentPreview.gridPreview[x, y] = spawnedTile.GetComponent<UnityEngine.U2D.Animation.SpriteResolver>();
+                switch (currentMap.tileGrid[x, y].tileType)
+                {
+                    case GridTools.tileType.blank:
+                        currentPreview.gridPreview[x, y].SetCategoryAndLabel(currentPreview.gridPreview[x, y].GetCategory(), "Blank");
+                        break;
+                    case GridTools.tileType.cobblestone:
+                        currentPreview.gridPreview[x, y].SetCategoryAndLabel(currentPreview.gridPreview[x, y].GetCategory(), "Cobblestone");
+                        break;
+                    case GridTools.tileType.sand:
+                        currentPreview.gridPreview[x, y].SetCategoryAndLabel(currentPreview.gridPreview[x, y].GetCategory(), "Sand");
+                        break;
+                    case GridTools.tileType.sandRoad:
+                        currentPreview.gridPreview[x, y].SetCategoryAndLabel(currentPreview.gridPreview[x, y].GetCategory(), "SandRoad");
+                        break;
+                    case GridTools.tileType.woodenFloor1:
+                        currentPreview.gridPreview[x, y].SetCategoryAndLabel(currentPreview.gridPreview[x, y].GetCategory(), "WoodFloor1");
+                        break;
+                    default:
+                        break;
+                }
                 var isOffset = (x % 2 == 0 && y % 2 != 0) || (x % 2 != 0 && y % 2 == 0);
-                spawnedTile.Init(isOffset, x, y);
-
+                spawnedTile.GetComponent<Tile>().Init(isOffset, x, y);
             }
         }
-
-        //_width = 16, _height = 8
-                                                                        // To delete after reworking map edit   {
-        int[,] _BoardConnectionGridX = new int[8, 15]{                  
-                { 0, 0, 1, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                { 0, 0, 3, 0, 0, 3, 3, 0, 3, 0, 3, 0, 0, 3, 0},
-                { 0, 0, 0, 0, 0, 0, 2, 0, 3, 0, 1, 0, 0, 3, 0},
-                { 0, 3, 0, 2, 0, 0, 0, 0, 0, 0, 2, 0, 3, 0, 0},
-                { 0, 1, 0, 3, 0, 0, 3, 2, 0, 0, 0, 0, 0, 0, 0},
-                { 0, 0, 0, 0, 0, 0, 3, 3, 0, 0, 0, 0, 0, 0, 0},
-                { 0, 0, 3, 0, 3, 0, 2, 0, 1, 0, 3, 0, 3, 0, 0},
-                { 0, 0, 3, 0, 1, 0, 1, 0, 3, 0, 1, 0, 1, 0, 0}};
-
-
-
-        int[,] _BoardConnectionGridY = new int[7, 16]{
-                { 0, 0, 0, 0, 0, 0, 0, 1, 3, 0, 0, 3, 1, 3, 0, 0},
-                { 3, 1, 3, 3, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                { 0, 0, 3, 1, 0, 0, 0, 3, 1, 0, 0, 0, 0, 1, 0, 0},
-                { 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 3, 3, 0, 0, 0},
-                { 0, 0, 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                { 0, 0, 0, 1, 3, 0, 0, 0, 2, 0, 0, 2, 3, 0, 0, 0},
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
-
-        spawnB = new TileCoordinates (1, 3);                             
-        spawnR = new TileCoordinates (15, 3);
-        flagB_Coordinates = new TileCoordinates(4, 6);
-        flagR_Coordinates = new TileCoordinates(12, 6);
-                                                                        // To delete after reworking map edit   }
-
-
-        for (int x = 0; x < _height; x++)
+        cameraController.SetDefaultPosition(((float)currentMap.width - ((float)currentMap.height - 1) * 0.5f) / 2 - 0.5f, (float)currentMap.width / 2 - 0.5f);
+        cameraController.SetBorders(currentMap.width, currentMap.height);
+        for (int x = 0; x < currentMap.width + 1; x++)
         {
-            for (int y = 0; y < _width - 1; y++)
+            for (int y = 0; y < currentMap.height; y++)
             {
-                if(_BoardConnectionGridX[x, y] == 3)
+                if (currentMap.verticalWalls[x, y].HasValue)
                 {
-                    GameObject spawnedWall = Instantiate(WallY, new Vector3(y - x * 0.5f + 0.5f , x + 0.5f), Quaternion.identity);
-                    BoardConnectionGridX[x, y] = spawnedWall.GetComponent<Wall>();
-                    BoardConnectionGridX[x, y].setLayer(x, y, true);
-                }
-                else if (_BoardConnectionGridX[x, y] == 2)
-                {
-                    GameObject spawnedWall = Instantiate(WindowFrameY, new Vector3(y - x * 0.5f + 0.5f, x + 0.5f), Quaternion.identity);
-                    BoardConnectionGridX[x, y] = spawnedWall.GetComponent<Wall>();
-                    BoardConnectionGridX[x, y].setLayer(x, y, true);
-                }
-                else if (_BoardConnectionGridX[x, y] == 1)
-                {
-                    GameObject spawnedWall = Instantiate(DoorFrameY, new Vector3(y - x * 0.5f + 0.5f, x + 0.5f), Quaternion.identity);
-                    BoardConnectionGridX[x, y] = spawnedWall.GetComponent<Wall>();
-                    BoardConnectionGridX[x, y].setLayer(x, y, true);
-                }
-            }
-        }
-
-        for (int x = 0; x < _height - 1; x++)
-        {
-            for (int y = 0; y < _width; y++)
-            {
-                if (_BoardConnectionGridY[x, y] == 3)
-                {
-                    GameObject spawnedWall = Instantiate(WallX, new Vector3(y - x * 0.5f - 0.25f, x + 1), Quaternion.identity);
-                    BoardConnectionGridY[x, y] = spawnedWall.GetComponent<Wall>();
-                    BoardConnectionGridY[x, y].setLayer(x, y, false);
-                }
-                else if (_BoardConnectionGridY[x, y] == 2)
-                {
-                    GameObject spawnedWall = Instantiate(WindowFrameX, new Vector3(y - x * 0.5f - 0.25f, x + 1), Quaternion.identity);
-                    BoardConnectionGridY[x, y] = spawnedWall.GetComponent<Wall>();
-                    BoardConnectionGridY[x, y].setLayer(x, y, false);
-                }
-                else if (_BoardConnectionGridY[x, y] == 1)
-                {
-                    GameObject spawnedWall =  Instantiate(DoorFrameX, new Vector3(y - x * 0.5f - 0.25f, x + 1), Quaternion.identity);
-                    BoardConnectionGridY[x, y] = spawnedWall.GetComponent<Wall>();
-                    BoardConnectionGridY[x, y].setLayer(x, y, false);
-                }
-            }
-        }
-
-        for (int x = 0; x < 8; x++)
-        {
-            for (int y = 0; y < 15; y++)
-            {
-                if (BoardConnectionGridX[x, y])
-                {
-                    switch (BoardConnectionGridX[x, y].wallType)
+                    GameObject choosedWallPrefab;// wall type prefabs
+                    switch (currentMap.verticalWalls[x, y].Value.wallType)
                     {
-                        case 3:
-                            Instantiate(WallHitBox, new Vector3(y + 0.5f, x + 3 * _height), Quaternion.identity);
+                        case Wall.wallType.frame:
+                            choosedWallPrefab = DoorFrameY;
                             break;
-                        case 2:
-                            Instantiate(WindowHitBox, new Vector3(y + 0.5f, x + 3 * _height), Quaternion.identity);
+                        case Wall.wallType.window:
+                            choosedWallPrefab = WindowFrameY;
                             break;
-                        case 1:
-                            Instantiate(DoorHitBox, new Vector3(y + 0.5f, x + 3 * _height), Quaternion.identity);
+                        case Wall.wallType.wall:
+                            choosedWallPrefab = WallY;
                             break;
                         default:
+                            choosedWallPrefab = HalfWallY;
                             break;
                     }
+                    GameObject spawnedWall;
+                    spawnedWall = Instantiate(choosedWallPrefab, new Vector3(x - y * 0.5f - 0.5f, y + 0.5f), Quaternion.identity);
+                    currentPreview.verticalWalls[x, y] = spawnedWall.GetComponent<Wall>();
+                    currentPreview.verticalWalls[x, y].setInfo(currentMap.verticalWalls[x, y].Value); 
+                    currentPreview.verticalWalls[x, y].setLayer(currentMap.width, currentMap.height);
+                    currentPreview.verticalWalls[x, y].spawnHitbox();
                 }
             }
         }
-
-        for (int x = 0; x < 7; x++)
+        for (int x = 0; x < currentMap.width; x++)
         {
-            for (int y = 0; y < 16; y++)
+            for (int y = 0; y < currentMap.height + 1; y++)
             {
-                if (BoardConnectionGridY[x, y])
+                if (currentMap.horizontalWalls[x, y].HasValue)
                 {
-                    switch (BoardConnectionGridY[x, y].wallType)
+                    GameObject choosedWallPrefab;// wall type prefabs
+                    switch (currentMap.horizontalWalls[x, y].Value.wallType)
                     {
-                        case 3:
-                            Instantiate(WallHitBox, new Vector3(y, x + 0.5f + 3 * _height), Quaternion.Euler(0, 0, 90));
+                        case Wall.wallType.frame:
+                            choosedWallPrefab = DoorFrameX;
                             break;
-                        case 2:
-                        Instantiate(WindowHitBox, new Vector3(y, x + 0.5f + 3 * _height), Quaternion.Euler(0, 0, 90));
+                        case Wall.wallType.window:
+                            choosedWallPrefab = WindowFrameX;
                             break;
-                        case 1:
-                        Instantiate(DoorHitBox, new Vector3(y, x + 0.5f + 3 * _height), Quaternion.Euler(0, 0, 90));
+                        case Wall.wallType.wall:
+                            choosedWallPrefab = WallX;
                             break;
                         default:
+                            choosedWallPrefab = HalfWallX;
                             break;
                     }
+                    GameObject spawnedWall;
+                    spawnedWall = Instantiate(choosedWallPrefab, new Vector3(x - y * 0.5f + 0.25f, y), Quaternion.identity);
+                    currentPreview.horizontalWalls[x, y] = spawnedWall.GetComponent<Wall>();
+                    currentPreview.horizontalWalls[x, y].setInfo(currentMap.horizontalWalls[x, y].Value);
+                    currentPreview.horizontalWalls[x, y].setLayer(currentMap.width, currentMap.height);
+                    currentPreview.horizontalWalls[x, y].spawnHitbox();
                 }
             }
         }
-
-        // _cam.transform.position = new Vector3(((float)_width - ((float)_height - 1) * 0.5f) / 2 - 0.5f, (float)_height / 2 - 0.5f , -10);   //camera
-        cameraController.SetDefaultPosition(((float)_width - ((float)_height - 1) * 0.5f) / 2 - 0.5f, (float)_height / 2 - 0.5f);
-
-        for (int x = 0; x < _width; x++)
-        {
-            for (int y = 0; y < _height; y++)
-            {
-                onBoardEntities[x,y] = null;
-                onBoardGadgets[x, y] = 0;
-            }
-        }
-
-
         GameManager.Instance.ChangeGameState(GameState.SetLevel);
     }
 
@@ -776,83 +699,58 @@ public class GridManager : MonoBehaviour
 
     public void SetBoard()
     {
-        StartData.GameSettingsData data = StartData.Instance.getData();
+        //for(int i = 0; i < _width; i++)       //debug character layers
+        //{
+        //    for(int j = 0; j < _height; j++)
+        //    {
+        //        GameObject newBlueUnit = Instantiate(UnitPrefab, new Vector3(i - 0.5f * j, j), Quaternion.identity);
+        //        newBlueUnit.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
+        //        Unit newBlueUnitUnit = newBlueUnit.GetComponent<Unit>();
+        //        newBlueUnitUnit.SetOnGridPosition(i, j);
+        //        newBlueUnitUnit.SetData(data.BlueTeam[0]);
+        //    }
+        //}
         gameMode = data.GameMode;
-        pO1 = Instantiate(UnitPrefab, new Vector3(-1 , 4), Quaternion.identity); //make with coords
-        pO1.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
-        onBoardEntities[1, 4] = pO1.GetComponent<Unit>();
-        onBoardEntities[1, 4].SetPosition(4, 1);
-        onBoardEntities[1, 4].SetData(data.BlueTeam[0]);
-        HideWall(1, 4);
-
-        pO2 = Instantiate(UnitPrefab, new Vector3(-2, 4), Quaternion.identity);
-        pO2.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
-        onBoardEntities[0, 4] = pO2.GetComponent<Unit>();
-        onBoardEntities[0, 4].SetPosition(4, 0);
-        onBoardEntities[0, 4].SetData(data.BlueTeam[1]);
-        HideWall(0, 4);
-
-        pO3 = Instantiate(UnitPrefab, new Vector3(-0.5f , 3), Quaternion.identity);
-        pO3.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
-        onBoardEntities[1, 3] = pO3.GetComponent<Unit>();
-        onBoardEntities[1, 3].SetPosition(3, 1);
-        onBoardEntities[1, 3].SetData(data.BlueTeam[2]);
-        HideWall(1, 3);
-
-        pO4 = Instantiate(UnitPrefab, new Vector3(-1.5f, 3), Quaternion.identity);
-        pO4.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
-        onBoardEntities[0, 3] = pO4.GetComponent<Unit>();
-        onBoardEntities[0, 3].SetPosition(3, 0);
-        onBoardEntities[0, 3].SetData(data.BlueTeam[3]);
-        HideWall(0, 3);
-
-        if(gameMode == StartData.gameMode.defence || gameMode == StartData.gameMode.defenceB)
+        blueTeam = new GameObject[currentMap.teamSize.Value];
+        redTeam = new GameObject[currentMap.teamSize.Value];
+        for (int i = 0; i < currentMap.teamSize.Value; i++)
         {
-            FlagB = Instantiate(FlagB, new Vector3((float)flagB_Coordinates.x - 0.5f * (float)flagB_Coordinates.y - 0.75f, (float)flagB_Coordinates.y + 0.5f), Quaternion.identity);
-            flagB = FlagB.GetComponent<Flag>();
-            flagB.setLayer((int)flagB_Coordinates.y);
+            GameObject newBlueUnit = Instantiate(UnitPrefab, new Vector3(currentMap.spawnsBlue[i].Value.x - 0.5f * currentMap.spawnsBlue[i].Value.y, currentMap.spawnsBlue[i].Value.y), Quaternion.identity);
+            blueTeam[i] = newBlueUnit;
+            newBlueUnit.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
+            onBoardEntities[currentMap.spawnsBlue[i].Value.x, currentMap.spawnsBlue[i].Value.y] = newBlueUnit.GetComponent<Unit>();
+            onBoardEntities[currentMap.spawnsBlue[i].Value.x, currentMap.spawnsBlue[i].Value.y].SetOnGridPosition(currentMap.spawnsBlue[i].Value.x, currentMap.spawnsBlue[i].Value.y);
+            onBoardEntities[currentMap.spawnsBlue[i].Value.x, currentMap.spawnsBlue[i].Value.y].SetData(data.BlueTeam[i]);
+            HideWall(currentMap.spawnsBlue[i].Value.x, currentMap.spawnsBlue[i].Value.y);
+
+            GameObject newRedUnit = Instantiate(UnitPrefab, new Vector3(currentMap.spawnsRed[i].Value.x - 0.5f * currentMap.spawnsRed[i].Value.y, currentMap.spawnsRed[i].Value.y), Quaternion.identity);
+            redTeam[i] = newRedUnit;
+            newRedUnit.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
+            onBoardEntities[currentMap.spawnsRed[i].Value.x, currentMap.spawnsRed[i].Value.y] = newRedUnit.GetComponent<Unit>();
+            onBoardEntities[currentMap.spawnsRed[i].Value.x, currentMap.spawnsRed[i].Value.y].SetOnGridPosition(currentMap.spawnsRed[i].Value.x, currentMap.spawnsRed[i].Value.y);
+            onBoardEntities[currentMap.spawnsRed[i].Value.x, currentMap.spawnsRed[i].Value.y].SetData(data.RedTeam[i]);
+            HideWall(currentMap.spawnsRed[i].Value.x, currentMap.spawnsRed[i].Value.y);
         }
 
+        gameMode = data.GameMode;
 
-        eO1 = Instantiate(UnitPrefab, new Vector3(_width - 4, 4), Quaternion.identity); //make with coords
-        eO1.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
-        onBoardEntities[_width - 2, 4] = eO1.GetComponent<Unit>();
-        onBoardEntities[_width - 2, 4].SetPosition(4, _width - 2);
-        onBoardEntities[_width - 2, 4].SetData(data.RedTeam[0]);
-        HideWall(_width - 2, 4);
-
-        eO2 = Instantiate(UnitPrefab, new Vector3(_width - 3, 4), Quaternion.identity);
-        eO2.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
-        onBoardEntities[_width - 1, 4] = eO2.GetComponent<Unit>();
-        onBoardEntities[_width - 1, 4].SetPosition(4, _width - 1);
-        onBoardEntities[_width - 1, 4].SetData(data.RedTeam[1]);
-        HideWall(_width - 1, 4);
-
- 
-        eO3 = Instantiate(UnitPrefab, new Vector3(_width - 3.5f, 3), Quaternion.identity);
-        eO3.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
-        onBoardEntities[_width - 2, 3] = eO3.GetComponent<Unit>();
-        onBoardEntities[_width - 2, 3].SetPosition(3, _width - 2);
-        onBoardEntities[_width - 2, 3].SetData(data.RedTeam[2]);
-        HideWall(_width - 2, 3);
-
-        eO4 = Instantiate(UnitPrefab, new Vector3(_width - 2.5f, 3), Quaternion.identity);
-        eO4.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
-        onBoardEntities[_width - 1, 3] = eO4.GetComponent<Unit>();
-        onBoardEntities[_width - 1, 3].SetPosition(3, _width - 1);
-        onBoardEntities[_width - 1, 3].SetData(data.RedTeam[3]);
-        HideWall(_width - 1, 3);
+        if (gameMode == StartData.gameMode.defence || gameMode == StartData.gameMode.defenceB)
+        {
+            FlagB = Instantiate(FlagB, new Vector3((float)currentMap.gameplayObjects[0].Value.x - 0.5f * (float)(currentMap.gameplayObjects[0].Value.y - 1) - 0.75f, (float)(currentMap.gameplayObjects[0].Value.y - 1) + 0.5f), Quaternion.identity);
+            flagB = FlagB.GetComponent<Flag>();
+            flagB.setLayer(currentMap.gameplayObjects[0].Value.x, currentMap.gameplayObjects[0].Value.y - 1, _width, _height);
+        }
 
         if (gameMode == StartData.gameMode.defence || gameMode == StartData.gameMode.defenceR)
         {
-            FlagR = Instantiate(FlagR, new Vector3(flagR_Coordinates.x - 0.5f * flagR_Coordinates.y - 0.75f, flagR_Coordinates.y + 0.5f), Quaternion.identity);
+            FlagR = Instantiate(FlagR, new Vector3(currentMap.gameplayObjects[1].Value.x - 0.5f * (currentMap.gameplayObjects[1].Value.y - 1) - 0.75f, (currentMap.gameplayObjects[1].Value.y - 1) + 0.5f), Quaternion.identity);
             flagR = FlagR.GetComponent<Flag>();
-            flagR.setLayer((int)flagR_Coordinates.y);
+            flagR.setLayer(currentMap.gameplayObjects[0].Value.x, currentMap.gameplayObjects[1].Value.y - 1, _width, _height);
         }
 
         clockCounter.showMessage(gameTime.ToString());
 
-        switch(gameMode)
+        switch (gameMode)
         {
             case StartData.gameMode.defenceR:
                 TurnR += clockTick;
@@ -930,52 +828,25 @@ public class GridManager : MonoBehaviour
             {
                 TurnR(this, EventArgs.Empty);
             }
-            if (pO1)
-            {
-                pO1.GetComponent<Unit>().giveMove();
-            }
-            if (pO2)
-            {
-                pO2.GetComponent<Unit>().giveMove();
-            }
-            if (pO3)
-            {
-                pO3.GetComponent<Unit>().giveMove();
-            }
-            if (pO4)
-            {
-                pO4.GetComponent<Unit>().giveMove();
-            }
-            if (eO1)                                                    // to delete in UI rework
-            {
-                while (eO1.GetComponent<Unit>().howManyMoves() != 0)
-                {
-                    eO1.GetComponent<Unit>().takeMove();
-                }
-            }
-            if (eO2)                                                    // to delete in UI rework
-            {
-                while (eO2.GetComponent<Unit>().howManyMoves() != 0)
-                {
-                    eO2.GetComponent<Unit>().takeMove();
-                }
-            }
-            if (eO3)                                                    // to delete in UI rework
-            {
-                while (eO3.GetComponent<Unit>().howManyMoves() != 0)
-                {
-                    eO3.GetComponent<Unit>().takeMove();
-                }
-            }
-            if (eO4)                                                    // to delete in UI rework
-            {
-                while (eO4.GetComponent<Unit>().howManyMoves() != 0)
-                {
-                    eO4.GetComponent<Unit>().takeMove();
-                }
-            }
-            UpdateMovesCount();
 
+            for(int i = 0; i < blueTeam.Length; i++)
+            {
+                if (blueTeam[i])
+                {
+                    blueTeam[i].GetComponent<Unit>().giveMove();
+                }
+            }
+            
+            for(int i = 0; i < redTeam.Length; i++)
+            {
+                if (redTeam[i])                                                    // to make with event?
+                {
+                    while (redTeam[i].GetComponent<Unit>().howManyMoves() != 0)
+                    {
+                        redTeam[i].GetComponent<Unit>().takeMove();
+                    }
+                }
+            }
         }
         else
         {
@@ -984,48 +855,22 @@ public class GridManager : MonoBehaviour
             {
                 TurnB(this, EventArgs.Empty);
             }
-            if (eO1)
+            for (int i = 0; i < redTeam.Length; i++)
             {
-                eO1.GetComponent<Unit>().giveMove();
-            }
-            if (eO2)
-            {
-                eO2.GetComponent<Unit>().giveMove();
-            }
-            if (eO3)
-            {
-                eO3.GetComponent<Unit>().giveMove();
-            }
-            if (eO4)
-            {
-                eO4.GetComponent<Unit>().giveMove();
-            }
-            if (pO1)                                                    // to delete in UI rework
-            {
-                while (pO1.GetComponent<Unit>().howManyMoves() != 0)
+                if (redTeam[i])
                 {
-                    pO1.GetComponent<Unit>().takeMove();
+                    redTeam[i].GetComponent<Unit>().giveMove();
                 }
             }
-            if (pO2)                                                    // to delete in UI rework
+
+            for (int i = 0; i < blueTeam.Length; i++)
             {
-                while (pO2.GetComponent<Unit>().howManyMoves() != 0)
+                if (blueTeam[i])                                                    // to delete in UI rework
                 {
-                    pO2.GetComponent<Unit>().takeMove();
-                }
-            }
-            if (pO3)                                                    // to delete in UI rework
-            {
-                while (pO3.GetComponent<Unit>().howManyMoves() != 0)
-                {
-                    pO3.GetComponent<Unit>().takeMove();
-                }
-            }
-            if (pO4)                                                    // to delete in UI rework
-            {
-                while (pO4.GetComponent<Unit>().howManyMoves() != 0)
-                {
-                    pO4.GetComponent<Unit>().takeMove();
+                    while (blueTeam[i].GetComponent<Unit>().howManyMoves() != 0)
+                    {
+                        blueTeam[i].GetComponent<Unit>().takeMove();
+                    }
                 }
             }
             UpdateMovesCount();
@@ -1047,39 +892,21 @@ public class GridManager : MonoBehaviour
         Turn(!turnSide);
     }
 
-    public void UpdateMovesCount()
+    public void UpdateMovesCount()  //to make the spawn in ui rewok
     {
-        if (pO1)
+        for(int i = 0; i < blueTeam.Length; i++)
         {
-            B1Count.updateMovesCount(pO1.GetComponent<Unit>().howManyMoves());
+            if (blueTeam[i])
+            {
+                movesCounts[i].updateMovesCount(blueTeam[i].GetComponent<Unit>().howManyMoves());
+            }
         }
-        if (pO2)
+        for (int i = 0; i < redTeam.Length; i++)
         {
-            B2Count.updateMovesCount(pO2.GetComponent<Unit>().howManyMoves());
-        }
-        if (pO3)
-        {
-            B3Count.updateMovesCount(pO3.GetComponent<Unit>().howManyMoves());
-        }
-        if (pO4)
-        {
-            B4Count.updateMovesCount(pO4.GetComponent<Unit>().howManyMoves());
-        }
-        if (eO1)
-        {
-            R1Count.updateMovesCount(eO1.GetComponent<Unit>().howManyMoves());
-        }
-        if (eO2)
-        {
-            R2Count.updateMovesCount(eO2.GetComponent<Unit>().howManyMoves());
-        }
-        if (eO3)
-        {
-            R3Count.updateMovesCount(eO3.GetComponent<Unit>().howManyMoves());
-        }
-        if (eO4)
-        {
-            R4Count.updateMovesCount(eO4.GetComponent<Unit>().howManyMoves());
+            if (redTeam[i])
+            {
+                movesCounts[i + redTeam.Length].updateMovesCount(redTeam[i].GetComponent<Unit>().howManyMoves());
+            }
         }
     }
 
@@ -1106,7 +933,7 @@ public class GridManager : MonoBehaviour
         {
             blockedByWall = true;
             wallCheckLineEnd = new Vector2(x - 1, y + 3 * _height);
-            //Debug.DrawLine(lineStart, lineEnd, Color.green, 10f);  //debug line
+            //Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.green, 10f);  //debug line
             if (!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask))
             {
                 blockedByWall = false;
@@ -1125,7 +952,7 @@ public class GridManager : MonoBehaviour
         {
             blockedByWall = true;
             wallCheckLineEnd = new Vector2(x + 1, y + 3 * _height);
-            //Debug.DrawLine(lineStart, lineEnd, Color.green, 10f);  //debug line
+            //Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.green, 10f);  //debug line
             if (!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask))
             {
                 blockedByWall = false;
@@ -1144,7 +971,7 @@ public class GridManager : MonoBehaviour
         {
             blockedByWall = true;
             wallCheckLineEnd = new Vector2(x, y - 1 + 3 * _height);
-            //Debug.DrawLine(lineStart, lineEnd, Color.green, 10f);  //debug line
+            //Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.green, 10f);  //debug line
             if (!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask))
             {
                 blockedByWall = false;
@@ -1164,7 +991,7 @@ public class GridManager : MonoBehaviour
         {
             blockedByWall = true;
             wallCheckLineEnd = new Vector2(x, y + 1 + 3 * _height);
-            //Debug.DrawLine(lineStart, lineEnd, Color.green, 10f);  //debug line
+            //Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.green, 10f);  //debug line
             if (!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask))
             {
                 blockedByWall = false;
@@ -1630,7 +1457,7 @@ public class GridManager : MonoBehaviour
         bool _directional = (passiveX != activeX);
         bool _moveSide = (passiveX > activeX);
 
-        onBoardEntities[activeX, activeY].SetPosition(passiveY, passiveX);
+        onBoardEntities[activeX, activeY].SetOnGridPosition(passiveX, passiveY);
         onBoardEntities[activeX, activeY].Walk(_moveSide, _directional, new Vector3(passiveX - passiveY * 0.5f, passiveY));
 
         onBoardEntities[passiveX, passiveY] = onBoardEntities[activeX, activeY];

@@ -289,6 +289,27 @@ MonoBehaviour:
       m_SpriteOverride: {fileID: 748275805, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
     m_FromMain: 0
     m_EntryOverrideCount: 4
+  - m_Name: Blanks
+    m_Hash: 558265390
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: Black
+      m_Hash: 138712364
+      m_Sprite: {fileID: -1577634125, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -1577634125, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: Blue
+      m_Hash: 1040475530
+      m_Sprite: {fileID: -1667059805, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -1667059805, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    - m_Name: Red
+      m_Hash: 36444527
+      m_Sprite: {fileID: -1028918546, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -1028918546, guid: 6f3abce140549e543ba84bb51ccd8f08, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 3
   m_PrimaryLibraryGUID: 
-  m_ModificationHash: 638451824462056849
+  m_ModificationHash: 638584731936202878
   m_Version: 1

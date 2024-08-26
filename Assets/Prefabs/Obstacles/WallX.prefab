@@ -45,10 +45,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d481739ac4963bc4cb0ed2f14acc2163, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wallType: 3
   hidden: 0
-  spriteRenderer: {fileID: 9190853864574773521}
-  frontFrameSpriteRenderer: {fileID: 0}
+  mainRenderers: []
+  frontFrameRenderers: []
+  mainParts: {fileID: 0}
+  frontParts: {fileID: 0}
+  type: 1
 --- !u!1 &2906765708349472877
 GameObject:
   m_ObjectHideFlags: 0

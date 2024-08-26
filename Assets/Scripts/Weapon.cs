@@ -86,7 +86,7 @@ public class Weapon : MonoBehaviour
     public void EjectCase()
     {
         GameObject _shellCase = Instantiate(shellPrefab , ejectionPort.position, Quaternion.identity);
-        _shellCase.GetComponent<SpriteRenderer>().sortingOrder = 15 + unitScript.GetSortingLayer();
+        _shellCase.GetComponent<SpriteRenderer>().sortingOrder = 15 + GridTools.OnGridObjectLayer(unitScript.getMaxOnGridPosition().x, unitScript.getMaxOnGridPosition().y, unitScript.getUnitOnGridPosition().x, unitScript.getUnitOnGridPosition().y);
         float xVel = Random.Range(3f, 5f);
         float yVel = Random.Range(3f, 5f);
         if(!flipped)

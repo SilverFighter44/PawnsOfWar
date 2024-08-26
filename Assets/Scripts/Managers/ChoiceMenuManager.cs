@@ -88,7 +88,7 @@ public class ChoiceMenuManager : MonoBehaviour
        // StartData.Instance.UpdateData(dataEdit);
     }
 
-        public void changeRole()
+    public void changeRole()
     {
         _roleIcon++;
 
@@ -230,6 +230,7 @@ public class ChoiceMenuManager : MonoBehaviour
         gadget1ChoicePreview.SetCategoryAndLabel(gadget1ChoicePreview.GetCategory(), _gadget1.ToString());
         StartData.Instance.UpdateData(getUnitsSettings());
     }
+
     public void changeGadget2()
     {
         int temp;
@@ -295,6 +296,8 @@ public class ChoiceMenuManager : MonoBehaviour
     {
         ShowUnits();
         dataEdit = StartData.Instance.getData();
+        dataEdit.mapFilePath = Application.persistentDataPath + "/map_" + "classic" + ".json"; //mapFilesDropdown.captionText.text
+        StartData.Instance.UpdateData(getUnitsSettings());
     }
 
     void Awake()

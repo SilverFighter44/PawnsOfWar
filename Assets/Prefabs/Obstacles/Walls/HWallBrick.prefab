@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 9206735297989549129}
   - component: {fileID: 7044823468361848384}
+  - component: {fileID: 156985470070485113}
+  - component: {fileID: 6540469053303327930}
   m_Layer: 0
   m_Name: BickWall_H_B
   m_TagString: Untagged
@@ -26,11 +28,11 @@ Transform:
   m_GameObject: {fileID: 1243598500063144190}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.245, y: 0.155, z: 0}
+  m_LocalPosition: {x: -0.78, y: -0.305, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2971448556774954208}
+  m_Father: {fileID: 6274924987370241591}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7044823468361848384
 SpriteRenderer:
@@ -84,6 +86,36 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &156985470070485113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1243598500063144190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Library: []
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 177aba50f03352545982f1bc3e2753cc, type: 3}
+--- !u!114 &6540469053303327930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1243598500063144190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CategoryHash: 4.2474e-14
+  m_labelHash: 0.00000011683449
+  m_SpriteKey: 0
+  m_SpriteHash: 884355303
 --- !u!1 &1384895046085134745
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,6 +126,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3563766032615539047}
   - component: {fileID: 7374829957322990358}
+  - component: {fileID: 5396144285353742788}
+  - component: {fileID: 937375347086807549}
   m_Layer: 0
   m_Name: BickWall_H_J
   m_TagString: Untagged
@@ -110,11 +144,11 @@ Transform:
   m_GameObject: {fileID: 1384895046085134745}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.405, y: -0.29, z: 0}
+  m_LocalPosition: {x: -0.94, y: -0.75, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2971448556774954208}
+  m_Father: {fileID: 6274924987370241591}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7374829957322990358
 SpriteRenderer:
@@ -168,6 +202,36 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5396144285353742788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1384895046085134745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Library: []
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 177aba50f03352545982f1bc3e2753cc, type: 3}
+--- !u!114 &937375347086807549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1384895046085134745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CategoryHash: 6.349197e-15
+  m_labelHash: 0.00000011683449
+  m_SpriteKey: 0
+  m_SpriteHash: 659762002
 --- !u!1 &1973997388344943438
 GameObject:
   m_ObjectHideFlags: 0
@@ -178,6 +242,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5734722955250390554}
   - component: {fileID: 7731859722675603527}
+  - component: {fileID: 8409047316886968613}
+  - component: {fileID: 8456298665084088456}
   m_Layer: 0
   m_Name: BickWall_H_F
   m_TagString: Untagged
@@ -194,11 +260,11 @@ Transform:
   m_GameObject: {fileID: 1973997388344943438}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.24, y: 0.155, z: 0}
+  m_LocalPosition: {x: -0.29500002, y: -0.305, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2971448556774954208}
+  m_Father: {fileID: 6274924987370241591}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7731859722675603527
 SpriteRenderer:
@@ -252,6 +318,36 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8409047316886968613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1973997388344943438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Library: []
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 177aba50f03352545982f1bc3e2753cc, type: 3}
+--- !u!114 &8456298665084088456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1973997388344943438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CategoryHash: 4.7873847e-11
+  m_labelHash: 0.00000011683449
+  m_SpriteKey: 0
+  m_SpriteHash: 821837341
 --- !u!1 &2067343622403614219
 GameObject:
   m_ObjectHideFlags: 0
@@ -283,6 +379,7 @@ Transform:
   m_Children:
   - {fileID: 2971448556774954208}
   - {fileID: 5384920166160995770}
+  - {fileID: 8004352663645122783}
   m_Father: {fileID: 3746831140233796288}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2731354888910404075
@@ -330,12 +427,84 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d481739ac4963bc4cb0ed2f14acc2163, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wallType: 3
   hidden: 0
-  mainRenderers: []
-  frontFrameRenderers: []
   mainParts: {fileID: 7533368607350673014}
   frontParts: {fileID: 5219095409887550184}
+  backParts: {fileID: 4569572750930578342}
+  mainInside: {fileID: 5979473437649120461}
+  mainIn: {fileID: 9001232035574555040}
+  mainOut: {fileID: 4211452858565309162}
+  frontInside: {fileID: 2810683604186595178}
+  frontIn: {fileID: 3727562863778168131}
+  frontOut: {fileID: 4885510814692127377}
+  backInside: {fileID: 3474711835817419175}
+  backIn: {fileID: 6418579007473006502}
+  backOut: {fileID: 6450964110732090400}
+  HitboxObjectPrefab: {fileID: 7141544087334103226, guid: 9136e6e0db765d443a20e537e4bbbaca, type: 3}
+  currentHitboxObject: {fileID: 0}
+  type: 1
+--- !u!1 &2810683604186595178
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3624995686183897352}
+  m_Layer: 0
+  m_Name: FrontInside
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3624995686183897352
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2810683604186595178}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5384920166160995770}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3474711835817419175
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8735151912372646030}
+  m_Layer: 0
+  m_Name: BackInside
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8735151912372646030
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3474711835817419175}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8004352663645122783}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3585818021898598765
 GameObject:
   m_ObjectHideFlags: 0
@@ -346,6 +515,8 @@ GameObject:
   m_Component:
   - component: {fileID: 941429407370602215}
   - component: {fileID: 8472467057283649256}
+  - component: {fileID: 5900623603130000422}
+  - component: {fileID: 6111080285598394154}
   m_Layer: 0
   m_Name: BickWall_H_P
   m_TagString: Untagged
@@ -362,11 +533,11 @@ Transform:
   m_GameObject: {fileID: 3585818021898598765}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.005, y: 0.5, z: 0}
+  m_LocalPosition: {x: -0.53000003, y: 0.03999999, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2971448556774954208}
+  m_Father: {fileID: 4740643935102243907}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8472467057283649256
 SpriteRenderer:
@@ -420,6 +591,99 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5900623603130000422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3585818021898598765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Library: []
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 177aba50f03352545982f1bc3e2753cc, type: 3}
+--- !u!114 &6111080285598394154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3585818021898598765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CategoryHash: 5.551233e-23
+  m_labelHash: 0.00000011683449
+  m_SpriteKey: 0
+  m_SpriteHash: 170395313
+--- !u!1 &3727562863778168131
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6756938337850930791}
+  m_Layer: 0
+  m_Name: FrontIn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6756938337850930791
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3727562863778168131}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5384920166160995770}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4211452858565309162
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5391948556771107282}
+  m_Layer: 0
+  m_Name: MainOut
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5391948556771107282
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4211452858565309162}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1868688810112310020}
+  m_Father: {fileID: 2971448556774954208}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4498835927546710049
 GameObject:
   m_ObjectHideFlags: 0
@@ -430,6 +694,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4020225018733210388}
   - component: {fileID: 8685573552347151056}
+  - component: {fileID: 1234564082529712993}
+  - component: {fileID: 9221487705591881118}
   m_Layer: 0
   m_Name: BickWall_H_D
   m_TagString: Untagged
@@ -446,11 +712,11 @@ Transform:
   m_GameObject: {fileID: 4498835927546710049}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.005, y: 0.405, z: 0}
+  m_LocalPosition: {x: -0.54, y: -0.055, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2971448556774954208}
+  m_Father: {fileID: 6274924987370241591}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8685573552347151056
 SpriteRenderer:
@@ -504,6 +770,70 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1234564082529712993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4498835927546710049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Library: []
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 177aba50f03352545982f1bc3e2753cc, type: 3}
+--- !u!114 &9221487705591881118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4498835927546710049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CategoryHash: 8.533534e-39
+  m_labelHash: 0.00000011683449
+  m_SpriteKey: 0
+  m_SpriteHash: 853096800
+--- !u!1 &4569572750930578342
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8004352663645122783}
+  m_Layer: 0
+  m_Name: BackTextures
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8004352663645122783
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4569572750930578342}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7026961817714085485}
+  - {fileID: 8735151912372646030}
+  - {fileID: 2630800320015114541}
+  m_Father: {fileID: 3969101706292722329}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4765804787875039897
 GameObject:
   m_ObjectHideFlags: 0
@@ -514,6 +844,8 @@ GameObject:
   m_Component:
   - component: {fileID: 9060883017400336993}
   - component: {fileID: 6748672694310232609}
+  - component: {fileID: 4161451640727718258}
+  - component: {fileID: 2030742421861172385}
   m_Layer: 0
   m_Name: BickWall_H_G
   m_TagString: Untagged
@@ -530,11 +862,11 @@ Transform:
   m_GameObject: {fileID: 4765804787875039897}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.24, y: -0.29, z: 0}
+  m_LocalPosition: {x: -0.29500002, y: -0.75, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2971448556774954208}
+  m_Father: {fileID: 6274924987370241591}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6748672694310232609
 SpriteRenderer:
@@ -588,6 +920,67 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4161451640727718258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4765804787875039897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Library: []
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 177aba50f03352545982f1bc3e2753cc, type: 3}
+--- !u!114 &2030742421861172385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4765804787875039897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CategoryHash: 1.1050161e-23
+  m_labelHash: 0.00000011683449
+  m_SpriteKey: 0
+  m_SpriteHash: 1012285059
+--- !u!1 &4885510814692127377
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2523644460626739863}
+  m_Layer: 0
+  m_Name: FrontOut
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2523644460626739863
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4885510814692127377}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5384920166160995770}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5219095409887550184
 GameObject:
   m_ObjectHideFlags: 0
@@ -613,10 +1006,13 @@ Transform:
   m_GameObject: {fileID: 5219095409887550184}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.535, y: -0.46, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2523644460626739863}
+  - {fileID: 6756938337850930791}
+  - {fileID: 3624995686183897352}
   m_Father: {fileID: 3969101706292722329}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5309967934963602207
@@ -629,6 +1025,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6075554683930284311}
   - component: {fileID: 5945460057556948360}
+  - component: {fileID: 5047216036597534507}
+  - component: {fileID: 346680708644007525}
   m_Layer: 0
   m_Name: BickWall_H_H
   m_TagString: Untagged
@@ -645,11 +1043,11 @@ Transform:
   m_GameObject: {fileID: 5309967934963602207}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.155, z: 0}
+  m_LocalPosition: {x: -0.535, y: -0.305, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2971448556774954208}
+  m_Father: {fileID: 6274924987370241591}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5945460057556948360
 SpriteRenderer:
@@ -703,6 +1101,36 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5047216036597534507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5309967934963602207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Library: []
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 177aba50f03352545982f1bc3e2753cc, type: 3}
+--- !u!114 &346680708644007525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5309967934963602207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CategoryHash: 5.6484083e-33
+  m_labelHash: 0.00000011683449
+  m_SpriteKey: 0
+  m_SpriteHash: 628501551
 --- !u!1 &5814122561237912352
 GameObject:
   m_ObjectHideFlags: 0
@@ -713,6 +1141,8 @@ GameObject:
   m_Component:
   - component: {fileID: 380983797722580925}
   - component: {fileID: 8620531404775334140}
+  - component: {fileID: 4095857518709569415}
+  - component: {fileID: 7826453214963653509}
   m_Layer: 0
   m_Name: BickWall_H_E
   m_TagString: Untagged
@@ -729,11 +1159,11 @@ Transform:
   m_GameObject: {fileID: 5814122561237912352}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.385, y: 0.21000001, z: 0}
+  m_LocalPosition: {x: -0.15000004, y: -0.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2971448556774954208}
+  m_Father: {fileID: 6274924987370241591}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8620531404775334140
 SpriteRenderer:
@@ -787,6 +1217,68 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4095857518709569415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5814122561237912352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Library: []
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 177aba50f03352545982f1bc3e2753cc, type: 3}
+--- !u!114 &7826453214963653509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5814122561237912352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CategoryHash: 0.000013104774
+  m_labelHash: 0.00000011683449
+  m_SpriteKey: 0
+  m_SpriteHash: 1047738878
+--- !u!1 &5979473437649120461
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4740643935102243907}
+  m_Layer: 0
+  m_Name: MainInside
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4740643935102243907
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5979473437649120461}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 941429407370602215}
+  m_Father: {fileID: 2971448556774954208}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6096694614884569278
 GameObject:
   m_ObjectHideFlags: 0
@@ -797,6 +1289,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8864990605296346201}
   - component: {fileID: 1708976174011227182}
+  - component: {fileID: 7459936210382475716}
+  - component: {fileID: 6087591572127665953}
   m_Layer: 0
   m_Name: BickWall_H_C
   m_TagString: Untagged
@@ -813,11 +1307,11 @@ Transform:
   m_GameObject: {fileID: 6096694614884569278}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.405, y: 0.21000001, z: 0}
+  m_LocalPosition: {x: -0.94, y: -0.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2971448556774954208}
+  m_Father: {fileID: 6274924987370241591}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1708976174011227182
 SpriteRenderer:
@@ -871,6 +1365,36 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7459936210382475716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6096694614884569278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Library: []
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 177aba50f03352545982f1bc3e2753cc, type: 3}
+--- !u!114 &6087591572127665953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6096694614884569278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CategoryHash: 9.766035e-21
+  m_labelHash: 0.00000011683449
+  m_SpriteKey: 0
+  m_SpriteHash: 941371513
 --- !u!1 &6165069051618664000
 GameObject:
   m_ObjectHideFlags: 0
@@ -881,6 +1405,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1154839138012970671}
   - component: {fileID: 8149481859919861999}
+  - component: {fileID: 5892022471698979707}
+  - component: {fileID: 7921953912833268993}
   m_Layer: 0
   m_Name: BickWall_H_K
   m_TagString: Untagged
@@ -897,11 +1423,11 @@ Transform:
   m_GameObject: {fileID: 6165069051618664000}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.385, y: -0.29, z: 0}
+  m_LocalPosition: {x: -0.15000004, y: -0.75, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2971448556774954208}
+  m_Father: {fileID: 6274924987370241591}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8149481859919861999
 SpriteRenderer:
@@ -955,6 +1481,36 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5892022471698979707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6165069051618664000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Library: []
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 177aba50f03352545982f1bc3e2753cc, type: 3}
+--- !u!114 &7921953912833268993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6165069051618664000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CategoryHash: 8.990792e-29
+  m_labelHash: 0.00000011683449
+  m_SpriteKey: 0
+  m_SpriteHash: 737749964
 --- !u!1 &6184444155149063221
 GameObject:
   m_ObjectHideFlags: 0
@@ -965,6 +1521,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1045354775307699244}
   - component: {fileID: 7465539732355783471}
+  - component: {fileID: 5744196679425699414}
+  - component: {fileID: 3120745526664951327}
   m_Layer: 0
   m_Name: BickWall_H_I
   m_TagString: Untagged
@@ -981,11 +1539,11 @@ Transform:
   m_GameObject: {fileID: 6184444155149063221}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.245, y: -0.29, z: 0}
+  m_LocalPosition: {x: -0.78000003, y: -0.75, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2971448556774954208}
+  m_Father: {fileID: 6274924987370241591}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7465539732355783471
 SpriteRenderer:
@@ -1039,6 +1597,36 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5744196679425699414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6184444155149063221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Library: []
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 177aba50f03352545982f1bc3e2753cc, type: 3}
+--- !u!114 &3120745526664951327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6184444155149063221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CategoryHash: 0.46399474
+  m_labelHash: 0.00000011683449
+  m_SpriteKey: 0
+  m_SpriteHash: 702295217
 --- !u!1 &6408484034823097070
 GameObject:
   m_ObjectHideFlags: 0
@@ -1049,6 +1637,8 @@ GameObject:
   m_Component:
   - component: {fileID: 540042817538168889}
   - component: {fileID: 7675345525138229842}
+  - component: {fileID: 1613656087684114969}
+  - component: {fileID: 243341869810517995}
   m_Layer: 0
   m_Name: BickWall_H_A
   m_TagString: Untagged
@@ -1065,11 +1655,11 @@ Transform:
   m_GameObject: {fileID: 6408484034823097070}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.29, z: 0}
+  m_LocalPosition: {x: -0.535, y: -0.75, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2971448556774954208}
+  m_Father: {fileID: 6274924987370241591}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7675345525138229842
 SpriteRenderer:
@@ -1123,6 +1713,98 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1613656087684114969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6408484034823097070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Library: []
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 177aba50f03352545982f1bc3e2753cc, type: 3}
+--- !u!114 &243341869810517995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6408484034823097070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CategoryHash: 6.6246086e-10
+  m_labelHash: 0.00000011683449
+  m_SpriteKey: 0
+  m_SpriteHash: 976828164
+--- !u!1 &6418579007473006502
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7026961817714085485}
+  m_Layer: 0
+  m_Name: BackIn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7026961817714085485
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6418579007473006502}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8004352663645122783}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6450964110732090400
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2630800320015114541}
+  m_Layer: 0
+  m_Name: BackOut
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2630800320015114541
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6450964110732090400}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8004352663645122783}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6822888534425055039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1133,6 +1815,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1868688810112310020}
   - component: {fileID: 5968766760641366156}
+  - component: {fileID: 6522813328736620245}
+  - component: {fileID: 984365736625765373}
   m_Layer: 0
   m_Name: BickWall_H_Q
   m_TagString: Untagged
@@ -1149,11 +1833,11 @@ Transform:
   m_GameObject: {fileID: 6822888534425055039}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.54, y: 0.01, z: 0}
+  m_LocalPosition: {x: -1.075, y: -0.45000002, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2971448556774954208}
+  m_Father: {fileID: 5391948556771107282}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5968766760641366156
 SpriteRenderer:
@@ -1207,6 +1891,36 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6522813328736620245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6822888534425055039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Library: []
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 177aba50f03352545982f1bc3e2753cc, type: 3}
+--- !u!114 &984365736625765373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6822888534425055039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CategoryHash: 1.4669568e-11
+  m_labelHash: 0.00000011683449
+  m_SpriteKey: 0
+  m_SpriteHash: 109184559
 --- !u!1 &7533368607350673014
 GameObject:
   m_ObjectHideFlags: 0
@@ -1232,24 +1946,13 @@ Transform:
   m_GameObject: {fileID: 7533368607350673014}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.535, y: -0.46, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3563766032615539047}
-  - {fileID: 8864990605296346201}
-  - {fileID: 540042817538168889}
-  - {fileID: 9206735297989549129}
-  - {fileID: 6075554683930284311}
-  - {fileID: 1045354775307699244}
-  - {fileID: 5734722955250390554}
-  - {fileID: 4020225018733210388}
-  - {fileID: 380983797722580925}
-  - {fileID: 1154839138012970671}
-  - {fileID: 9060883017400336993}
-  - {fileID: 941429407370602215}
-  - {fileID: 1868688810112310020}
-  - {fileID: 330598709394542806}
+  - {fileID: 5391948556771107282}
+  - {fileID: 4740643935102243907}
+  - {fileID: 6274924987370241591}
   m_Father: {fileID: 3969101706292722329}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7681964107955619965
@@ -1262,6 +1965,8 @@ GameObject:
   m_Component:
   - component: {fileID: 330598709394542806}
   - component: {fileID: 8685444826117993537}
+  - component: {fileID: 1020795169880166906}
+  - component: {fileID: 1498172634299035237}
   m_Layer: 0
   m_Name: BickWall_V_U
   m_TagString: Untagged
@@ -1278,11 +1983,11 @@ Transform:
   m_GameObject: {fileID: 7681964107955619965}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.53, y: -0.03999999, z: 0}
+  m_LocalPosition: {x: -0.005, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2971448556774954208}
+  m_Father: {fileID: 6274924987370241591}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8685444826117993537
 SpriteRenderer:
@@ -1336,3 +2041,76 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1020795169880166906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7681964107955619965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Library: []
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 177aba50f03352545982f1bc3e2753cc, type: 3}
+--- !u!114 &1498172634299035237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7681964107955619965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CategoryHash: 0.01295532
+  m_labelHash: 0.00000011683449
+  m_SpriteKey: 0
+  m_SpriteHash: 1001372046
+--- !u!1 &9001232035574555040
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6274924987370241591}
+  m_Layer: 0
+  m_Name: MainIn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6274924987370241591
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9001232035574555040}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 330598709394542806}
+  - {fileID: 9060883017400336993}
+  - {fileID: 1154839138012970671}
+  - {fileID: 380983797722580925}
+  - {fileID: 4020225018733210388}
+  - {fileID: 5734722955250390554}
+  - {fileID: 1045354775307699244}
+  - {fileID: 6075554683930284311}
+  - {fileID: 9206735297989549129}
+  - {fileID: 540042817538168889}
+  - {fileID: 8864990605296346201}
+  - {fileID: 3563766032615539047}
+  m_Father: {fileID: 2971448556774954208}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -100,7 +100,7 @@ public abstract class Gadget : MonoBehaviour
     public async Task ThrowTrajectory() //to improve parabolic with lerp
     {
         createShadow();
-        int _multiplier = StartData.Instance.getLayerMultiplier();
+        int _multiplier = GridTools.getLayerMultiplier();
         int MaxHeight = GridManager.Instance.getHeight();
         int MaxWidth = GridManager.Instance.getWidth();
         gadgetObject.transform.SetParent(null, true);
@@ -115,7 +115,7 @@ public abstract class Gadget : MonoBehaviour
             shadow.transform.position += _ShadowWalkPath * Time.deltaTime;
             int _y = (int)(shadow.transform.position.y + 0.5f);
             int _x = (int)(shadow.transform.position.x + (shadow.transform.position.y + 0.5f - _y) * 0.5f + _y * 0.5f);
-            itemRenderer.sortingOrder = 1 + _multiplier * (((MaxHeight - _y - 1) * MaxWidth + MaxWidth - _x - 2) + 2);
+            itemRenderer.sortingOrder = GridTools.OnGridObjectLayer(GridManager.Instance.getWidth(), GridManager.Instance.getHeight(), _x, _y);
             float arcTime;
             if(endTime - Time.time > 0.5f)
             {

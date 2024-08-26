@@ -928,6 +928,27 @@ TextureImporter:
         boneIndex[1]: 0
         boneIndex[2]: 0
         boneIndex[3]: 0
+    - serializedVersion: 2
+      name: SelectMarker
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 973
+        width: 150
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1fae886988a0ea54b9617a6bbe799296
+      internalID: 1614550857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -949,6 +970,7 @@ TextureImporter:
       Parque1_Tile: 923038900
       SandRoad_Tile: -921343322
       Sand_Tile: -921538613
+      SelectMarker: 1614550857
       Wall_Front: 77657099
       Wall_Side: 389049911
       Window_Front: -1319021220

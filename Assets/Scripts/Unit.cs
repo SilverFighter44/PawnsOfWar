@@ -49,9 +49,22 @@ public class Unit : MonoBehaviour
     [SerializeField] private Slider healthBar;
     [SerializeField] private SpriteRenderer[] characterParts;
     [SerializeField] private int[] characterPartsLayerOrder;
-    [SerializeField] private int MaxHeight, MaxWidth, unitOnGridPositionX, unitOnGridPositionY, maxMag, maxMoves, movesCount, range, mag, hp, id;
+    [SerializeField] private int maxMag, maxMoves, movesCount, range, mag, hp, id;
+    [SerializeField] private GridTools.TileCoordinates maxOnGridPosition = new GridTools.TileCoordinates(1, 1), unitOnGridPosition = new GridTools.TileCoordinates(0, 0);
     [SerializeField] private GameObject helmet;
     [SerializeField] private gadget activeGadgetType;
+
+    // maxOnGridPosition: x = width, y = height
+
+    public GridTools.TileCoordinates getMaxOnGridPosition()
+    {
+        return maxOnGridPosition;
+    }
+
+    public GridTools.TileCoordinates getUnitOnGridPosition()
+    {
+        return unitOnGridPosition;
+    }
 
     public int getAmmo()
     {
@@ -211,11 +224,6 @@ public class Unit : MonoBehaviour
         return data;
     }
 
-    public int GetSortingLayer()
-    {
-        return StartData.Instance.getLayerMultiplier() * (((MaxHeight - unitOnGridPositionX) * MaxWidth + MaxWidth - unitOnGridPositionY) * 2);
-    }
-
     public async void Walk(bool _WalkDirection, bool _IsDirectional, Vector3 _WalkTarget)
     {
         if (crouched && canMove)
@@ -236,7 +244,7 @@ public class Unit : MonoBehaviour
             SortLayers();
             for (int i = 0; i < characterParts.Length; i++)
             {
-                characterParts[i].sortingOrder = characterPartsLayerOrder[i] + StartData.Instance.getLayerMultiplier() * (((MaxHeight - unitOnGridPositionX - 1) * MaxWidth + MaxWidth - unitOnGridPositionY - 2) + 2);
+                characterParts[i].sortingOrder = i + GridTools.OnGridObjectLayer(maxOnGridPosition.x, maxOnGridPosition.y, unitOnGridPosition.x, unitOnGridPosition.y);
             }
             takeMove();
         }
@@ -278,10 +286,9 @@ public class Unit : MonoBehaviour
         }
     }
 
-    public void SetPosition(int x, int y)
+    public void SetOnGridPosition(int x, int y)
     {
-        unitOnGridPositionX = x;
-        unitOnGridPositionY = y;
+        unitOnGridPosition = new GridTools.TileCoordinates(x, y);
     }
 
     public async Task WalkMovement ( Vector3 _WalkTarget)
@@ -296,6 +303,7 @@ public class Unit : MonoBehaviour
             await Task.Yield();
         }
         unitAnimator.SetTrigger("EndWalk");
+        await Task.Yield();
     }
 
     public void debugWalkAnimation()
@@ -402,10 +410,10 @@ public class Unit : MonoBehaviour
         {
             characterPartsLayerOrder[i] = characterParts[i].sortingOrder;
         }
-        //SortLayers();
+        //SortLayers(); 
         for (int i = 0; i < characterParts.Length; i++)
         {
-            characterParts[i].sortingOrder = characterPartsLayerOrder[i] + StartData.Instance.getLayerMultiplier() * (((MaxHeight - unitOnGridPositionX - 1) * MaxWidth + MaxWidth - unitOnGridPositionY - 2) + 2);
+            characterParts[i].sortingOrder = characterPartsLayerOrder[i] + GridTools.OnGridObjectLayer(maxOnGridPosition.x, maxOnGridPosition.y, unitOnGridPosition.x, unitOnGridPosition.y);
         }
         canShoot = true;
     }
@@ -447,7 +455,7 @@ public class Unit : MonoBehaviour
         }
     }
 
-    public bool move()
+    public bool _canMove()
     {
         return canMove;
     }
@@ -490,8 +498,8 @@ public class Unit : MonoBehaviour
         }
         else if (GridManager.Instance)    
         {
-            MaxHeight = GridManager.Instance.getHeight();
-            MaxWidth = GridManager.Instance.getWidth();
+            maxOnGridPosition.x = GridManager.Instance.getWidth();
+            maxOnGridPosition.y = GridManager.Instance.getHeight();
             //to do reset board
         }
         Blink();

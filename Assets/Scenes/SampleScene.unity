@@ -331,8 +331,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 817226080}
-        m_TargetAssemblyTypeName: GridManager, Assembly-CSharp
+      - m_Target: {fileID: 817226082}
+        m_TargetAssemblyTypeName: Buttons, Assembly-CSharp
         m_MethodName: CrouchButtton
         m_Mode: 1
         m_Arguments:
@@ -638,7 +638,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &182180702
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2794,6 +2794,7 @@ GameObject:
   - component: {fileID: 817226081}
   - component: {fileID: 817226080}
   - component: {fileID: 817226079}
+  - component: {fileID: 817226082}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameController
@@ -2827,7 +2828,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f10bf574bd2bc174e83f284808261f16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tilePrefab: {fileID: 9129644445015227944, guid: cd88a8f8c025b004d88355d153ef00e5, type: 3}
+  TilePrefab: {fileID: 7941601974166385466, guid: cd88a8f8c025b004d88355d153ef00e5, type: 3}
   MoveHighlight: {fileID: 3363500139071717240, guid: b52e71f08f1669548a4f867e5d7ad0f0, type: 3}
   EnemyHighlight: {fileID: 3363500139071717240, guid: 64c9748c53594ed4ab77304d379fb041, type: 3}
   FOVHighlight: {fileID: 7419939873822854447, guid: bff0b9c6a370d5c4f8414288991e3f29, type: 3}
@@ -2838,10 +2839,9 @@ MonoBehaviour:
   WindowFrameY: {fileID: 3805883119504184198, guid: 27679e921d6d7694fac17005f00e03bf, type: 3}
   DoorFrameX: {fileID: 2731354888910404075, guid: 5b258648a9caa8c4895850c6aad78566, type: 3}
   DoorFrameY: {fileID: 3805883119504184198, guid: cdc047246dcd6a0479d1602637d50a96, type: 3}
+  HalfWallX: {fileID: 2731354888910404075, guid: dfb3d9c88e6c4cf45880ab6e9a4fef26, type: 3}
+  HalfWallY: {fileID: 3805883119504184198, guid: 312ee2f78e3526e479a94577a1067a1c, type: 3}
   UnitPrefab: {fileID: 123563950298391053, guid: f88eee9b5f956b14dbbc01238417ebde, type: 3}
-  WallHitBox: {fileID: 7141544087334103226, guid: 9136e6e0db765d443a20e537e4bbbaca, type: 3}
-  WindowHitBox: {fileID: 102715895218155874, guid: a7911792490389642b6b86b1bd9f35c7, type: 3}
-  DoorHitBox: {fileID: 1185477970820342762, guid: 6b071b6f4d0578a479981cdc5bdd9f80, type: 3}
   UnitControlsUI: {fileID: 182180701}
   clockUI: {fileID: 1456229632}
   FlagB: {fileID: 7540180162710050864, guid: 1487049c53fdb2540a8b02cd647096a3, type: 3}
@@ -2849,23 +2849,43 @@ MonoBehaviour:
   ShrapnelGroup: {fileID: 8315697433449095967, guid: f5e1081ddbd982047adbad40e7200db9, type: 3}
   SmokeHitbox: {fileID: 7141544087334103226, guid: de0e102d33d09a24996d5c5d67d70dc7, type: 3}
   Smoke: {fileID: 4389643973439758640, guid: 0fc4b3ca3da91544493177b0ac92e20e, type: 3}
-  B1Count: {fileID: 1089568856}
-  B2Count: {fileID: 1598180696}
-  B3Count: {fileID: 2116018577}
-  B4Count: {fileID: 433518587}
-  R1Count: {fileID: 1551399556}
-  R2Count: {fileID: 918747079}
-  R3Count: {fileID: 1873871865}
-  R4Count: {fileID: 1489220875}
+  movesCounts:
+  - {fileID: 1089568856}
+  - {fileID: 1598180696}
+  - {fileID: 2116018577}
+  - {fileID: 433518587}
+  - {fileID: 1551399556}
+  - {fileID: 918747079}
+  - {fileID: 1873871865}
+  - {fileID: 1489220875}
   cameraController: {fileID: 519420033}
-  pO1: {fileID: 0}
-  pO2: {fileID: 0}
-  pO3: {fileID: 0}
-  pO4: {fileID: 0}
-  eO1: {fileID: 0}
-  eO2: {fileID: 0}
-  eO3: {fileID: 0}
-  eO4: {fileID: 0}
+  data:
+    BlueTeam: []
+    RedTeam: []
+    GameMode: 0
+    mapFilePath: 
+  currentMap:
+    modeCompatibility: 
+    width: 0
+    height: 0
+  currentPreview:
+    blueSpawns: []
+    redSpawns: []
+    blueFlag: {fileID: 0}
+    redFlag: {fileID: 0}
+    height: 0
+    width: 0
+  blueTeam:
+  - {fileID: 1089568854}
+  - {fileID: 1598180694}
+  - {fileID: 2116018575}
+  - {fileID: 433518585}
+  redTeam:
+  - {fileID: 1551399554}
+  - {fileID: 918747077}
+  - {fileID: 1873871863}
+  - {fileID: 1489220873}
+  selectedUnit: {fileID: 0}
   UnitControlsHP: {fileID: 1530329360}
   UnitControlsAmmo: {fileID: 2070673112}
   UnitControlsNumber: {fileID: 857309099}
@@ -2888,6 +2908,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &817226082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 817226078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e9ec7d25d07f01439bb73b9ab9869e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &851245661
 GameObject:
   m_ObjectHideFlags: 0
@@ -2971,8 +3003,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 817226080}
-        m_TargetAssemblyTypeName: GridManager, Assembly-CSharp
+      - m_Target: {fileID: 817226082}
+        m_TargetAssemblyTypeName: Buttons, Assembly-CSharp
         m_MethodName: ReloadButtton
         m_Mode: 1
         m_Arguments:
@@ -3705,6 +3737,7 @@ GameObject:
   - component: {fileID: 1098537490}
   - component: {fileID: 1098537492}
   - component: {fileID: 1098537491}
+  - component: {fileID: 1098537493}
   m_Layer: 5
   m_Name: FrameLeft
   m_TagString: Untagged
@@ -3769,6 +3802,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1098537489}
   m_CullTransparentMesh: 1
+--- !u!114 &1098537493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1098537489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73be8114e4126f34a8abdc5ec1765836, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1123204384
 GameObject:
   m_ObjectHideFlags: 0
@@ -4788,8 +4833,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 817226080}
-        m_TargetAssemblyTypeName: GridManager, Assembly-CSharp
+      - m_Target: {fileID: 817226082}
+        m_TargetAssemblyTypeName: Buttons, Assembly-CSharp
         m_MethodName: Gadget2Buttton
         m_Mode: 1
         m_Arguments:
@@ -5069,8 +5114,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 817226080}
-        m_TargetAssemblyTypeName: GridManager, Assembly-CSharp
+      - m_Target: {fileID: 817226082}
+        m_TargetAssemblyTypeName: Buttons, Assembly-CSharp
         m_MethodName: Gadget1Buttton
         m_Mode: 1
         m_Arguments:

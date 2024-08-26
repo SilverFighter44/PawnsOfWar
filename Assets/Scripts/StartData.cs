@@ -4,25 +4,21 @@ using UnityEngine;
 
 public class StartData : MonoBehaviour
 {
-    public static StartData Instance;   
+    public static StartData Instance;
 
+    [System.Serializable]
     public struct GameSettingsData
     {
         public Unit.UnitData [] BlueTeam;
         public Unit.UnitData [] RedTeam;
         public gameMode GameMode;
+        public string mapFilePath;
     };
 
     public enum gameMode { attack, defenceR, defenceB, defence, end };
 
     [SerializeField] private GameSettingsData data;
     [SerializeField] private Unit BlueUnit, RedUnit;
-    [SerializeField] private int layerMultiplier;
-
-    public int getLayerMultiplier()
-    {
-        return layerMultiplier;
-    }
 
     void Awake()
     {
