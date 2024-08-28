@@ -12,9 +12,9 @@ public class Smoke : MonoBehaviour
         GridManager.Instance.nextTurn += deleteHighlight;
     }
 
-    public void setCoordinates(int _y, int _x)
+    public void setCoordinates(int x, int y)
     {
-        SmokeRenderer.sortingOrder = GridTools.getLayerMultiplier() - 1 + GridTools.getLayerMultiplier() * (((GridManager.Instance.getHeight() - _x - 1) * GridManager.Instance.getWidth() + GridManager.Instance.getWidth() - _y - 2) + 2);
+        SmokeRenderer.sortingOrder = GridTools.OnGridObjectLayer(GridManager.Instance.getWidth(), GridManager.Instance.getHeight(), x, y) + GridTools.getLayerMultiplier() - 1;
     }
 
     public void deleteHighlight(object sender, EventArgs e)

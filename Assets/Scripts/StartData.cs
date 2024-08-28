@@ -13,6 +13,7 @@ public class StartData : MonoBehaviour
         public Unit.UnitData [] RedTeam;
         public gameMode GameMode;
         public string mapFilePath;
+        public bool[] compatibleModes;
     };
 
     public enum gameMode { attack, defenceR, defenceB, defence, end };

@@ -545,7 +545,7 @@ public class GridManager : MonoBehaviour
                 spawnedTile.GetComponent<Tile>().Init(isOffset, x, y);
             }
         }
-        cameraController.SetDefaultPosition(((float)currentMap.width - ((float)currentMap.height - 1) * 0.5f) / 2 - 0.5f, (float)currentMap.width / 2 - 0.5f);
+        cameraController.SetDefaultPosition(((float)currentMap.width - ((float)currentMap.height - 1) * 0.5f) / 2 - 0.5f, (float)currentMap.height / 2 - 0.5f);
         cameraController.SetBorders(currentMap.width, currentMap.height);
         for (int x = 0; x < currentMap.width + 1; x++)
         {
@@ -618,15 +618,15 @@ public class GridManager : MonoBehaviour
         {
             if (y > 0)
             {
-                if (BoardConnectionGridY[y - 1, x])
+                if (currentPreview.horizontalWalls[x, y])
                 {
-                    BoardConnectionGridY[y - 1, x].hide();
+                    currentPreview.horizontalWalls[x, y].hide();
                 }
                 if (x > 0)
                 {
-                    if (BoardConnectionGridX[y - 1, x - 1])
+                    if (currentPreview.verticalWalls[x, y - 1])
                     {
-                        BoardConnectionGridX[y - 1, x - 1].hide();
+                        currentPreview.verticalWalls[x, y - 1].hide();
                     }
                 }
             }
@@ -639,15 +639,15 @@ public class GridManager : MonoBehaviour
         {
             if (y > 0)
             {
-                if (BoardConnectionGridY[y - 1, x])
+                if (currentPreview.horizontalWalls[x, y])
                 {
-                    BoardConnectionGridY[y - 1, x].appear();
+                    currentPreview.horizontalWalls[x, y].appear();
                 }
                 if (x > 0)
                 {
-                    if (BoardConnectionGridX[y - 1, x - 1])
+                    if (currentPreview.verticalWalls[x, y - 1])
                     {
-                        BoardConnectionGridX[y - 1, x - 1].appear();
+                        currentPreview.verticalWalls[x, y - 1].appear();
                     }
                 }
             }
@@ -1030,6 +1030,7 @@ public class GridManager : MonoBehaviour
                     if(!boardCheck[fov[i].x, fov[i].y])
                     {
                         GameObject FOVCheck = Instantiate(FOVHighlight, new Vector3(fov[i].x - fov[i].y * 0.5f, fov[i].y), Quaternion.identity);
+                        boardCheck[fov[i].x, fov[i].y] = FOVCheck;
                         FOVCheck.name = "FOVCheck";
                         Highlight highlightScript = FOVCheck.GetComponent<Highlight>();
                         highlightScript.setCoordinates(fov[i].x, fov[i].y);
@@ -1044,6 +1045,7 @@ public class GridManager : MonoBehaviour
                     if(!boardCheck[fov[i].x, fov[i].y])
                     {
                         GameObject FOVCheck = Instantiate(FOVHighlight, new Vector3(fov[i].x - fov[i].y * 0.5f, fov[i].y), Quaternion.identity);
+                        boardCheck[fov[i].x, fov[i].y] = FOVCheck;
                         FOVCheck.name = "FOVCheck";
                         Highlight highlightScript = FOVCheck.GetComponent<Highlight>();
                         highlightScript.setCoordinates(fov[i].x, fov[i].y);

@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65634fe106da37941aca1239e7e3ac52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SmokeRenderer: {fileID: 0}
+  SmokeRenderer: {fileID: 2455210427182311999}
 --- !u!1 &8141087945477784009
 GameObject:
   m_ObjectHideFlags: 0

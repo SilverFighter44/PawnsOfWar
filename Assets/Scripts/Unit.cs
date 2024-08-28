@@ -410,7 +410,7 @@ public class Unit : MonoBehaviour
         {
             characterPartsLayerOrder[i] = characterParts[i].sortingOrder;
         }
-        //SortLayers(); 
+        SortLayers(); 
         for (int i = 0; i < characterParts.Length; i++)
         {
             characterParts[i].sortingOrder = characterPartsLayerOrder[i] + GridTools.OnGridObjectLayer(maxOnGridPosition.x, maxOnGridPosition.y, unitOnGridPosition.x, unitOnGridPosition.y);

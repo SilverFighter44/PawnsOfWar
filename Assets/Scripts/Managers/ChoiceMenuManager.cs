@@ -1,8 +1,11 @@
 using System;
-using System.Collections;
+using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using TMPro;
+using UnityEngine.SceneManagement;
 
 public class ChoiceMenuManager : MonoBehaviour
 {
@@ -23,7 +26,6 @@ public class ChoiceMenuManager : MonoBehaviour
     [SerializeField] private Unit.gadget[] RiflemanGadgets1 = { Unit.gadget.grenade, Unit.gadget.smoke };
     [SerializeField] private Unit.gadget[] RiflemanGadgets2 = { Unit.gadget.grenade, Unit.gadget.smoke };
     [SerializeField] private StartData.gameMode _gameMode;
-
 
     public void SetEditTeam( bool n )
     {
@@ -51,9 +53,60 @@ public class ChoiceMenuManager : MonoBehaviour
         gadget2ChoicePreview.SetCategoryAndLabel(gadget2ChoicePreview.GetCategory(), _gadget2.ToString());
     }
 
+    public void StartGame()
+    {
+        SceneManager.LoadScene(2);
+    }
+
+    public void BackToMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
+
     public void changeGameMode()
     {
         _gameMode++;
+        bool tempBool = false;
+        while(_gameMode < StartData.gameMode.end && !tempBool)
+        {
+            switch((int)_gameMode)
+            {
+                case 1:
+                    if(!dataEdit.compatibleModes[1])
+                    {
+                        _gameMode++;
+                    }
+                    else
+                    {
+                        tempBool = true;
+                    }
+                    break;
+                case 2:
+                    if (!dataEdit.compatibleModes[0])
+                    {
+                        _gameMode++;
+                    }
+                    else
+                    {
+                        tempBool = true;
+                    }
+                    break;
+                case 3:
+                    if (!(dataEdit.compatibleModes[0] && dataEdit.compatibleModes[1]))
+                    {
+                        _gameMode++;
+                    }
+                    else
+                    {
+                        tempBool = true;
+                    }
+                    break;
+                default:
+                    tempBool = true;
+                    break;
+            }
+        }
+        
         if (_gameMode == StartData.gameMode.end)
         {
             _gameMode = 0;
@@ -85,7 +138,6 @@ public class ChoiceMenuManager : MonoBehaviour
         }
         dataEdit.GameMode = _gameMode;
         StartData.Instance.UpdateData(dataEdit);
-       // StartData.Instance.UpdateData(dataEdit);
     }
 
     public void changeRole()
@@ -295,8 +347,12 @@ public class ChoiceMenuManager : MonoBehaviour
     void Start()
     {
         ShowUnits();
+        
         dataEdit = StartData.Instance.getData();
-        dataEdit.mapFilePath = Application.persistentDataPath + "/map_" + "classic" + ".json"; //mapFilesDropdown.captionText.text
+        string mapData = System.IO.File.ReadAllText(dataEdit.mapFilePath);
+        GridTools.MapIntermediate mapIntermediate = JsonUtility.FromJson< GridTools.MapIntermediate >(mapData);
+        GridTools.Map currentMap = GridTools.translateMapFromIntermediate(mapIntermediate);
+        dataEdit.compatibleModes = currentMap.modeCompatibility;
         StartData.Instance.UpdateData(getUnitsSettings());
     }
 
@@ -414,6 +470,4 @@ public class ChoiceMenuManager : MonoBehaviour
     {
         dataEdit = StartData.Instance.getData();
     }
-
-
 }

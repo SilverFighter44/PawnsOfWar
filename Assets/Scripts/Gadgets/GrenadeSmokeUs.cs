@@ -14,7 +14,8 @@ public class GrenadeSmokeUs : Gadget, IGrenade
     public override void GadgetAction()
     {
         GridManager.Instance.HideWallForGadget(target_x, target_y);
-        Instantiate(explosion, smokePoint.position, Quaternion.identity);
+        GameObject smoke = Instantiate(explosion, smokePoint.position, Quaternion.identity);
+        smoke.GetComponent<Smoke>().setCoordinates(target_x, target_y);
         GridManager.Instance.nextTurn += delayedActivation;
         warning = Instantiate(warning, gadgetObject.transform.position, Quaternion.identity);
         warning.transform.parent = gadgetObject.transform;
