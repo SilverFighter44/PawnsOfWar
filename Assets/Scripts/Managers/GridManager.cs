@@ -35,7 +35,7 @@ public class GridManager : MonoBehaviour
     [SerializeField] private GameObject[] blueTeam, redTeam;
 
     Flag flagB, flagR;
-    int activeX = 0, activeY = 0, passiveX = 0, passiveY = 0, teamB = 4, teamR = 4, gameTime = 10;
+    int activeX = 0, activeY = 0, passiveX = 0, passiveY = 0, teamB = 4, teamR = 4, gameTime;
     bool active = false, passive = false, turnActive = false, moveHighlightsOn = false, unitIsSelected = false, cameraZoomed = false, firstMove = true;
     public Unit selectedUnit;
 
@@ -506,6 +506,7 @@ public class GridManager : MonoBehaviour
         GridTools.MapIntermediate mapIntermediate = JsonUtility.FromJson< GridTools.MapIntermediate >(mapData);
         currentMap = GridTools.translateMapFromIntermediate(mapIntermediate);
         Debug.Log("Loading finished");
+        gameTime = currentMap.movesLimit;
         onBoardGadgets = new int[currentMap.width, currentMap.height];
         onBoardEntities = new Unit[currentMap.width, currentMap.height];
         boardCheck = new GameObject[currentMap.width, currentMap.height];    // array of highlights (attack and move)
@@ -572,7 +573,7 @@ public class GridManager : MonoBehaviour
                     GameObject spawnedWall;
                     spawnedWall = Instantiate(choosedWallPrefab, new Vector3(x - y * 0.5f - 0.5f, y + 0.5f), Quaternion.identity);
                     currentPreview.verticalWalls[x, y] = spawnedWall.GetComponent<Wall>();
-                    currentPreview.verticalWalls[x, y].setInfo(currentMap.verticalWalls[x, y].Value); 
+                    currentPreview.verticalWalls[x, y].setWallInfo(currentMap.verticalWalls[x, y].Value); 
                     currentPreview.verticalWalls[x, y].setLayer(currentMap.width, currentMap.height);
                     currentPreview.verticalWalls[x, y].spawnHitbox();
                 }
@@ -603,7 +604,7 @@ public class GridManager : MonoBehaviour
                     GameObject spawnedWall;
                     spawnedWall = Instantiate(choosedWallPrefab, new Vector3(x - y * 0.5f + 0.25f, y), Quaternion.identity);
                     currentPreview.horizontalWalls[x, y] = spawnedWall.GetComponent<Wall>();
-                    currentPreview.horizontalWalls[x, y].setInfo(currentMap.horizontalWalls[x, y].Value);
+                    currentPreview.horizontalWalls[x, y].setWallInfo(currentMap.horizontalWalls[x, y].Value);
                     currentPreview.horizontalWalls[x, y].setLayer(currentMap.width, currentMap.height);
                     currentPreview.horizontalWalls[x, y].spawnHitbox();
                 }

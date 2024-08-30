@@ -5,7 +5,7 @@ using UnityEngine;
 public static class GridTools
     {
 
-    [SerializeField] public static int gameplayObjectsCount = 2;
+    [SerializeField] public static int gameplayObjectsCount = 2, movesLimitDown = 8, movesLimitUp = 100;
 
     public enum tileType { blank, cobblestone, sand, sandRoad, woodenFloor1 };
 
@@ -50,7 +50,7 @@ public static class GridTools
     public struct Map
     {
         public bool[] modeCompatibility;
-        public int width, height;
+        public int width, height, movesLimit;
         public int? teamSize;
         public TileCoordinates?[] spawnsBlue, spawnsRed, gameplayObjects;
         public TileInfo[,] tileGrid;
@@ -59,6 +59,7 @@ public static class GridTools
         {
             this.width = width;
             this.height = height;
+            movesLimit = movesLimitDown;
             tileGrid = new TileInfo[width, height];
             verticalWalls = new WallInfo?[width + 1, height];
             horizontalWalls = new WallInfo?[width, height + 1];
@@ -78,13 +79,13 @@ public static class GridTools
     public struct MapIntermediate
     {
         public bool[] modeCompatibility;
-        public int width, height;
-        public int teamSize;
+        public int width, height, teamSize, movesLimit;
         public List<TileCoordinates> GameplayObjects;
         public List<TileInfo> Tiles;
         public List<WallInfo> Walls;
         public MapIntermediate(int width, int height, int teamSize)
         {
+            movesLimit = movesLimitDown;
             this.width = width;
             this.height = height;
             Tiles = new List<TileInfo>();
@@ -192,6 +193,7 @@ public static class GridTools
                 }
             }
         }
+        mapIntermediate.movesLimit = map.movesLimit;
         return mapIntermediate;
     }
 
@@ -232,6 +234,7 @@ public static class GridTools
             }
 
         }
+        map.movesLimit = mapIntermediate.movesLimit;
         return map;
     }
 }

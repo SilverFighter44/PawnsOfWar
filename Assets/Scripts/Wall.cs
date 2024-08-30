@@ -7,7 +7,6 @@ using System;
 
 public class Wall : MonoBehaviour
 {
-    public const int layerMultiplier = 50;
     public static readonly string[] wallMaterialNames = { "Bricks", "Cement" };
     public static readonly string[] wallInsideMaterialNames = { "Bricks", "Cement" };
     public enum wallType { hole = 0, wall, window, frame, halfwall };
@@ -33,7 +32,7 @@ public class Wall : MonoBehaviour
         }
     }
 
-    public void setInfo(GridTools.WallInfo info)
+    public void setWallInfo(GridTools.WallInfo info)
     {
         wallInfo = info;
         string inTextureName = wallMaterialNames[(int)wallInfo.wallFront], outTextureName = wallMaterialNames[((int)wallInfo.wallBack)], insideTextureName = wallInsideMaterialNames[((int)wallInfo.wallInside)];
@@ -124,27 +123,28 @@ public class Wall : MonoBehaviour
 
     public void setLayer(int _width, int _height)
     {
+        Debug.Log(wallInfo.x + " " + wallInfo.y + " " + _width + " " + _height);
         height = _height;
         if (wallInfo.isVertical)
         {
             for (int i = 0; i < frontFrameRenderers.Length; i++)
             {
-                frontFrameRenderers[i].sortingOrder = ((_width + 1) * (_height - wallInfo.y)) + (2 * _width + 1) * layerMultiplier * (_height - 1 - wallInfo.y) + (2 * (_width - wallInfo.x) + 1) * layerMultiplier;
+                frontFrameRenderers[i].sortingOrder = ((_width + 1) * (_height - wallInfo.y)) + (2 * _width + 1) * GridTools.getLayerMultiplier() * (_height - 1 - wallInfo.y) + (2 * (_width - wallInfo.x) + 1) * GridTools.getLayerMultiplier();
             }
             for (int i = 0; i < midFrameRenderers.Length; i++)
             {
-                midFrameRenderers[i].sortingOrder = (_width + 1) * (_height - wallInfo.y) + (2 * _width + 1) * layerMultiplier * (_height - 1 - wallInfo.y) + (2 * (_width - wallInfo.x) - 1) * layerMultiplier;
+                midFrameRenderers[i].sortingOrder = (_width + 1) * (_height - wallInfo.y) + (2 * _width + 1) * GridTools.getLayerMultiplier() * (_height - 1 - wallInfo.y) + (2 * (_width - wallInfo.x) - 1) * GridTools.getLayerMultiplier();
             }
             for (int i = 0; i < backFrameRenderers.Length; i++)
             {
-                backFrameRenderers[i].sortingOrder = (_width + 1) * (_height - wallInfo.y) + (2 * _width + 1) * layerMultiplier * (_height - 1 - wallInfo.y);
+                backFrameRenderers[i].sortingOrder = (_width + 1) * (_height - wallInfo.y) + (2 * _width + 1) * GridTools.getLayerMultiplier() * (_height - 1 - wallInfo.y);
             }
         }
         else
         {
             for (int i = 0; i < midFrameRenderers.Length; i++)
             {
-                midFrameRenderers[i].sortingOrder = (_width + 1) * (_height - wallInfo.y) + ((2 * _width + 1) * layerMultiplier) * (_height - wallInfo.y) + (_width - wallInfo.x);
+                midFrameRenderers[i].sortingOrder = (_width + 1) * (_height - wallInfo.y) + ((2 * _width + 1) * GridTools.getLayerMultiplier()) * (_height - wallInfo.y) + (_width - wallInfo.x);
             }
         }
     }

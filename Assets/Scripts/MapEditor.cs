@@ -13,12 +13,12 @@ public class MapEditor : MonoBehaviour
     public event EventHandler resetPreview;
 
     [SerializeField] private Toggle spawnsToggle, hideWallsToggle, bucketToggle;
-    [SerializeField] private TMP_InputField widthInput, heightInput, spawnTypeInput, mapNameInput;
+    [SerializeField] private TMP_InputField widthInput, heightInput, spawnTypeInput, mapNameInput, movesLimitInput;
     [SerializeField] private GameObject NewMapWindow, ConfirmDeleteWindow, tilePrefab, currentSubMenu, tilesSubMenu, wallsSubMenu, spawnsSubMenu, gameplayMenu, optionsMenu, saveMenu, WallX, WallY, WindowFrameX, WindowFrameY, DoorFrameX, DoorFrameY, HalfWallX, HalfWallY, SpawnMarker, flagB, flagR;
     private List<string> mapFiles = new List<string>();
 
-    private GridTools.Map currentMap;
-    private GridTools.MapPreview currentPreview;
+    [SerializeField] private GridTools.Map currentMap;
+    [SerializeField] private GridTools.MapPreview currentPreview;
     [SerializeField] private CameraController cameraController;
     [SerializeField] private TMP_Dropdown editingModeDropdown, tileCategoryDropdown, wallDirectionDropdown, wallTypeDropdown, frontFaceDropdown, backFaceDropdown, insideDropdown, spawnsDropdown, gameplayDropdown, gamemodeDropdown, mapFilesDropdown;
 
@@ -75,6 +75,7 @@ public class MapEditor : MonoBehaviour
             {
                 currentMap.modeCompatibility[1] = true;
             }
+            currentMap.movesLimit = Int32.Parse(movesLimitInput.text);
             GridTools.MapIntermediate mapIntermediate = GridTools.translateMapToIntermediate(currentMap);            
             string mapJSON = JsonUtility.ToJson(mapIntermediate);
             string filePath = Application.persistentDataPath + "/map_" + mapName + ".json";
@@ -152,7 +153,7 @@ public class MapEditor : MonoBehaviour
                     GameObject spawnedWall;
                     spawnedWall = Instantiate(choosedWallPrefab, new Vector3(x - y * 0.5f - 0.5f, y + 0.5f), Quaternion.identity);
                     currentPreview.verticalWalls[x, y] = spawnedWall.GetComponent<Wall>();
-                    currentPreview.verticalWalls[x, y].setInfo(currentMap.verticalWalls[x, y].Value);
+                    currentPreview.verticalWalls[x, y].setWallInfo(currentMap.verticalWalls[x, y].Value);
                     currentPreview.verticalWalls[x, y].setLayer(currentMap.width, currentMap.height);
                 }
             }
@@ -182,7 +183,7 @@ public class MapEditor : MonoBehaviour
                     GameObject spawnedWall;
                     spawnedWall = Instantiate(choosedWallPrefab, new Vector3(x - y * 0.5f + 0.25f, y), Quaternion.identity);
                     currentPreview.horizontalWalls[x, y] = spawnedWall.GetComponent<Wall>();
-                    currentPreview.horizontalWalls[x, y].setInfo(currentMap.horizontalWalls[x, y].Value);
+                    currentPreview.horizontalWalls[x, y].setWallInfo(currentMap.horizontalWalls[x, y].Value);
                     currentPreview.horizontalWalls[x, y].setLayer(currentMap.width, currentMap.height);
                 }
             }
@@ -228,7 +229,7 @@ public class MapEditor : MonoBehaviour
         optionsMenu.SetActive(false);
         saveMenu.SetActive(false);
         ChooseEditingMode();
-        spawnTypeInput.onValueChanged.AddListener(delegate { ValueChangeCheck(); });
+        spawnTypeInput.onValueChanged.AddListener(delegate { spawnTypeValueCheck(); });
         spawnTypeInput.characterLimit = 2;
         spawnTypeInput.onValidateInput = (string text, int charIndex, char addedChar) =>
         {
@@ -241,6 +242,12 @@ public class MapEditor : MonoBehaviour
         };
         heightInput.characterLimit = 2;
         heightInput.onValidateInput = (string text, int charIndex, char addedChar) =>
+        {
+            return ValidateChar("1234567890", addedChar);
+        };
+        movesLimitInput.onDeselect.AddListener(delegate { movesLimitValueCheck(); });
+        movesLimitInput.characterLimit = 2;
+        movesLimitInput.onValidateInput = (string text, int charIndex, char addedChar) =>
         {
             return ValidateChar("1234567890", addedChar);
         };
@@ -376,7 +383,27 @@ public class MapEditor : MonoBehaviour
         }
     }
 
-    public void ValueChangeCheck()
+    public void movesLimitValueCheck()
+    {
+        string inputText = movesLimitInput.text;
+        if (inputText == string.Empty)
+        {
+            movesLimitInput.text = "0";
+        }
+        else
+        {
+            if (inputText[0] == '0' && GridTools.movesLimitDown != 0)
+            {
+                movesLimitInput.text = GridTools.movesLimitDown.ToString();
+            }
+            if (Int32.Parse(movesLimitInput.text) > GridTools.movesLimitUp || Int32.Parse(movesLimitInput.text) < GridTools.movesLimitDown) // 8 and 100 are limits
+            {
+                movesLimitInput.text = GridTools.movesLimitDown.ToString();
+            }
+        }
+    }
+
+    public void spawnTypeValueCheck()
     {
         string inputText = spawnTypeInput.text;
         if(inputText == string.Empty)
@@ -802,22 +829,27 @@ public class MapEditor : MonoBehaviour
                         {
                             spawnedWall = Instantiate(choosedWallPrefab, new Vector3(newWall.x - newWall.y * 0.5f - 0.5f, newWall.y + 0.5f), Quaternion.identity);
                             currentPreview.verticalWalls[newWall.x, newWall.y] = spawnedWall.GetComponent<Wall>();
+                            currentPreview.verticalWalls[newWall.x, newWall.y].setWallInfo(newWall);
                             currentPreview.verticalWalls[newWall.x, newWall.y].setLayer(currentMap.width, currentMap.height);
                         }
                         else
                         {
                             spawnedWall = Instantiate(choosedWallPrefab, new Vector3(newWall.x - newWall.y * 0.5f + 0.25f, newWall.y), Quaternion.identity);
                             currentPreview.horizontalWalls[newWall.x, newWall.y] = spawnedWall.GetComponent<Wall>();
+                            currentPreview.horizontalWalls[newWall.x, newWall.y].setWallInfo(newWall);
                             currentPreview.horizontalWalls[newWall.x, newWall.y].setLayer(currentMap.width, currentMap.height);
                         }
                     }
-                    if (newWall.isVertical)
-                    {
-                        currentPreview.verticalWalls[newWall.x, newWall.y].setInfo(newWall);
-                    }
                     else
                     {
-                        currentPreview.horizontalWalls[newWall.x, newWall.y].setInfo(newWall);
+                        if (newWall.isVertical)
+                        {
+                            currentPreview.verticalWalls[newWall.x, newWall.y].setWallInfo(newWall);
+                        }
+                        else
+                        {
+                            currentPreview.horizontalWalls[newWall.x, newWall.y].setWallInfo(newWall);
+                        }
                     }
                 }
                 else
