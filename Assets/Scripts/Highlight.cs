@@ -5,11 +5,21 @@ using UnityEngine;
 
 public class Highlight : MonoBehaviour
 {
-    [SerializeField] private int highlightX, highlightY;
+    [SerializeField] private int highlightX, highlightY, range = 0;
 
     private void Start()
     {
         GridManager.Instance.destroyHighlights += deleteHighlight;
+    }
+
+    public void setRange( int range)
+    {
+        this.range = range;
+    }
+
+    public int getRange()
+    {
+        return range;
     }
 
     public void setCoordinates( int _x, int _y)

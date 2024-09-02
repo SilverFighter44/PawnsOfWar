@@ -203,6 +203,7 @@ SpriteAtlas:
     - 099592a2a3f58544e8cb4fe78888f606: 77657099
     - 099592a2a3f58544e8cb4fe78888f606: 1614550857
     - 099592a2a3f58544e8cb4fe78888f606: -921538613
+    - 099592a2a3f58544e8cb4fe78888f606: 67590931
     - 099592a2a3f58544e8cb4fe78888f606: 185447859
     - 099592a2a3f58544e8cb4fe78888f606: 2047896429
     - 099592a2a3f58544e8cb4fe78888f606: -921343322
@@ -473,6 +474,7 @@ SpriteAtlas:
   - {fileID: 77657099, guid: 099592a2a3f58544e8cb4fe78888f606, type: 3}
   - {fileID: 1614550857, guid: 099592a2a3f58544e8cb4fe78888f606, type: 3}
   - {fileID: -921538613, guid: 099592a2a3f58544e8cb4fe78888f606, type: 3}
+  - {fileID: 67590931, guid: 099592a2a3f58544e8cb4fe78888f606, type: 3}
   - {fileID: 185447859, guid: 099592a2a3f58544e8cb4fe78888f606, type: 3}
   - {fileID: 2047896429, guid: 099592a2a3f58544e8cb4fe78888f606, type: 3}
   - {fileID: -921343322, guid: 099592a2a3f58544e8cb4fe78888f606, type: 3}
@@ -742,6 +744,7 @@ SpriteAtlas:
   - Wall_Front
   - SelectMarker
   - Sand_Tile
+  - SelectMarkerReverse
   - Blank_Tile
   - Door_Front
   - SandRoad_Tile

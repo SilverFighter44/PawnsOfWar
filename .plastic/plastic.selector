@@ -1,4 +1,3 @@
-repository "PawnsOfWar@silverfighter44_unity@cloud"
+rep "PawnsOfWar@silverfighter44_unity@cloud"
   path "/"
-    br "/main"
-    co "/main"
+    smartbranch "/main"

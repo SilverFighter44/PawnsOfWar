@@ -24,11 +24,9 @@ public class GridManager : MonoBehaviour
 
     StartData.gameMode gameMode;
 
-    private TileCoordinates flagB_Coordinates, flagR_Coordinates;
-
     int[,] onBoardGadgets;
     Unit[,] onBoardEntities;
-    GameObject[,] boardCheck;    // array of highlights (attack and move)
+    GameObject[,] onBoardChecks, FOVChecks;    // array of highlights (attack and move)
     Wall[,] BoardConnectionGridX;
     Wall[,] BoardConnectionGridY;
 
@@ -44,13 +42,9 @@ public class GridManager : MonoBehaviour
 
     [SerializeField] private bool turnSide;
 
-    public event EventHandler destroyHighlights;
+    LayerMask wallMask, halfWallMask, smokeMask;
 
-    public event EventHandler nextTurn;
-
-    public event EventHandler TurnB;
-
-    public event EventHandler TurnR;
+    public event EventHandler destroyHighlights, nextTurn, TurnB, TurnR;
 
     [System.Serializable]
     public struct TileCoordinates
@@ -201,12 +195,6 @@ public class GridManager : MonoBehaviour
         }
 
         return detectedObjects;
-    }
-
-    public void setDimmentions (int newWidth, int newHeight)
-    {
-        _width = newWidth;
-        _height = newHeight;
     }
 
     public void eliminateUnit(bool team)
@@ -426,9 +414,13 @@ public class GridManager : MonoBehaviour
         {
             for (int j = 0; j < _height; j++)
             {
-                if (boardCheck[i, j])
+                if (onBoardChecks[i, j])
                 {
-                    boardCheck[i, j] = null;
+                    onBoardChecks[i, j] = null;
+                }
+                if (FOVChecks[i, j])
+                {
+                    FOVChecks[i, j] = null;
                 }
             }
         }
@@ -437,8 +429,11 @@ public class GridManager : MonoBehaviour
     void Awake()
     {
         Instance = this;
-        GridManager.Instance.destroyHighlights += ClearBoardCheck;
+        destroyHighlights += ClearBoardCheck;
         data = StartData.Instance.getData();
+        wallMask = LayerMask.GetMask("Wall");
+        halfWallMask = LayerMask.GetMask("HalfWall");
+        smokeMask = LayerMask.GetMask("Smoke");
     }
 
     public Unit getUnitFromTile(int x, int y)
@@ -509,7 +504,8 @@ public class GridManager : MonoBehaviour
         gameTime = currentMap.movesLimit;
         onBoardGadgets = new int[currentMap.width, currentMap.height];
         onBoardEntities = new Unit[currentMap.width, currentMap.height];
-        boardCheck = new GameObject[currentMap.width, currentMap.height];    // array of highlights (attack and move)
+        onBoardChecks = new GameObject[currentMap.width, currentMap.height];    // array of highlights (attack and move)
+        FOVChecks = new GameObject[currentMap.width, currentMap.height];    // array of highlights (attack and move)
         BoardConnectionGridX = new Wall[currentMap.height, currentMap.width - 1];
         BoardConnectionGridY = new Wall[currentMap.height - 1, currentMap.width];
         currentPreview = new GridTools.MapPreview(currentMap.width, currentMap.height, currentMap.teamSize.Value);
@@ -615,7 +611,7 @@ public class GridManager : MonoBehaviour
 
     public void HideWall(int x, int y)
     {
-        if (onBoardEntities[x, y] || boardCheck[x, y])
+        if (onBoardEntities[x, y] || onBoardChecks[x, y] || FOVChecks[x, y])
         {
             if (y > 0)
             {
@@ -636,7 +632,7 @@ public class GridManager : MonoBehaviour
 
     public void UnHideWall(int x, int y)
     {
-        if ((!onBoardEntities[x, y] && !boardCheck[x, y]) && onBoardGadgets[x, y] <= 0)
+        if ((!onBoardEntities[x, y] && !onBoardChecks[x, y]) && (onBoardGadgets[x, y] <= 0 && !FOVChecks[x, y]))
         {
             if (y > 0)
             {
@@ -679,7 +675,7 @@ public class GridManager : MonoBehaviour
     public void UnHideWallForGadget(int x, int y)
     {
         onBoardGadgets[x, y]--;
-        if ((!onBoardEntities[x, y] && !boardCheck[x, y]) && onBoardGadgets[x, y] <= 0)
+        if ((!onBoardEntities[x, y] && !onBoardChecks[x, y]) && onBoardGadgets[x, y] <= 0)
         {
             if (y > 0)
             {
@@ -874,9 +870,8 @@ public class GridManager : MonoBehaviour
                     }
                 }
             }
-            UpdateMovesCount();
         }
-        
+        UpdateMovesCount();
     }
 
     public void ChangeTurn()
@@ -917,99 +912,174 @@ public class GridManager : MonoBehaviour
         return endPoint + 0.5f * checkPointShift;
     }
 
+    public bool WalkHighlightCheck(int x, int y, Vector2 wallCheckLineStart, int range)
+    {
+        Vector2  wallCheckLineEnd = new Vector2(x, y + 3 * _height);
+        bool blockedByWall = true;
+        //Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.green, 100f);  //debug line
+        if (!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask))
+        {
+            blockedByWall = false;
+            Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.green, 100f);  //debug line
+        }
+        else//debug
+        {
+            Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.red, 100f);  //debug line
+        }
+
+        if (!onBoardEntities[x, y] && !blockedByWall)
+        {
+            GameObject MoveCheck = Instantiate(MoveHighlight, new Vector3(x - y * 0.5f, y), Quaternion.identity);
+            onBoardChecks[x, y] = MoveCheck;
+            MoveCheck.name = "MoveCheck";
+            Highlight highlightScript = MoveCheck.GetComponent<Highlight>();
+            highlightScript.setCoordinates(x, y);
+            highlightScript.setRange(range + 1);
+            return true;
+        }
+        return false;
+    }
+
     public void HighlightPossibleMoves(int x, int y, int range)
     {
-        bool blockedByWall = true;
         Vector2 wallCheckLineStart, wallCheckLineEnd;
-        wallCheckLineStart = new Vector2( x, y + 3 * _height);
-        LayerMask wallMask = LayerMask.GetMask("Wall");
-        LayerMask halfWallMask = LayerMask.GetMask("HalfWall");
-        LayerMask smokeMask = LayerMask.GetMask("Smoke");
+        
         List<TileCoordinates> fov = MidpointCircleAlgorithmScan(x, y, range, false);
         bool seekedTeam = !onBoardEntities[x, y].whatTeam();
 
         //highlight possible walk
 
-        if (activeX != 0)
+        int moveRangeCount = 0;
+        Queue<GridTools.TileCoordinates> tilesQueue = new Queue<GridTools.TileCoordinates>();
+        if (moveRangeCount < onBoardEntities[x, y].howManyMoves())
         {
-            blockedByWall = true;
-            wallCheckLineEnd = new Vector2(x - 1, y + 3 * _height);
-            //Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.green, 10f);  //debug line
-            if (!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask))
-            {
-                blockedByWall = false;
-            }
-
-            if (!onBoardEntities[x - 1, y] && !blockedByWall)
-            {
-                GameObject MoveCheck = Instantiate(MoveHighlight, new Vector3(x - 1 - y * 0.5f, y), Quaternion.identity);
-                boardCheck[x - 1, y] = MoveCheck;
-                MoveCheck.name = "MoveCheck";
-                Highlight highlightScript = MoveCheck.GetComponent<Highlight>();
-                highlightScript.setCoordinates(x - 1, y);
-            }
+            GameObject MoveCheck = new GameObject();
+            onBoardChecks[x, y] = MoveCheck;
+            MoveCheck.name = "MidCheck";
+            tilesQueue.Enqueue(new GridTools.TileCoordinates(x, y));
         }
-        if (activeX != _width - 1)
+        while(moveRangeCount < onBoardEntities[x, y].howManyMoves())
         {
-            blockedByWall = true;
-            wallCheckLineEnd = new Vector2(x + 1, y + 3 * _height);
-            //Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.green, 10f);  //debug line
-            if (!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask))
+            Queue<GridTools.TileCoordinates> newTilesQueue = new Queue<GridTools.TileCoordinates>();
+            while (tilesQueue.Count != 0)
             {
-                blockedByWall = false;
+                GridTools.TileCoordinates currentTile = tilesQueue.Dequeue();
+                wallCheckLineStart = new Vector2(currentTile.x, currentTile.y + 3 * _height);
+                if (currentTile.x != 0 && !onBoardChecks[currentTile.x - 1, currentTile.y])
+                {
+                    if(WalkHighlightCheck(currentTile.x - 1, currentTile.y, wallCheckLineStart, moveRangeCount))
+                    {
+                        newTilesQueue.Enqueue(new GridTools.TileCoordinates(currentTile.x - 1, currentTile.y));
+                    }
+                }
+                if (currentTile.x != _width - 1 && !onBoardChecks[currentTile.x + 1, currentTile.y])
+                {
+                    if (WalkHighlightCheck(currentTile.x + 1, currentTile.y, wallCheckLineStart, moveRangeCount))
+                    {
+                        newTilesQueue.Enqueue(new GridTools.TileCoordinates(currentTile.x + 1, currentTile.y));
+                    }
+                }
+                if (currentTile.y != 0 && !onBoardChecks[currentTile.x, currentTile.y - 1])
+                {
+                    if (WalkHighlightCheck(currentTile.x, currentTile.y - 1, wallCheckLineStart, moveRangeCount))
+                    {
+                        newTilesQueue.Enqueue(new GridTools.TileCoordinates(currentTile.x, currentTile.y - 1));
+                    }
+                }
+                if (currentTile.y != _height - 1 && !onBoardChecks[currentTile.x, currentTile.y + 1])
+                {
+                    if (WalkHighlightCheck(currentTile.x, currentTile.y + 1, wallCheckLineStart, moveRangeCount))
+                    {
+                        newTilesQueue.Enqueue(new GridTools.TileCoordinates(currentTile.x, currentTile.y + 1));
+                    }
+                }
             }
-
-            if (!onBoardEntities[x + 1, y] && !blockedByWall)
-            {
-                GameObject MoveCheck = Instantiate(MoveHighlight, new Vector3(x + 1 - y * 0.5f, y), Quaternion.identity);
-                boardCheck[x + 1, y] = MoveCheck;
-                MoveCheck.name = "MoveCheck";
-                Highlight highlightScript = MoveCheck.GetComponent<Highlight>();
-                highlightScript.setCoordinates(x + 1, y);
-            }
+            tilesQueue = newTilesQueue;
+            moveRangeCount++;
         }
-        if (activeY != 0)
-        {
-            blockedByWall = true;
-            wallCheckLineEnd = new Vector2(x, y - 1 + 3 * _height);
-            //Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.green, 10f);  //debug line
-            if (!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask))
-            {
-                blockedByWall = false;
-            }
 
-            if (!onBoardEntities[x, y - 1] && !blockedByWall)
-            {
-                GameObject MoveCheck = Instantiate(MoveHighlight, new Vector3(x - (y - 1) * 0.5f, y - 1), Quaternion.identity);
-                boardCheck[x, y - 1] = MoveCheck;
-                MoveCheck.name = "MoveCheck";
-                Highlight highlightScript = MoveCheck.GetComponent<Highlight>();
-                highlightScript.setCoordinates(x, y - 1);
-            }
 
-        }
-        if (activeY != _height - 1)
-        {
-            blockedByWall = true;
-            wallCheckLineEnd = new Vector2(x, y + 1 + 3 * _height);
-            //Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.green, 10f);  //debug line
-            if (!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask))
-            {
-                blockedByWall = false;
-            }
+        //if (activeX != 0)
+        //{
+        //    blockedByWall = true;
+        //    wallCheckLineEnd = new Vector2(x - 1, y + 3 * _height);
+        //    //Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.green, 10f);  //debug line
+        //    if (!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask))
+        //    {
+        //        blockedByWall = false;
+        //    }
 
-            if (!onBoardEntities[x, y + 1] && !blockedByWall)
-            {
-                GameObject MoveCheck = Instantiate(MoveHighlight, new Vector3(x - (y + 1) * 0.5f, y + 1), Quaternion.identity);
-                boardCheck[x, y + 1] = MoveCheck;
-                MoveCheck.name = "MoveCheck";
-                Highlight highlightScript = MoveCheck.GetComponent<Highlight>();
-                highlightScript.setCoordinates(x, y + 1);
-            }
-        }
-   
+        //    if (!onBoardEntities[x - 1, y] && !blockedByWall)
+        //    {
+        //        GameObject MoveCheck = Instantiate(MoveHighlight, new Vector3(x - 1 - y * 0.5f, y), Quaternion.identity);
+        //        onBoardChecks[x - 1, y] = MoveCheck;
+        //        MoveCheck.name = "MoveCheck";
+        //        Highlight highlightScript = MoveCheck.GetComponent<Highlight>();
+        //        highlightScript.setCoordinates(x - 1, y);
+        //    }
+        //}
+        //if (activeX != _width - 1)
+        //{
+        //    blockedByWall = true;
+        //    wallCheckLineEnd = new Vector2(x + 1, y + 3 * _height);
+        //    //Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.green, 10f);  //debug line
+        //    if (!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask))
+        //    {
+        //        blockedByWall = false;
+        //    }
+
+        //    if (!onBoardEntities[x + 1, y] && !blockedByWall)
+        //    {
+        //        GameObject MoveCheck = Instantiate(MoveHighlight, new Vector3(x + 1 - y * 0.5f, y), Quaternion.identity);
+        //        onBoardChecks[x + 1, y] = MoveCheck;
+        //        MoveCheck.name = "MoveCheck";
+        //        Highlight highlightScript = MoveCheck.GetComponent<Highlight>();
+        //        highlightScript.setCoordinates(x + 1, y);
+        //    }
+        //}
+        //if (activeY != 0)
+        //{
+        //    blockedByWall = true;
+        //    wallCheckLineEnd = new Vector2(x, y - 1 + 3 * _height);
+        //    //Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.green, 10f);  //debug line
+        //    if (!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask))
+        //    {
+        //        blockedByWall = false;
+        //    }
+
+        //    if (!onBoardEntities[x, y - 1] && !blockedByWall)
+        //    {
+        //        GameObject MoveCheck = Instantiate(MoveHighlight, new Vector3(x - (y - 1) * 0.5f, y - 1), Quaternion.identity);
+        //        onBoardChecks[x, y - 1] = MoveCheck;
+        //        MoveCheck.name = "MoveCheck";
+        //        Highlight highlightScript = MoveCheck.GetComponent<Highlight>();
+        //        highlightScript.setCoordinates(x, y - 1);
+        //    }
+
+        //}
+        //if (activeY != _height - 1)
+        //{
+        //    blockedByWall = true;
+        //    wallCheckLineEnd = new Vector2(x, y + 1 + 3 * _height);
+        //    //Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.green, 10f);  //debug line
+        //    if (!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask))
+        //    {
+        //        blockedByWall = false;
+        //    }
+
+        //    if (!onBoardEntities[x, y + 1] && !blockedByWall)
+        //    {
+        //        GameObject MoveCheck = Instantiate(MoveHighlight, new Vector3(x - (y + 1) * 0.5f, y + 1), Quaternion.identity);
+        //        onBoardChecks[x, y + 1] = MoveCheck;
+        //        MoveCheck.name = "MoveCheck";
+        //        Highlight highlightScript = MoveCheck.GetComponent<Highlight>();
+        //        highlightScript.setCoordinates(x, y + 1);
+        //    }
+        //}
+
         //highlight possible attacks
 
+        wallCheckLineStart = new Vector2(x, y + 3 * _height);
         for (int i = 0; i < fov.Count; i++)
         {
             wallCheckLineEnd = new Vector2(fov[i].x, fov[i].y + 3 * _height);
@@ -1020,7 +1090,7 @@ public class GridManager : MonoBehaviour
                 if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && (((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()) && ((onBoardEntities[fov[i].x, fov[i].y].isCrouched() && !(Physics2D.Linecast(wallCheckLineEnd, halfWallCheckPoint(wallCheckLineStart, wallCheckLineEnd), halfWallMask)) || !onBoardEntities[fov[i].x, fov[i].y].isCrouched()))))
                 {
                     GameObject EnemyCheck = Instantiate(EnemyHighlight, new Vector3(fov[i].x - fov[i].y * 0.5f, fov[i].y), Quaternion.identity);
-                    boardCheck[fov[i].x, fov[i].y] = EnemyCheck;
+                    onBoardChecks[fov[i].x, fov[i].y] = EnemyCheck;
                     EnemyCheck.name = "EnemyCheck";
                     Highlight highlightScript = EnemyCheck.GetComponent<Highlight>();
                     highlightScript.setCoordinates(fov[i].x, fov[i].y);
@@ -1028,10 +1098,26 @@ public class GridManager : MonoBehaviour
                 // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.yellow, 10f);  //debug line
                 else if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()))
                 {
-                    if(!boardCheck[fov[i].x, fov[i].y])
+                    bool isNotTaken = false;
+                    if (!FOVChecks[fov[i].x, fov[i].y])
+                    {
+                        if(onBoardChecks[fov[i].x, fov[i].y])
+                        {
+                            if (onBoardChecks[fov[i].x, fov[i].y].name == "EnemyCheck")
+                            {
+                                isNotTaken = true;
+                            }
+                        }
+                        else
+                        {
+                            isNotTaken = true;
+                        }
+                    }
+                    
+                    if(isNotTaken)
                     {
                         GameObject FOVCheck = Instantiate(FOVHighlight, new Vector3(fov[i].x - fov[i].y * 0.5f, fov[i].y), Quaternion.identity);
-                        boardCheck[fov[i].x, fov[i].y] = FOVCheck;
+                        FOVChecks[fov[i].x, fov[i].y] = FOVCheck;
                         FOVCheck.name = "FOVCheck";
                         Highlight highlightScript = FOVCheck.GetComponent<Highlight>();
                         highlightScript.setCoordinates(fov[i].x, fov[i].y);
@@ -1043,10 +1129,26 @@ public class GridManager : MonoBehaviour
                 // Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.yellow, 10f);  //debug line
                 if ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, smokeMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask)) && ((!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()) || !onBoardEntities[x, y].isCrouched()))
                 {
-                    if(!boardCheck[fov[i].x, fov[i].y])
+                    bool _isNotTaken = false;
+                    if (!FOVChecks[fov[i].x, fov[i].y])
+                    {
+                        if (onBoardChecks[fov[i].x, fov[i].y])
+                        {
+                            if (onBoardChecks[fov[i].x, fov[i].y].name == "MoveCheck")
+                            {
+                                _isNotTaken = true;
+                            }
+                        }
+                        else
+                        {
+                            _isNotTaken = true;
+                        }
+                    }
+
+                    if (_isNotTaken)
                     {
                         GameObject FOVCheck = Instantiate(FOVHighlight, new Vector3(fov[i].x - fov[i].y * 0.5f, fov[i].y), Quaternion.identity);
-                        boardCheck[fov[i].x, fov[i].y] = FOVCheck;
+                        FOVChecks[fov[i].x, fov[i].y] = FOVCheck;
                         FOVCheck.name = "FOVCheck";
                         Highlight highlightScript = FOVCheck.GetComponent<Highlight>();
                         highlightScript.setCoordinates(fov[i].x, fov[i].y);
@@ -1071,7 +1173,7 @@ public class GridManager : MonoBehaviour
             if (!(Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask) || (halfWallBlocked && (Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask) && onBoardEntities[x, y].isCrouched()))))
             {
                 GameObject GadgetCheck = Instantiate(GadgetHighlight, new Vector3(fov[i].x - (fov[i].y) * 0.5f, fov[i].y), Quaternion.identity);
-                boardCheck[fov[i].x, fov[i].y] = GadgetCheck;
+                onBoardChecks[fov[i].x, fov[i].y] = GadgetCheck;
                 GadgetCheck.name = "GadgetCheck";
                 Highlight highlightScript = GadgetCheck.GetComponent<Highlight>();
                 highlightScript.setCoordinates(fov[i].x, fov[i].y);
@@ -1455,13 +1557,18 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    void Move()
+    void Move(int range)
     {
         bool _directional = (passiveX != activeX);
         bool _moveSide = (passiveX > activeX);
 
         onBoardEntities[activeX, activeY].SetOnGridPosition(passiveX, passiveY);
         onBoardEntities[activeX, activeY].Walk(_moveSide, _directional, new Vector3(passiveX - passiveY * 0.5f, passiveY));
+
+        for(int i = 1; i < range; i++)
+        {
+            onBoardEntities[activeX, activeY].takeMove();
+        }
 
         onBoardEntities[passiveX, passiveY] = onBoardEntities[activeX, activeY];
         HideWall(passiveX, passiveY);
@@ -1524,22 +1631,22 @@ public class GridManager : MonoBehaviour
 
                 if (passive)
                 {
-                    if(boardCheck[passiveX,passiveY] && onBoardEntities[activeX, activeY].CanMove())
+                    if(onBoardChecks[passiveX,passiveY] && onBoardEntities[activeX, activeY].CanMove())
                     {
-                        if(boardCheck[passiveX, passiveY].name == "MoveCheck")
+                        if(onBoardChecks[passiveX, passiveY].name == "MoveCheck")
                         {
-                            Move();
+                            Move(onBoardChecks[passiveX, passiveY].GetComponent<Highlight>().getRange());
                             if (unitIsSelected && !cameraZoomed)
                             {
                                 cameraController.MoveCamera(activeX - activeY * 0.5f, activeY, onBoardEntities[activeX, activeY].whatRange());
                                 cameraZoomed = true;
                             }
                         }
-                        else if (boardCheck[passiveX, passiveY].name == "EnemyCheck")
+                        else if (onBoardChecks[passiveX, passiveY].name == "EnemyCheck")
                         {
                             Attack();
                         }
-                        else if (boardCheck[passiveX, passiveY].name == "GadgetCheck")
+                        else if (onBoardChecks[passiveX, passiveY].name == "GadgetCheck")
                         {
                             UseGadget();
                         }

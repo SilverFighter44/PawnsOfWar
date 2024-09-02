@@ -3555,10 +3555,10 @@ TextureImporter:
       name: FlagPole
       rect:
         serializedVersion: 2
-        x: 108
-        y: 710
-        width: 4
-        height: 91
+        x: 106
+        y: 711
+        width: 5
+        height: 89
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

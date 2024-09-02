@@ -937,7 +937,7 @@ TextureImporter:
         width: 150
         height: 100
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -945,6 +945,27 @@ TextureImporter:
       bones: []
       spriteID: 1fae886988a0ea54b9617a6bbe799296
       internalID: 1614550857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectMarkerReverse
+      rect:
+        serializedVersion: 2
+        x: 447
+        y: 978
+        width: 150
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 026c4382c582d63459a23cda61239615
+      internalID: 67590931
       vertices: []
       indices: 
       edges: []
@@ -971,6 +992,7 @@ TextureImporter:
       SandRoad_Tile: -921343322
       Sand_Tile: -921538613
       SelectMarker: 1614550857
+      SelectMarkerReverse: 67590931
       Wall_Front: 77657099
       Wall_Side: 389049911
       Window_Front: -1319021220
