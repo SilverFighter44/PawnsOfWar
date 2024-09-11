@@ -25,7 +25,7 @@ public class GridManager : MonoBehaviour
     StartData.gameMode gameMode;
 
     int[,] onBoardGadgets;
-    Unit[,] onBoardEntities;
+    public Unit[,] onBoardEntities;
     GameObject[,] onBoardChecks, FOVChecks;    // array of highlights (attack and move)
     Wall[,] BoardConnectionGridX;
     Wall[,] BoardConnectionGridY;
@@ -912,7 +912,7 @@ public class GridManager : MonoBehaviour
         return endPoint + 0.5f * checkPointShift;
     }
 
-    public bool WalkHighlightCheck(int x, int y, Vector2 wallCheckLineStart, int range)
+    public bool WalkHighlightCheck(int x, int y, Vector2 wallCheckLineStart, int range, GridTools.TileCoordinates parentTile)
     {
         Vector2  wallCheckLineEnd = new Vector2(x, y + 3 * _height);
         bool blockedByWall = true;
@@ -930,6 +930,21 @@ public class GridManager : MonoBehaviour
         if (!onBoardEntities[x, y] && !blockedByWall)
         {
             GameObject MoveCheck = Instantiate(MoveHighlight, new Vector3(x - y * 0.5f, y), Quaternion.identity);
+            MoveHighlight MoveCheckHighlight = MoveCheck.GetComponent<MoveHighlight>();
+            Queue<GridTools.TileCoordinates> movesQueue = new Queue<GridTools.TileCoordinates>();
+            if(onBoardChecks[parentTile.x, parentTile.y].GetComponent<MoveHighlight>())
+            {
+                if (onBoardChecks[parentTile.x, parentTile.y].GetComponent<MoveHighlight>().getMovesQeue().Count != 0)
+                {
+                    GridTools.TileCoordinates[] parentsPath = onBoardChecks[parentTile.x, parentTile.y].GetComponent<MoveHighlight>().getMovesQeue().ToArray();
+                    for(int i = 0; i < parentsPath.Length; i++)
+                    {
+                        movesQueue.Enqueue(parentsPath[i]);
+                    }
+                }
+            }
+            movesQueue.Enqueue(new GridTools.TileCoordinates(x, y));
+            MoveCheckHighlight.setMovesQueue(movesQueue);
             onBoardChecks[x, y] = MoveCheck;
             MoveCheck.name = "MoveCheck";
             Highlight highlightScript = MoveCheck.GetComponent<Highlight>();
@@ -950,15 +965,16 @@ public class GridManager : MonoBehaviour
         //highlight possible walk
 
         int moveRangeCount = 0;
+        int moveRangeCountLimit = onBoardEntities[x, y].isCrouched() ? onBoardEntities[x, y].howManyMoves() - 1 : onBoardEntities[x, y].howManyMoves();
         Queue<GridTools.TileCoordinates> tilesQueue = new Queue<GridTools.TileCoordinates>();
-        if (moveRangeCount < onBoardEntities[x, y].howManyMoves())
+        if (moveRangeCount < moveRangeCountLimit)
         {
             GameObject MoveCheck = new GameObject();
             onBoardChecks[x, y] = MoveCheck;
             MoveCheck.name = "MidCheck";
             tilesQueue.Enqueue(new GridTools.TileCoordinates(x, y));
         }
-        while(moveRangeCount < onBoardEntities[x, y].howManyMoves())
+        while(moveRangeCount < moveRangeCountLimit)
         {
             Queue<GridTools.TileCoordinates> newTilesQueue = new Queue<GridTools.TileCoordinates>();
             while (tilesQueue.Count != 0)
@@ -967,28 +983,28 @@ public class GridManager : MonoBehaviour
                 wallCheckLineStart = new Vector2(currentTile.x, currentTile.y + 3 * _height);
                 if (currentTile.x != 0 && !onBoardChecks[currentTile.x - 1, currentTile.y])
                 {
-                    if(WalkHighlightCheck(currentTile.x - 1, currentTile.y, wallCheckLineStart, moveRangeCount))
+                    if(WalkHighlightCheck(currentTile.x - 1, currentTile.y, wallCheckLineStart, moveRangeCount, currentTile))
                     {
                         newTilesQueue.Enqueue(new GridTools.TileCoordinates(currentTile.x - 1, currentTile.y));
                     }
                 }
                 if (currentTile.x != _width - 1 && !onBoardChecks[currentTile.x + 1, currentTile.y])
                 {
-                    if (WalkHighlightCheck(currentTile.x + 1, currentTile.y, wallCheckLineStart, moveRangeCount))
+                    if (WalkHighlightCheck(currentTile.x + 1, currentTile.y, wallCheckLineStart, moveRangeCount, currentTile))
                     {
                         newTilesQueue.Enqueue(new GridTools.TileCoordinates(currentTile.x + 1, currentTile.y));
                     }
                 }
                 if (currentTile.y != 0 && !onBoardChecks[currentTile.x, currentTile.y - 1])
                 {
-                    if (WalkHighlightCheck(currentTile.x, currentTile.y - 1, wallCheckLineStart, moveRangeCount))
+                    if (WalkHighlightCheck(currentTile.x, currentTile.y - 1, wallCheckLineStart, moveRangeCount, currentTile))
                     {
                         newTilesQueue.Enqueue(new GridTools.TileCoordinates(currentTile.x, currentTile.y - 1));
                     }
                 }
                 if (currentTile.y != _height - 1 && !onBoardChecks[currentTile.x, currentTile.y + 1])
                 {
-                    if (WalkHighlightCheck(currentTile.x, currentTile.y + 1, wallCheckLineStart, moveRangeCount))
+                    if (WalkHighlightCheck(currentTile.x, currentTile.y + 1, wallCheckLineStart, moveRangeCount, currentTile))
                     {
                         newTilesQueue.Enqueue(new GridTools.TileCoordinates(currentTile.x, currentTile.y + 1));
                     }
@@ -997,85 +1013,6 @@ public class GridManager : MonoBehaviour
             tilesQueue = newTilesQueue;
             moveRangeCount++;
         }
-
-
-        //if (activeX != 0)
-        //{
-        //    blockedByWall = true;
-        //    wallCheckLineEnd = new Vector2(x - 1, y + 3 * _height);
-        //    //Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.green, 10f);  //debug line
-        //    if (!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask))
-        //    {
-        //        blockedByWall = false;
-        //    }
-
-        //    if (!onBoardEntities[x - 1, y] && !blockedByWall)
-        //    {
-        //        GameObject MoveCheck = Instantiate(MoveHighlight, new Vector3(x - 1 - y * 0.5f, y), Quaternion.identity);
-        //        onBoardChecks[x - 1, y] = MoveCheck;
-        //        MoveCheck.name = "MoveCheck";
-        //        Highlight highlightScript = MoveCheck.GetComponent<Highlight>();
-        //        highlightScript.setCoordinates(x - 1, y);
-        //    }
-        //}
-        //if (activeX != _width - 1)
-        //{
-        //    blockedByWall = true;
-        //    wallCheckLineEnd = new Vector2(x + 1, y + 3 * _height);
-        //    //Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.green, 10f);  //debug line
-        //    if (!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask))
-        //    {
-        //        blockedByWall = false;
-        //    }
-
-        //    if (!onBoardEntities[x + 1, y] && !blockedByWall)
-        //    {
-        //        GameObject MoveCheck = Instantiate(MoveHighlight, new Vector3(x + 1 - y * 0.5f, y), Quaternion.identity);
-        //        onBoardChecks[x + 1, y] = MoveCheck;
-        //        MoveCheck.name = "MoveCheck";
-        //        Highlight highlightScript = MoveCheck.GetComponent<Highlight>();
-        //        highlightScript.setCoordinates(x + 1, y);
-        //    }
-        //}
-        //if (activeY != 0)
-        //{
-        //    blockedByWall = true;
-        //    wallCheckLineEnd = new Vector2(x, y - 1 + 3 * _height);
-        //    //Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.green, 10f);  //debug line
-        //    if (!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask))
-        //    {
-        //        blockedByWall = false;
-        //    }
-
-        //    if (!onBoardEntities[x, y - 1] && !blockedByWall)
-        //    {
-        //        GameObject MoveCheck = Instantiate(MoveHighlight, new Vector3(x - (y - 1) * 0.5f, y - 1), Quaternion.identity);
-        //        onBoardChecks[x, y - 1] = MoveCheck;
-        //        MoveCheck.name = "MoveCheck";
-        //        Highlight highlightScript = MoveCheck.GetComponent<Highlight>();
-        //        highlightScript.setCoordinates(x, y - 1);
-        //    }
-
-        //}
-        //if (activeY != _height - 1)
-        //{
-        //    blockedByWall = true;
-        //    wallCheckLineEnd = new Vector2(x, y + 1 + 3 * _height);
-        //    //Debug.DrawLine(wallCheckLineStart, wallCheckLineEnd, Color.green, 10f);  //debug line
-        //    if (!Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, wallMask) && !Physics2D.Linecast(wallCheckLineStart, wallCheckLineEnd, halfWallMask))
-        //    {
-        //        blockedByWall = false;
-        //    }
-
-        //    if (!onBoardEntities[x, y + 1] && !blockedByWall)
-        //    {
-        //        GameObject MoveCheck = Instantiate(MoveHighlight, new Vector3(x - (y + 1) * 0.5f, y + 1), Quaternion.identity);
-        //        onBoardChecks[x, y + 1] = MoveCheck;
-        //        MoveCheck.name = "MoveCheck";
-        //        Highlight highlightScript = MoveCheck.GetComponent<Highlight>();
-        //        highlightScript.setCoordinates(x, y + 1);
-        //    }
-        //}
 
         //highlight possible attacks
 
@@ -1550,9 +1487,7 @@ public class GridManager : MonoBehaviour
     {
         if(onBoardEntities[activeX, activeY].CanShoot())
         {
-            onBoardEntities[activeX, activeY].ShootAt(passiveX - passiveY * 0.5f, passiveY+1);
-            int DamageDealt = 50;   // for constant damage to improve later
-            onBoardEntities[passiveX, passiveY].takeDamage(DamageDealt);
+            onBoardEntities[activeX, activeY].ShootAt(passiveX - passiveY * 0.5f, passiveY + 1, passiveX, passiveY);
             UpdateMovesCount();
         }
     }
@@ -1563,9 +1498,9 @@ public class GridManager : MonoBehaviour
         bool _moveSide = (passiveX > activeX);
 
         onBoardEntities[activeX, activeY].SetOnGridPosition(passiveX, passiveY);
-        onBoardEntities[activeX, activeY].Walk(_moveSide, _directional, new Vector3(passiveX - passiveY * 0.5f, passiveY));
+        onBoardEntities[activeX, activeY].Walk(_moveSide, _directional, onBoardChecks[passiveX, passiveY].GetComponent<MoveHighlight>());
 
-        for(int i = 1; i < range; i++)
+        for (int i = 1; i <= range; i++)
         {
             onBoardEntities[activeX, activeY].takeMove();
         }

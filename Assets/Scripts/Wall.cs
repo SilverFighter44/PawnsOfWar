@@ -123,7 +123,7 @@ public class Wall : MonoBehaviour
 
     public void setLayer(int _width, int _height)
     {
-        Debug.Log(wallInfo.x + " " + wallInfo.y + " " + _width + " " + _height);
+        //Debug.Log(wallInfo.x + " " + wallInfo.y + " " + _width + " " + _height);
         height = _height;
         if (wallInfo.isVertical)
         {

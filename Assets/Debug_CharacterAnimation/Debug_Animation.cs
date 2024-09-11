@@ -16,7 +16,7 @@ public class Debug_Animation : MonoBehaviour
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             _x = mousePos.x;
             _y = mousePos.y;
-            unitScript.ShootAt(_x, _y);
+            unitScript.ShootAt(_x, _y, 0, 0);
         }
     }
     void Start()

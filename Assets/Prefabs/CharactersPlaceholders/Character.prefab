@@ -516,9 +516,6 @@ MonoBehaviour:
   gadgetActive: 0
   gadget1Active: 0
   unitNumberDisplay: {fileID: 3889489110000424394}
-  unitTshirt: {fileID: 7216250724685748586}
-  unitTshirtL: {fileID: 7315072209880627785}
-  unitTshirtR: {fileID: 1867469933700252177}
   unitShirt: {fileID: 2084617703000973019}
   unitShirtUpL: {fileID: 3491639784559585911}
   unitShirtUpR: {fileID: 5871197000589849881}
@@ -544,10 +541,6 @@ MonoBehaviour:
   healthBar: {fileID: 1798631111575473851}
   characterParts: []
   characterPartsLayerOrder: 
-  MaxHeight: 0
-  MaxWidth: 0
-  unitOnGridPositionX: 0
-  unitOnGridPositionY: 0
   maxMag: 0
   maxMoves: 0
   movesCount: 0
@@ -555,6 +548,12 @@ MonoBehaviour:
   mag: 0
   hp: 0
   id: 0
+  maxOnGridPosition:
+    x: 1
+    y: 1
+  unitOnGridPosition:
+    x: 0
+    y: 0
   helmet: {fileID: 436645159137128506}
   activeGadgetType: 0
 --- !u!212 &6509964496051423933

@@ -40,7 +40,7 @@ public class Unit : MonoBehaviour
     public enum role { Infantryman, Rifleman, end, Spy, Sapper, Support, ExplosivesSpecialist, Sniper, GasSpecialist, LauncherOperator, CombatEngineer, Medic, Scout };
     public enum number { I, II, III, IV };
 
-    [SerializeField] private bool canMove, canShoot, team, crouched, gadgetActive, gadget1Active;
+    [SerializeField] private bool canMove, canShoot, team, crouched, gadgetActive, gadget1Active, moveActive = false;
     [SerializeField] private TextMeshPro unitNumberDisplay;
     [SerializeField] private UnityEngine.U2D.Animation.SpriteResolver unitShirt, unitShirtUpL, unitShirtUpR, unitShirtDnL, unitShirtDnR, unitPants, unitPantsUpL, unitPantsUpR, unitPantsDnL, unitPantsDnR, unitHelmet, unitHelmetBackground, unitBootsUpL, unitBootsUpR, unitBootsDnL, unitBootsDnR, unitRig, unitAmmoPouch;
     [SerializeField] private Project.WeaponData.WeaponManager weaponManager;
@@ -53,6 +53,8 @@ public class Unit : MonoBehaviour
     [SerializeField] private GridTools.TileCoordinates maxOnGridPosition = new GridTools.TileCoordinates(1, 1), unitOnGridPosition = new GridTools.TileCoordinates(0, 0);
     [SerializeField] private GameObject helmet;
     [SerializeField] private gadget activeGadgetType;
+    [SerializeField] private Queue<GridTools.TileCoordinates> movesQueue = new Queue<GridTools.TileCoordinates>();
+    
 
     // maxOnGridPosition: x = width, y = height
 
@@ -187,29 +189,35 @@ public class Unit : MonoBehaviour
 
     public void useGadget1()
     {
-        if (gadgetActive)
+        if (!moveActive)
         {
-            unequipGadget();
-        }
-        else
-        {
-            gadgetActive = true;
-            gadget1Active = true;
-            weaponManager.EquipGadget1();
+            if (gadgetActive)
+            {
+                unequipGadget();
+            }
+            else
+            {
+                gadgetActive = true;
+                gadget1Active = true;
+                weaponManager.EquipGadget1();
+            }
         }
     }
 
     public void useGadget2()
     {
-        if (gadgetActive)
+        if (!moveActive)
         {
-            unequipGadget();
-        }
-        else
-        {
-            gadgetActive = true;
-            gadget1Active = false;
-            weaponManager.EquipGadget2();
+            if (gadgetActive)
+            {
+                unequipGadget();
+            }
+            else
+            {
+                gadgetActive = true;
+                gadget1Active = false;
+                weaponManager.EquipGadget2();
+            }
         }
     }
 
@@ -224,7 +232,7 @@ public class Unit : MonoBehaviour
         return data;
     }
 
-    public async void Walk(bool _WalkDirection, bool _IsDirectional, Vector3 _WalkTarget)
+    public async void Walk(bool _WalkDirection, bool _IsDirectional, MoveHighlight moveHighlight)
     {
         if (crouched && canMove)
         {
@@ -232,21 +240,52 @@ public class Unit : MonoBehaviour
         }
         if (canMove)
         {
-            weaponManager.MoveSide(_WalkDirection, _IsDirectional);
-            WalkMovement(_WalkTarget);
-            onGridPosition = _WalkTarget;
-            characterParts = GetComponentsInChildren<SpriteRenderer>();
-            characterPartsLayerOrder = new int[characterParts.Length];
-            for (int i = 0; i < characterParts.Length; i++)
+            Queue<GridTools.TileCoordinates> highlightQueue = moveHighlight.GetComponent<MoveHighlight>().getMovesQeue();
+            Debug.Log("movesQueue: " + movesQueue.Count + " highlightQueue: " + highlightQueue.Count);
+            while (highlightQueue.Count > 0)
             {
-                characterPartsLayerOrder[i] = characterParts[i].sortingOrder;
+                movesQueue.Enqueue(highlightQueue.Dequeue());
+                Debug.Log("movesQueue: " + movesQueue.Count + " highlightQueue: " + highlightQueue.Count);
             }
-            SortLayers();
-            for (int i = 0; i < characterParts.Length; i++)
+            if(!moveActive && movesQueue.Count > 0)
             {
-                characterParts[i].sortingOrder = i + GridTools.OnGridObjectLayer(maxOnGridPosition.x, maxOnGridPosition.y, unitOnGridPosition.x, unitOnGridPosition.y);
+                moveActive = true;
+                while(movesQueue.Count > 0)
+                {
+
+                    GridTools.TileCoordinates newWalkPosition = movesQueue.Dequeue();
+                    characterParts = GetComponentsInChildren<SpriteRenderer>();
+                    characterPartsLayerOrder = new int[characterParts.Length];
+                    for (int i = 0; i < characterParts.Length; i++)
+                    {
+                        characterPartsLayerOrder[i] = characterParts[i].sortingOrder;
+                    }
+                    SortLayers();
+                    for (int i = 0; i < characterParts.Length; i++)
+                    {
+                        characterParts[i].sortingOrder = i + GridTools.OnGridObjectLayer(maxOnGridPosition.x, maxOnGridPosition.y, newWalkPosition.x, newWalkPosition.y);
+                    }
+                    weaponManager.MoveSide(_WalkDirection, _IsDirectional);
+                    await WalkMovement(new Vector3(newWalkPosition.x - newWalkPosition.y * 0.5f, newWalkPosition.y));
+                    onGridPosition = new Vector3(newWalkPosition.x - newWalkPosition.y * 0.5f, newWalkPosition.y);
+                }
+                moveActive = false;
             }
-            takeMove();
+            //weaponManager.MoveSide(_WalkDirection, _IsDirectional);
+            //WalkMovement(_WalkTarget);
+            //onGridPosition = _WalkTarget;
+            //characterParts = GetComponentsInChildren<SpriteRenderer>();
+            //characterPartsLayerOrder = new int[characterParts.Length];
+            //for (int i = 0; i < characterParts.Length; i++)
+            //{
+            //    characterPartsLayerOrder[i] = characterParts[i].sortingOrder;
+            //}
+            //SortLayers();
+            //for (int i = 0; i < characterParts.Length; i++)
+            //{
+            //    characterParts[i].sortingOrder = i + GridTools.OnGridObjectLayer(maxOnGridPosition.x, maxOnGridPosition.y, unitOnGridPosition.x, unitOnGridPosition.y);
+            //}
+            //takeMove();
         }
     }
 
@@ -266,23 +305,26 @@ public class Unit : MonoBehaviour
 
     public void crouch()
     {
-        if (movesCount > 0)
+        if (!moveActive)
         {
-            if (crouched)
+            if (movesCount > 0)
             {
-                crouched = false;
-                unitAnimator.ResetTrigger("Crouch");
-                unitAnimator.SetTrigger("Uncrouch");
-                // uncrouch
+                if (crouched)
+                {
+                    crouched = false;
+                    unitAnimator.ResetTrigger("Crouch");
+                    unitAnimator.SetTrigger("Uncrouch");
+                    // uncrouch
+                }
+                else
+                {
+                    crouched = true;
+                    unitAnimator.ResetTrigger("Uncrouch");
+                    unitAnimator.SetTrigger("Crouch");
+                    // crouch
+                }
+                takeMove();
             }
-            else
-            {
-                crouched = true;
-                unitAnimator.ResetTrigger("Uncrouch");
-                unitAnimator.SetTrigger("Crouch");
-                // crouch
-            }
-            takeMove();
         }
     }
 
@@ -291,7 +333,7 @@ public class Unit : MonoBehaviour
         unitOnGridPosition = new GridTools.TileCoordinates(x, y);
     }
 
-    public async Task WalkMovement ( Vector3 _WalkTarget)
+    public async Task WalkMovement(Vector3 _WalkTarget)
     {
         Vector3 _WalkPath = new Vector3(_WalkTarget.x - onGridPosition.x, _WalkTarget.y - onGridPosition.y, 0f);
         unitAnimator.ResetTrigger("EndWalk");
@@ -319,23 +361,31 @@ public class Unit : MonoBehaviour
         unitAnimator.SetTrigger("EndWalk");
     }
 
-    public void ShootAt( float x, float y)
+    public void ShootAt(float lookTargetX, float lookTargetY, int x, int y)
     {
-        if(canShoot)
+        if (!moveActive)
         {
-            canShoot = false;
-            weaponManager.AllLookTowards(x, y);
-            weaponManager.Shoot();
-            mag--;
-            takeMove();
+            if (canShoot)
+            {
+                canShoot = false;
+                weaponManager.AllLookTowards(lookTargetX, lookTargetY);
+                weaponManager.Shoot();
+                int DamageDealt = 50;   // for constant damage to improve later
+                if(GridManager.Instance)
+                {
+                    GridManager.Instance.onBoardEntities[x, y].takeDamage(DamageDealt);
+                }
+                mag--;
+                takeMove();
+            }
         }
     }
 
     public void reload()
     {
-            weaponManager.LookAtSide();
-            weaponManager.Reload();
-            mag = maxMag;
+        weaponManager.LookAtSide();
+        weaponManager.Reload();
+        mag = maxMag;
     }
 
     public async void SortLayers()
@@ -415,6 +465,7 @@ public class Unit : MonoBehaviour
         {
             characterParts[i].sortingOrder = characterPartsLayerOrder[i] + GridTools.OnGridObjectLayer(maxOnGridPosition.x, maxOnGridPosition.y, unitOnGridPosition.x, unitOnGridPosition.y);
         }
+        //team highlight
         canShoot = true;
     }
     
