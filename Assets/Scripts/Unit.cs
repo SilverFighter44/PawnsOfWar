@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Threading.Tasks;
+using OutlineFx;
 
 public class Unit : MonoBehaviour
 {
@@ -54,9 +55,26 @@ public class Unit : MonoBehaviour
     [SerializeField] private GameObject helmet;
     [SerializeField] private gadget activeGadgetType;
     [SerializeField] private Queue<GridTools.TileCoordinates> movesQueue = new Queue<GridTools.TileCoordinates>();
-    
+    [SerializeField] private OutlineFx.Outline[] characterOutlines;
 
     // maxOnGridPosition: x = width, y = height
+
+    public void hideOutlines()
+    {
+        for (int i = 0; i < characterOutlines.Length; i++)
+        {
+            characterOutlines[i].Color = Color.clear;
+        }
+    }
+
+    public void showOutlines()
+    {
+        Color outlineColor = team ? Color.blue : Color.red;
+        for (int i = 0; i < characterOutlines.Length; i++)
+        {
+            characterOutlines[i].Color = outlineColor;
+        }
+    }
 
     public GridTools.TileCoordinates getMaxOnGridPosition()
     {
@@ -232,8 +250,10 @@ public class Unit : MonoBehaviour
         return data;
     }
 
-    public async void Walk(bool _WalkDirection, bool _IsDirectional, MoveHighlight moveHighlight)
+    public async void Walk(int _x, int _y, MoveHighlight moveHighlight)
     {
+        int x = unitOnGridPosition.x;
+        SetOnGridPosition(_x, _y);
         if (crouched && canMove)
         {
             crouch();
@@ -265,27 +285,15 @@ public class Unit : MonoBehaviour
                     {
                         characterParts[i].sortingOrder = i + GridTools.OnGridObjectLayer(maxOnGridPosition.x, maxOnGridPosition.y, newWalkPosition.x, newWalkPosition.y);
                     }
-                    weaponManager.MoveSide(_WalkDirection, _IsDirectional);
+                    bool _directional = (x != newWalkPosition.x);
+                    bool _moveSide = (x < newWalkPosition.x);
+                    weaponManager.MoveSide(_moveSide, _directional);
                     await WalkMovement(new Vector3(newWalkPosition.x - newWalkPosition.y * 0.5f, newWalkPosition.y));
                     onGridPosition = new Vector3(newWalkPosition.x - newWalkPosition.y * 0.5f, newWalkPosition.y);
+                    x = newWalkPosition.x;
                 }
                 moveActive = false;
             }
-            //weaponManager.MoveSide(_WalkDirection, _IsDirectional);
-            //WalkMovement(_WalkTarget);
-            //onGridPosition = _WalkTarget;
-            //characterParts = GetComponentsInChildren<SpriteRenderer>();
-            //characterPartsLayerOrder = new int[characterParts.Length];
-            //for (int i = 0; i < characterParts.Length; i++)
-            //{
-            //    characterPartsLayerOrder[i] = characterParts[i].sortingOrder;
-            //}
-            //SortLayers();
-            //for (int i = 0; i < characterParts.Length; i++)
-            //{
-            //    characterParts[i].sortingOrder = i + GridTools.OnGridObjectLayer(maxOnGridPosition.x, maxOnGridPosition.y, unitOnGridPosition.x, unitOnGridPosition.y);
-            //}
-            //takeMove();
         }
     }
 
@@ -465,7 +473,8 @@ public class Unit : MonoBehaviour
         {
             characterParts[i].sortingOrder = characterPartsLayerOrder[i] + GridTools.OnGridObjectLayer(maxOnGridPosition.x, maxOnGridPosition.y, unitOnGridPosition.x, unitOnGridPosition.y);
         }
-        //team highlight
+        characterOutlines = GetComponentsInChildren<OutlineFx.Outline>();
+        hideOutlines();
         canShoot = true;
     }
     

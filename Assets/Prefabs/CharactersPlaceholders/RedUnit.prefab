@@ -227,7 +227,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -256,7 +256,7 @@ SpriteRenderer:
   m_Size: {x: 0.25, y: 0.25}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &3616690899034957084
@@ -309,18 +309,14 @@ MonoBehaviour:
     UnitRole: 0
     UnitNumber: 0
     UnitTeam: 0
-  team: 0
   canMove: 0
   canShoot: 0
-  movesCount: 0
-  range: 0
-  mag: 0
-  hp: 100
-  id: 0
+  team: 0
+  crouched: 0
+  gadgetActive: 0
+  gadget1Active: 0
+  moveActive: 0
   unitNumberDisplay: {fileID: 7174281977997701968}
-  unitTshirt: {fileID: 0}
-  unitTshirtL: {fileID: 0}
-  unitTshirtR: {fileID: 0}
   unitShirt: {fileID: 0}
   unitShirtUpL: {fileID: 0}
   unitShirtUpR: {fileID: 0}
@@ -338,15 +334,26 @@ MonoBehaviour:
   unitBootsDnL: {fileID: 0}
   unitBootsDnR: {fileID: 0}
   unitRig: {fileID: 0}
+  unitAmmoPouch: {fileID: 0}
   weaponManager: {fileID: 0}
   unitAnimator: {fileID: 0}
+  faceAnimator: {fileID: 0}
   onGridPosition: {x: 0, y: 0, z: 0}
   healthBar: {fileID: 0}
-  gadget_I_position: {fileID: 0}
-  gadget_II_position: {fileID: 0}
   characterParts: []
   characterPartsLayerOrder: 
-  MaxHeight: 0
-  MaxWidth: 0
-  unitOnGridPositionX: 0
-  unitOnGridPositionY: 0
+  maxMag: 0
+  maxMoves: 0
+  movesCount: 0
+  range: 0
+  mag: 0
+  hp: 100
+  id: 0
+  maxOnGridPosition:
+    x: 1
+    y: 1
+  unitOnGridPosition:
+    x: 0
+    y: 0
+  helmet: {fileID: 0}
+  activeGadgetType: 0

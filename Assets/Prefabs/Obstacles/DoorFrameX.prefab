@@ -46,11 +46,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hidden: 0
-  mainRenderers: []
-  frontFrameRenderers: []
   mainParts: {fileID: 0}
   frontParts: {fileID: 0}
+  backParts: {fileID: 0}
+  mainInside: {fileID: 0}
+  mainIn: {fileID: 0}
+  mainOut: {fileID: 0}
+  frontInside: {fileID: 0}
+  frontIn: {fileID: 0}
+  frontOut: {fileID: 0}
+  backInside: {fileID: 0}
+  backIn: {fileID: 0}
+  backOut: {fileID: 0}
+  HitboxObjectPrefab: {fileID: 0}
+  currentHitboxObject: {fileID: 0}
   type: 3
+  wallInfo:
+    wallType: 0
+    wallFront: 0
+    wallBack: 0
+    wallInside: 0
+    x: 0
+    y: 0
+    isVertical: 0
+    isFacingOutside: 0
+  height: 0
 --- !u!1 &5002594276087603739
 GameObject:
   m_ObjectHideFlags: 0
@@ -103,7 +123,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

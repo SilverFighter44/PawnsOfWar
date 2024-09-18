@@ -58,6 +58,15 @@ public class GridManager : MonoBehaviour
         }
     }
 
+    public GameObject[] getBlueTeam()
+    {
+        return blueTeam;
+    }
+    public GameObject[] getRedTeam()
+    {
+        return redTeam;
+    }
+
     public List<TileCoordinates> MidpointCircleAlgorithmScan(int x, int y, int range, bool centerIncluded)
     {
         List <TileCoordinates> detectedObjects = new List<TileCoordinates>();
@@ -1494,11 +1503,7 @@ public class GridManager : MonoBehaviour
 
     void Move(int range)
     {
-        bool _directional = (passiveX != activeX);
-        bool _moveSide = (passiveX > activeX);
-
-        onBoardEntities[activeX, activeY].SetOnGridPosition(passiveX, passiveY);
-        onBoardEntities[activeX, activeY].Walk(_moveSide, _directional, onBoardChecks[passiveX, passiveY].GetComponent<MoveHighlight>());
+        onBoardEntities[activeX, activeY].Walk(passiveX, passiveY, onBoardChecks[passiveX, passiveY].GetComponent<MoveHighlight>());
 
         for (int i = 1; i <= range; i++)
         {
