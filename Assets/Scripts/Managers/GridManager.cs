@@ -33,18 +33,17 @@ public class GridManager : MonoBehaviour
     [SerializeField] private GameObject[] blueTeam, redTeam;
 
     Flag flagB, flagR;
-    int activeX = 0, activeY = 0, passiveX = 0, passiveY = 0, teamB = 4, teamR = 4, gameTime;
+    int activeX = 0, activeY = 0, passiveX = 0, passiveY = 0, blueTeamCount, redTeamCount, gameTime;
     bool active = false, passive = false, turnActive = false, moveHighlightsOn = false, unitIsSelected = false, cameraZoomed = false, firstMove = true;
     public Unit selectedUnit;
 
-    [SerializeField] private TextWriter UnitControlsHP, UnitControlsAmmo, UnitControlsNumber, UnitControlsMoves, clockCounter;
-    [SerializeField] private UI_ClassSymbol UnitControlsSymbol;
+    [SerializeField] private TextWriter clockCounter;
 
     [SerializeField] private bool turnSide;
 
     LayerMask wallMask, halfWallMask, smokeMask;
 
-    public event EventHandler destroyHighlights, nextTurn, TurnB, TurnR;
+    public event EventHandler destroyHighlights, nextTurn, TurnB, TurnR, displayUnitInfoEvent, updateUnitsInfoList;
 
     [System.Serializable]
     public struct TileCoordinates
@@ -210,17 +209,17 @@ public class GridManager : MonoBehaviour
     {
         if(team)
         {
-            teamB--;
+            blueTeamCount--;
         }
         else
         {
-            teamR--;
+            redTeamCount--;
         }
-        if(teamB <= 0)
+        if(blueTeamCount <= 0)
         {
             GameManager.Instance.winGame(false);
         }
-        if (teamR <= 0)
+        if (redTeamCount <= 0)
         {
             GameManager.Instance.winGame(true);
         }
@@ -509,6 +508,8 @@ public class GridManager : MonoBehaviour
         string mapData = System.IO.File.ReadAllText(filePath);
         GridTools.MapIntermediate mapIntermediate = JsonUtility.FromJson< GridTools.MapIntermediate >(mapData);
         currentMap = GridTools.translateMapFromIntermediate(mapIntermediate);
+        blueTeamCount = currentMap.teamSize.Value;
+        redTeamCount = currentMap.teamSize.Value;
         Debug.Log("Loading finished");
         gameTime = currentMap.movesLimit;
         onBoardGadgets = new int[currentMap.width, currentMap.height];
@@ -883,6 +884,11 @@ public class GridManager : MonoBehaviour
         UpdateMovesCount();
     }
 
+    public bool whatSide()
+    {
+        return turnSide;
+    }   
+    
     public void ChangeTurn()
     {
         turnActive = false;
@@ -899,19 +905,9 @@ public class GridManager : MonoBehaviour
 
     public void UpdateMovesCount()  //to make the spawn in ui rewok
     {
-        for(int i = 0; i < blueTeam.Length; i++)
+        if (updateUnitsInfoList != null)
         {
-            if (blueTeam[i])
-            {
-                movesCounts[i].updateMovesCount(blueTeam[i].GetComponent<Unit>().howManyMoves());
-            }
-        }
-        for (int i = 0; i < redTeam.Length; i++)
-        {
-            if (redTeam[i])
-            {
-                movesCounts[i + redTeam.Length].updateMovesCount(redTeam[i].GetComponent<Unit>().howManyMoves());
-            }
+            updateUnitsInfoList(this, EventArgs.Empty);
         }
     }
 
@@ -1525,14 +1521,9 @@ public class GridManager : MonoBehaviour
         onBoardEntities[activeX, activeY].UseGadget(passiveX, passiveY);
     }
 
-    void SetUnitInfoDisplay()
+    public Unit GetSelectedUnit()
     {
-        Unit.UnitInfo _info = selectedUnit.GetInfoToDisplay();
-        UnitControlsHP.showMessage(_info.hp.ToString());
-        UnitControlsAmmo.showMessage(_info.mag.ToString());
-        UnitControlsNumber.showMessage(_info.number.ToString());
-        UnitControlsSymbol.ChangeIcon(_info.role, _info.team);
-        UnitControlsMoves.showMessage(_info.movesCount.ToString());
+        return selectedUnit;
     }
 
     void Update()
@@ -1545,7 +1536,10 @@ public class GridManager : MonoBehaviour
             {
                 unitIsSelected = true;
                 selectedUnit = onBoardEntities[activeX, activeY];
-                SetUnitInfoDisplay();
+                if (displayUnitInfoEvent != null)
+                {
+                    displayUnitInfoEvent(this, EventArgs.Empty);
+                }
                 UnitControlsUI.SetActive(true);
                 if (!moveHighlightsOn)
                 {

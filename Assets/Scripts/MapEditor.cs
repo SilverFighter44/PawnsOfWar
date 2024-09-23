@@ -13,7 +13,7 @@ public class MapEditor : MonoBehaviour
     public event EventHandler resetPreview;
 
     [SerializeField] private Toggle spawnsToggle, hideWallsToggle, bucketToggle;
-    [SerializeField] private TMP_InputField widthInput, heightInput, spawnTypeInput, mapNameInput, movesLimitInput;
+    [SerializeField] private TMP_InputField widthInput, heightInput, spawnTypeInput, mapNameInput, movesLimitInput, teamSizeInput;
     [SerializeField] private GameObject NewMapWindow, ConfirmDeleteWindow, tilePrefab, currentSubMenu, tilesSubMenu, wallsSubMenu, spawnsSubMenu, gameplayMenu, optionsMenu, saveMenu, WallX, WallY, WindowFrameX, WindowFrameY, DoorFrameX, DoorFrameY, HalfWallX, HalfWallY, SpawnMarker, flagB, flagR;
     private List<string> mapFiles = new List<string>();
 
@@ -251,6 +251,12 @@ public class MapEditor : MonoBehaviour
         {
             return ValidateChar("1234567890", addedChar);
         };
+        teamSizeInput.onDeselect.AddListener(delegate { teamSizeValueCheck(); });
+        teamSizeInput.characterLimit = 1;
+        teamSizeInput.onValidateInput = (string text, int charIndex, char addedChar) =>
+        {
+            return ValidateChar("1234567890", addedChar);
+        };
         currentPreview = new GridTools.MapPreview(0, 0, 0);
         CheckForMapFiles();
     }
@@ -381,6 +387,40 @@ public class MapEditor : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    public void teamSizeValueCheck()
+    {
+        string inputText = teamSizeInput.text;
+        if (inputText == string.Empty)
+        {
+            teamSizeInput.text = GridTools.teamSizeMin.ToString();
+        }
+        else
+        {
+            if (Int32.Parse(teamSizeInput.text) < GridTools.teamSizeMin || Int32.Parse(teamSizeInput.text) > GridTools.teamSizeMax) // 8 and 100 are limits
+            {
+                teamSizeInput.text = GridTools.teamSizeMin.ToString();
+            }
+        }
+
+        for (int i = 0; currentMap.teamSize > i; i++)
+        {
+            if (currentPreview.redSpawns[i])
+            {
+                Destroy(currentPreview.redSpawns[i]);
+            }
+            if (currentPreview.blueSpawns[i])
+            {
+                Destroy(currentPreview.blueSpawns[i]);
+            }
+        }
+        currentMap.teamSize = Int32.Parse(teamSizeInput.text);
+        currentMap.spawnsBlue = new GridTools.TileCoordinates?[currentMap.teamSize.Value];
+        currentMap.spawnsRed = new GridTools.TileCoordinates?[currentMap.teamSize.Value];
+        currentPreview.blueSpawns = new GameObject[currentMap.teamSize.Value];
+        currentPreview.redSpawns = new GameObject[currentMap.teamSize.Value];
+
     }
 
     public void movesLimitValueCheck()

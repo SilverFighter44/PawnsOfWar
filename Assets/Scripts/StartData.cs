@@ -5,6 +5,7 @@ using UnityEngine;
 public class StartData : MonoBehaviour
 {
     public static StartData Instance;
+    [SerializeField] private int teamSize;
 
     [System.Serializable]
     public struct GameSettingsData
@@ -34,6 +35,20 @@ public class StartData : MonoBehaviour
         }
     }
 
+    public void setTeamSize(int teamSize)
+    {
+        this.teamSize = teamSize;
+        data.BlueTeam = new Unit.UnitData[teamSize];// { BlueUnit.GetData(), BlueUnit.GetData(), BlueUnit.GetData(), BlueUnit.GetData() };
+        data.RedTeam = new Unit.UnitData[teamSize];// { RedUnit.GetData(), RedUnit.GetData(), RedUnit.GetData(), RedUnit.GetData() };
+        for (int i = 0; i < teamSize; i++)
+        {
+            data.BlueTeam[i] = BlueUnit.GetData();
+            data.BlueTeam[i].UnitNumber = (Unit.number)i;
+            data.RedTeam[i] = RedUnit.GetData();
+            data.RedTeam[i].UnitNumber = (Unit.number)i;
+        }
+    }
+
     public void UpdateData( GameSettingsData _data)
     {
         data = _data;
@@ -41,16 +56,6 @@ public class StartData : MonoBehaviour
 
     void Start()
     {
-        data.BlueTeam = new Unit.UnitData[4] { BlueUnit.GetData(), BlueUnit.GetData(), BlueUnit.GetData(), BlueUnit.GetData() };
-        data.RedTeam = new Unit.UnitData[4] { RedUnit.GetData(), RedUnit.GetData(), RedUnit.GetData(), RedUnit.GetData() };
-        data.BlueTeam[0].UnitNumber = Unit.number.I;
-        data.BlueTeam[1].UnitNumber = Unit.number.II;
-        data.BlueTeam[2].UnitNumber = Unit.number.III;
-        data.BlueTeam[3].UnitNumber = Unit.number.IV;
-        data.RedTeam[0].UnitNumber = Unit.number.I;
-        data.RedTeam[1].UnitNumber = Unit.number.II;
-        data.RedTeam[2].UnitNumber = Unit.number.III;
-        data.RedTeam[3].UnitNumber = Unit.number.IV;
         data.GameMode = gameMode.attack;
     }
 

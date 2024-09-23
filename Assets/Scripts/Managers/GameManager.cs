@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -37,11 +38,20 @@ public class GameManager : MonoBehaviour
                 // blue win
                 gameOverText.showMessage("Blue win");
         }
+
+        Invoke("backToMenu", 4);
+    }
+
+    public void backToMenu()
+    {
+        SceneManager.LoadScene(1);
     }
 
     public void gameEndDraw()
     {
         gameOverText.showMessage("Draw");
+
+        Invoke("backToMenu", 4);
     }
 
     public void ChangeGameState(GameState newState)

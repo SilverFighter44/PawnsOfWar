@@ -9,6 +9,13 @@ public class MovesCount : MonoBehaviour
 
     public void updateMovesCount(int moves)
     {
-        movesCount.text = moves.ToString();
+        if (moves >= 0)
+        {
+            movesCount.text = moves.ToString();
+        }
+        else
+        {
+            movesCount.text = "X";
+        }
     }
 }

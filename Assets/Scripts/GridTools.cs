@@ -5,12 +5,11 @@ using UnityEngine;
 public static class GridTools
     {
 
-    [SerializeField] public static int gameplayObjectsCount = 2, movesLimitDown = 8, movesLimitUp = 100;
+    [SerializeField] public static int gameplayObjectsCount = 2, movesLimitDown = 8, movesLimitUp = 100, teamSizeMin = 2, teamSizeMax = 8;
 
     public enum tileType { blank, cobblestone, sand, sandRoad, woodenFloor1 };
 
     [SerializeField] private static int layerMultiplier = 50;
-
 
     [System.Serializable]
     public struct TileCoordinates
@@ -201,6 +200,9 @@ public static class GridTools
     {
         Map map = new Map(mapIntermediate.width, mapIntermediate.height);
         map.modeCompatibility = mapIntermediate.modeCompatibility;
+        map.teamSize = mapIntermediate.teamSize;
+        map.spawnsBlue = new TileCoordinates?[map.teamSize.Value];
+        map.spawnsRed = new TileCoordinates?[map.teamSize.Value];
         for (int i = 0; i < map.modeCompatibility.Length; i++)
         {
             if (map.modeCompatibility[i])

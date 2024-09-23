@@ -23,6 +23,7 @@ public class Unit : MonoBehaviour
 
     public struct UnitInfo
     {
+        public bool crouched;
         public int mag;
         public int hp;
         public int movesCount;
@@ -39,7 +40,7 @@ public class Unit : MonoBehaviour
     public enum skin { Ally_US_1, Axis_Ger_1 };
     public enum gadget { grenade, smoke };
     public enum role { Infantryman, Rifleman, end, Spy, Sapper, Support, ExplosivesSpecialist, Sniper, GasSpecialist, LauncherOperator, CombatEngineer, Medic, Scout };
-    public enum number { I, II, III, IV };
+    public enum number { I = 0, II, III, IV, V, VI, VII, VIII };
 
     [SerializeField] private bool canMove, canShoot, team, crouched, gadgetActive, gadget1Active, moveActive = false;
     [SerializeField] private TextMeshPro unitNumberDisplay;
@@ -165,6 +166,7 @@ public class Unit : MonoBehaviour
     public UnitInfo GetInfoToDisplay()
     {
         UnitInfo info;
+        info.crouched = crouched;
         info.mag = mag;
         info.hp = hp;
         info.g1 = data.gadget1;
