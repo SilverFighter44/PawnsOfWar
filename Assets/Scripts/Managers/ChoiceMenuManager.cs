@@ -43,14 +43,17 @@ public class ChoiceMenuManager : MonoBehaviour
         if (activeTeam)
         {
             temp = (int)dataEdit.BlueTeam[n].UnitRole;
+            _gadget1 = dataEdit.BlueTeam[n].gadget1;
+            _gadget2 = dataEdit.BlueTeam[n].gadget2;
         }
         else
         {
             temp = (int)dataEdit.RedTeam[n].UnitRole;
+            _gadget1 = dataEdit.RedTeam[n].gadget1;
+            _gadget2 = dataEdit.RedTeam[n].gadget2;
         }
         _roleIcon = (Unit.role)temp;
-        _gadget1 = dataEdit.BlueTeam[n].gadget1;
-        _gadget2 = dataEdit.BlueTeam[n].gadget2;
+        
         roleChoicePreview.SetCategoryAndLabel(roleChoicePreview.GetCategory(), _roleIcon.ToString());
         gadget1ChoicePreview.SetCategoryAndLabel(gadget1ChoicePreview.GetCategory(), _gadget1.ToString());
         gadget2ChoicePreview.SetCategoryAndLabel(gadget2ChoicePreview.GetCategory(), _gadget2.ToString());
@@ -202,6 +205,17 @@ public class ChoiceMenuManager : MonoBehaviour
         gadget1ChoicePreview.SetCategoryAndLabel(gadget1ChoicePreview.GetCategory(), _gadget1.ToString());
         gadget2ChoicePreview.SetCategoryAndLabel(gadget2ChoicePreview.GetCategory(), _gadget2.ToString());
         StartData.Instance.UpdateData(getUnitsSettings());
+        ResetPreview();//
+        if (activeTeam)
+        {
+            //unitsEdited[(int)activeNumber].SetData(dataEdit.BlueTeam[(int)activeNumber]);
+            BlueTeamEdit();//
+        }
+        else
+        {
+            //unitsEdited[(int)activeNumber].SetData(dataEdit.RedTeam[(int)activeNumber]);
+            RedTeamEdit();//
+        }
     }
 
     int findGadgetIndex(Unit.gadget[] gadgetsGroup, Unit.gadget _gadget)
@@ -349,10 +363,10 @@ public class ChoiceMenuManager : MonoBehaviour
         StartData.Instance.UpdateData(getUnitsSettings());
         for (int i = 0; i < currentMap.teamSize; i++)
         {
-            GameObject newBlueIcon = Instantiate(menuIconPrefab,new Vector3(blueBottomRowStart.position.x + 2f*((i < mapIntermediate.teamSize / 2) ? i : i -  mapIntermediate.teamSize / 2), ((i < currentMap.teamSize / 2) ? blueUpperRowStart.position.y : blueBottomRowStart.position.y), 0f), Quaternion.identity);
+            GameObject newBlueIcon = Instantiate(menuIconPrefab,new Vector3(blueBottomRowStart.position.x + 2f*((i < mapIntermediate.teamSize / 2) ? i : i -  mapIntermediate.teamSize / 2), ((i < currentMap.teamSize / 2) ? blueUpperRowStart.position.y : blueUpperRowStart.position.y - 3f), 0f), Quaternion.identity);
             mainBlueIcons.Add(newBlueIcon);
             newBlueIcon.transform.parent = MainMenuObject.transform;
-            GameObject newRedIcon = Instantiate(menuIconPrefab, new Vector3(redBottomRowStart.position.x - 2f * ((i < mapIntermediate.teamSize / 2) ? i : i - mapIntermediate.teamSize / 2), ((i < currentMap.teamSize / 2) ? redUpperRowStart.position.y : redBottomRowStart.position.y), 0f), Quaternion.identity);
+            GameObject newRedIcon = Instantiate(menuIconPrefab, new Vector3(redBottomRowStart.position.x - 2f * ((i < mapIntermediate.teamSize / 2) ? i : i - mapIntermediate.teamSize / 2), ((i < currentMap.teamSize / 2) ? blueUpperRowStart.position.y : blueUpperRowStart.position.y - 3f), 0f), Quaternion.identity);
             mainRedIcons.Add(newRedIcon);
             newRedIcon.transform.parent = MainMenuObject.transform;
             GameObject newEditUnitsIcon = Instantiate(menuIconPrefab, editUnitsPosition.position + new Vector3(2f * i ,0f ,0f), Quaternion.identity);
@@ -403,6 +417,9 @@ public class ChoiceMenuManager : MonoBehaviour
 
     public void BlueTeamEdit()
     {
+        ResetPreview();
+        SetEditTeam(true);
+        SetEditUnit();
         GameObject spawnedUnit;
         Unit.UnitData tempUData;
         StartData.GameSettingsData data = StartData.Instance.getData();
@@ -411,15 +428,18 @@ public class ChoiceMenuManager : MonoBehaviour
         {
             spawnedUnit = Instantiate(UnitPrefab, editUnitsIcons[i].transform.position - new Vector3(1f, 3f, 0f), Quaternion.identity);
             tempUData = data.BlueTeam[i];
-            spawnedUnit.GetComponent<Unit>().SetData(tempUData);
             editUnitsIcons[i].GetComponent<UnityEngine.U2D.Animation.SpriteResolver>().SetCategoryAndLabel("NeutralIcon", tempUData.UnitRole.ToString());
             unitsEdited[i] = spawnedUnit.GetComponent<Unit>();
             spawnedUnit.transform.localScale = new Vector3(1.5f, 1.5f, 1f);
+            spawnedUnit.GetComponent<Unit>().SetData(tempUData);
         }
     }
 
     public void RedTeamEdit()
     {
+        ResetPreview();
+        SetEditTeam(false);
+        SetEditUnit();
         GameObject spawnedUnit;
         Unit.UnitData tempUData;
         StartData.GameSettingsData data = StartData.Instance.getData();
@@ -428,10 +448,10 @@ public class ChoiceMenuManager : MonoBehaviour
         {
             spawnedUnit = Instantiate(UnitPrefab, editUnitsIcons[i].transform.position - new Vector3(1f, 3f, 0f), Quaternion.identity);
             tempUData = data.RedTeam[i];
-            spawnedUnit.GetComponent<Unit>().SetData(tempUData);
             editUnitsIcons[i].GetComponent<UnityEngine.U2D.Animation.SpriteResolver>().SetCategoryAndLabel("NeutralIcon", tempUData.UnitRole.ToString());
             unitsEdited[i] = spawnedUnit.GetComponent<Unit>();
             spawnedUnit.transform.localScale = new Vector3(1.5f, 1.5f, 1f);
+            spawnedUnit.GetComponent<Unit>().SetData(tempUData);
         }
     }
 

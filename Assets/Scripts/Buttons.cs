@@ -49,9 +49,10 @@ public class Buttons : MonoBehaviour
         int teamSize = StartData.Instance.getData().BlueTeam.Length;
         for (int i = 0; i < teamSize; i++)
         {
-            GameObject currentIcon = Instantiate(infoPrefab, infoPosition.position + new Vector3(0f, 30f * i, 0f) , Quaternion.identity); // 30 = info height
+            GameObject currentIcon = Instantiate(infoPrefab, infoPosition.position , Quaternion.identity); // 30 = info height
             //parent to canvas
-            currentIcon.transform.SetParent(CanvasObject.transform);
+            currentIcon.transform.SetParent(CanvasObject.transform, false);
+            currentIcon.GetComponent<RectTransform>().position = infoPosition.position + new Vector3(0f, 60f * i, 0f);
             unitListedInfos.Add(currentIcon.GetComponent<UnitListedInfo>());
             unitListedInfos[i].unitClass.ChangeIcon(StartData.Instance.getData().BlueTeam[i].UnitRole, UI_ClassSymbol.IconCategory.Blue);
             unitListedInfos[i].unitNumber.ChangeNumber(StartData.Instance.getData().BlueTeam[i].UnitNumber, UI_ClassSymbol.IconCategory.Blue);

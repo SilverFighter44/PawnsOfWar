@@ -240,15 +240,15 @@ namespace Project.WeaponData
         {
             if (flipped)
             {
-                weaponScript.RotateTowards(weaponPivot.position.x, weaponPivot.position.y - 5f, 180f);
-                handLLT.RotateTowards(90f, 180f);
-                handRLT.RotateTowards(90f, 180f);
+                System.Threading.Tasks.Task task = weaponScript.RotateTowards(weaponPivot.position.x, weaponPivot.position.y - 5f, 180f);
+                task = handLLT.RotateTowards(90f, 180f);
+                task = handRLT.RotateTowards(90f, 180f);
             }
             else
             {
-                weaponScript.RotateTowards(weaponPivot.position.x, weaponPivot.position.y - 5f, 0f);
-                handLLT.RotateTowards(90f, 0f);
-                handRLT.RotateTowards(90f, 0f);
+                System.Threading.Tasks.Task task = weaponScript.RotateTowards(weaponPivot.position.x, weaponPivot.position.y - 5f, 0f);
+                task = handLLT.RotateTowards(90f, 0f);
+                task = handRLT.RotateTowards(90f, 0f);
             }
         }
 
@@ -284,15 +284,24 @@ namespace Project.WeaponData
                 await torsoLT.RotateTowards(angle / 3  , 90f);
             }
             await weaponScript.RotateTowards(x, y, adjustment);
-            Diff = new Vector3(x, y, 0f) - new Vector3(headLT.transform.position.x, headLT.transform.position.y, 0f);
-            angle = Mathf.Atan2(Diff.y, Diff.x) * Mathf.Rad2Deg;
-            await headLT.RotateTowards(angle, 90f);
-            Diff = new Vector3(x, y, 0f) - new Vector3(handLLT.transform.position.x, handLLT.transform.position.y, 0f);
-            angle = Mathf.Atan2(Diff.y, Diff.x) * Mathf.Rad2Deg;
-            await handLLT.RotateTowards(angle, adjustment);
-            Diff = new Vector3(x, y, 0f) - new Vector3(handRLT.transform.position.x, handRLT.transform.position.y, 0f);
-            angle = Mathf.Atan2(Diff.y, Diff.x) * Mathf.Rad2Deg;
-            await handRLT.RotateTowards(angle, adjustment);
+            if (headLT)
+            {
+                Diff = new Vector3(x, y, 0f) - new Vector3(headLT.transform.position.x, headLT.transform.position.y, 0f);
+                angle = Mathf.Atan2(Diff.y, Diff.x) * Mathf.Rad2Deg;
+                await headLT.RotateTowards(angle, 90f);
+            }
+            if (handLLT)
+            {
+                Diff = new Vector3(x, y, 0f) - new Vector3(handLLT.transform.position.x, handLLT.transform.position.y, 0f);
+                angle = Mathf.Atan2(Diff.y, Diff.x) * Mathf.Rad2Deg;
+                await handLLT.RotateTowards(angle, adjustment);
+            }
+            if (handRLT)
+            {
+                Diff = new Vector3(x, y, 0f) - new Vector3(handRLT.transform.position.x, handRLT.transform.position.y, 0f);
+                angle = Mathf.Atan2(Diff.y, Diff.x) * Mathf.Rad2Deg;
+                await handRLT.RotateTowards(angle, adjustment);
+            }
         }
     }
 }

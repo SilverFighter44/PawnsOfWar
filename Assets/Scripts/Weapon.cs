@@ -33,10 +33,13 @@ public class Weapon : MonoBehaviour
 
     public async Task RotateTowards(float x, float y, float adjustment)
     {
-        Vector3 Diff = new Vector3(x, y, 0f) - new Vector3(bone.position.x, bone.position.y, 0f);
-        float angle = Mathf.Atan2(Diff.y, Diff.x) * Mathf.Rad2Deg;
-        bone.transform.rotation = Quaternion.AngleAxis(angle + adjustment, Vector3.forward);
-        await Task.Yield();
+        if(bone != null)
+        {
+            Vector3 Diff = new Vector3(x, y, 0f) - new Vector3(bone.position.x, bone.position.y, 0f);
+            float angle = Mathf.Atan2(Diff.y, Diff.x) * Mathf.Rad2Deg;
+            bone.transform.rotation = Quaternion.AngleAxis(angle + adjustment, Vector3.forward);
+            await Task.Yield();
+        }
     }
 
     public void Shoot(Unit.weapon _weapon, Unit.skin _skin)

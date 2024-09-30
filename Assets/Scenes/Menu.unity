@@ -1621,6 +1621,7 @@ GameObject:
   - component: {fileID: 808866065}
   - component: {fileID: 808866064}
   - component: {fileID: 808866067}
+  - component: {fileID: 808866068}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1671,7 +1672,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 5.176768
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1746,6 +1747,23 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
+--- !u!114 &808866068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 808866063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eafdb7603e8b02f46a78c123113cb2c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wireColor: {r: 1, g: 1, b: 1, a: 1}
+  UnitsSize: 20
+  constraint: 0
+  camera: {fileID: 808866065}
+  executeInUpdate: 0
 --- !u!1 &994920152
 GameObject:
   m_ObjectHideFlags: 0
@@ -1950,11 +1968,11 @@ RectTransform:
   - {fileID: 994920153}
   m_Father: {fileID: 1905866288}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -279}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 160, y: 30}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1113568040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2538,7 +2556,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -23}
+  m_AnchoredPosition: {x: 0, y: -21}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1885374676
@@ -2703,7 +2721,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
