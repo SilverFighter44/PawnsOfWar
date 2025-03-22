@@ -32,7 +32,7 @@ public class Tile : MonoBehaviour
         mouseOnTile = false;
     }
 
-    void Update()
+    void OnMouseOver()
     {
         if((Input.GetButtonDown("Fire1") && mouseOnTile) && !GridManager.IsMouseOverUI())
         {
