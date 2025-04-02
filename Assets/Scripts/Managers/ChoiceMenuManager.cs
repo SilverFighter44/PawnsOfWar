@@ -354,7 +354,7 @@ public class ChoiceMenuManager : MonoBehaviour
     void Start()
     {
         dataEdit = StartData.Instance.getData();
-        string mapData = System.IO.File.ReadAllText(dataEdit.mapFilePath);
+        string mapData = dataEdit.mapFileContent;
         GridTools.MapIntermediate mapIntermediate = JsonUtility.FromJson< GridTools.MapIntermediate >(mapData);
         GridTools.Map currentMap = GridTools.translateMapFromIntermediate(mapIntermediate);
         StartData.Instance.setTeamSize(mapIntermediate.teamSize);

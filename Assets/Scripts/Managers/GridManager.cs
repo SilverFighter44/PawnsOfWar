@@ -503,9 +503,7 @@ public class GridManager : MonoBehaviour
         //    }
         //}
         //
-        string filePath = data.mapFilePath;
-        Debug.Log(filePath);
-        string mapData = System.IO.File.ReadAllText(filePath);
+        string mapData = data.mapFileContent;
         GridTools.MapIntermediate mapIntermediate = JsonUtility.FromJson< GridTools.MapIntermediate >(mapData);
         currentMap = GridTools.translateMapFromIntermediate(mapIntermediate);
         blueTeamCount = currentMap.teamSize.Value;

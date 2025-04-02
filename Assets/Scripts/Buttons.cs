@@ -52,7 +52,7 @@ public class Buttons : MonoBehaviour
             GameObject currentIcon = Instantiate(infoPrefab, infoPosition.position , Quaternion.identity); // 30 = info height
             //parent to canvas
             currentIcon.transform.SetParent(CanvasObject.transform, false);
-            currentIcon.GetComponent<RectTransform>().position = infoPosition.position + new Vector3(0f, 60f * i, 0f);
+            currentIcon.GetComponent<RectTransform>().position = infoPosition.position + new Vector3(0f, CanvasObject.transform.localScale.x * 60f * i, 0f);
             unitListedInfos.Add(currentIcon.GetComponent<UnitListedInfo>());
             unitListedInfos[i].unitClass.ChangeIcon(StartData.Instance.getData().BlueTeam[i].UnitRole, UI_ClassSymbol.IconCategory.Blue);
             unitListedInfos[i].unitNumber.ChangeNumber(StartData.Instance.getData().BlueTeam[i].UnitNumber, UI_ClassSymbol.IconCategory.Blue);

@@ -11,11 +11,15 @@ using TMPro;
 public class MainMenuManager : MonoBehaviour
 {
     [SerializeField] private TMP_Dropdown mapFilesDropdown;
-
+    [SerializeField] private List<string> defaultMapFiles; // add default map names by hand
     public void CheckForMapFiles()
     {
         List<string> mapFiles = new List<string>();
         string[] filesInDirectory = Directory.GetFiles(Application.persistentDataPath);
+        for (int i = 0; i < defaultMapFiles.Count; i++)
+        {
+            mapFiles.Add(defaultMapFiles[i]);
+        }
         for (int i = 0; i < filesInDirectory.Length; i++)
         {
             filesInDirectory[i] = filesInDirectory[i].Remove(0, Application.persistentDataPath.Length + 1);
@@ -38,8 +42,23 @@ public class MainMenuManager : MonoBehaviour
     public void PlayGame()
     {
         StartData.GameSettingsData settings = StartData.Instance.getData();
-        settings.mapFilePath = Application.persistentDataPath + "/map_" + mapFilesDropdown.captionText.text + ".json";
+        if (mapFilesDropdown.value < defaultMapFiles.Count)
+        {
+            Debug.Log("Maps/map_" + mapFilesDropdown.captionText.text);
+            TextAsset asset = Resources.Load<TextAsset>("Maps/map_" + mapFilesDropdown.captionText.text);
+            settings.mapFileContent = asset.text;
+        }
+        else
+        {
+            string mapFilePath = Application.persistentDataPath + "/map_" + mapFilesDropdown.captionText.text + ".json";
+            settings.mapFileContent = System.IO.File.ReadAllText(mapFilePath);
+        }
         StartData.Instance.UpdateData(settings);
         SceneManager.LoadScene(1);
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 }
